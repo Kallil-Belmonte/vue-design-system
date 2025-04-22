@@ -5,10 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "storybook": "storybook dev -p 6006",
-    "lint": "oxlint src",
+    "dev": "storybook dev -p 6006",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-storybook": "storybook build"
+    "build": "storybook build"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.6",
