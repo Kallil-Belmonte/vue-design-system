@@ -1,0 +1,32 @@
+@use 'sass:color';
+
+// COLORS
+$primary: #8fa1fe;
+$primary-light: color.adjust($primary, $lightness: 5%);
+$primary-darker: color.adjust($primary, $lightness: -5%);
+$secondary: #a0a0f1;
+$secondary-light: color.adjust($secondary, $lightness: 5%);
+$secondary-darker: color.adjust($secondary, $lightness: -5%);
+$info: #14d5f3;
+$success: #37c991;
+$warning: #ffb23e;
+$danger: #fd6e64;
+$grey-1: #f9f9f9;
+$grey-2: #f1f1f1;
+$grey-3: #eef4fb;
+$grey-4: #e0e0e0;
+$grey-5: #cbcbcb;
+$grey-6: #c0c0c0;
+$grey-7: #aeb2bf;
+$dark-1: #616161;
+$dark-2: #3d464d;
+$gradient-primary: linear-gradient(90deg, rgb(143, 161, 254) 0%, rgb(160, 160, 241) 100%);
+$gradient-secondary: linear-gradient(90deg, rgb(160, 160, 241) 0%, rgb(143, 161, 254) 100%);
+$shadow-primary: 0 0 15px 5px rgba(143, 161, 254, 0.4);
+
+$text-color: $dark-2;
+
+// FONTS
+$font-primary: 'Lato', sans-serif;
+$font-secondary: 'Gilroy', sans-serif;
+$font-size: 16px;

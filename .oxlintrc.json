@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["import", "typescript", "unicorn"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "@typescript-eslint/consistent-type-imports": "error",
+    "eqeqeq": "warn",
+    "no-duplicate-imports": "error",
+    "no-unsafe-optional-chaining": "warn",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+  }
+}
