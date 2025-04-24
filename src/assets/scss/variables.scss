@@ -1,0 +1,31 @@
+@use 'sass:color';
+
+:root {
+  // COLORS
+  --primary: #8fa1fe;
+  --primary-light: #{color.adjust(#8fa1fe, $lightness: 5%)};
+  --primary-darker: #{color.adjust(#8fa1fe, $lightness: -5%)};
+  --secondary: #a0a0f1;
+  --secondary-light: #{color.adjust(#a0a0f1, $lightness: 5%)};
+  --secondary-darker: #{color.adjust(#a0a0f1, $lightness: -5%)};
+  --info: #14d5f3;
+  --success: #37c991;
+  --warning: #ffb23e;
+  --danger: #fd6e64;
+  --grey-1: #f9f9f9;
+  --grey-2: #f1f1f1;
+  --grey-3: #eef4fb;
+  --grey-4: #e0e0e0;
+  --grey-5: #cbcbcb;
+  --grey-6: #c0c0c0;
+  --grey-7: #aeb2bf;
+  --dark-1: #616161;
+  --dark-2: #3d464d;
+
+  --text-color: var(--dark-2);
+
+  // FONTS
+  --font-primary: 'Lato', sans-serif;
+  --font-secondary: 'Gilroy', sans-serif;
+  --font-size: 16px;
+}

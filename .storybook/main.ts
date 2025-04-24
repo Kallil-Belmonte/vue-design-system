@@ -9,10 +9,12 @@ const config: StorybookConfig = {
   stories: ['../src/stories/**/*.mdx', '../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     '@storybook/addon-essentials',
-    '@storybook/addon-onboarding',
     '@chromatic-com/storybook',
     '@storybook/experimental-addon-test',
   ],
+  docs: {
+    autodocs: true,
+  },
   framework: {
     name: '@storybook/vue3-vite',
     options: {},

@@ -9,6 +9,6 @@ export default create({
   base: 'light',
   brandTitle: 'Vue',
   brandUrl: 'https://vuejs.org',
-  // brandImage: '/logo/bem-ds.svg',
+  brandImage: '/logo/vue.svg',
   brandTarget: '_blank',
 });

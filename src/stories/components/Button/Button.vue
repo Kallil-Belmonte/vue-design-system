@@ -2,10 +2,9 @@
   <button
     ref="element"
     data-component="Button"
-    :class="variant"
+    :class="`${mode} ${variant}`"
     :type="type"
     :disabled="disabled || loading"
-    @click="click"
   >
     <!-- <Icon v-if="loading" name="Loading" color="#fff" />
     <Icon v-else-if="name" :name="name" :color="color" :size="size" /> -->
@@ -17,8 +16,6 @@
 <script lang="ts" setup>
 import { type ButtonHTMLAttributes, useTemplateRef } from 'vue';
 
-import { type RouteLocationRaw, useRouter } from 'vue-router';
-
 // import Icon from '../Icon/Icon.vue';
 // import type { Icons } from '../Icon/types';
 
@@ -26,15 +23,8 @@ type Icons = any;
 
 type Props = {
   type?: ButtonHTMLAttributes['type'];
-  variant?:
-    | 'base'
-    | 'primary'
-    | 'secondary'
-    | 'icon'
-    | 'icon-base'
-    | 'icon-primary'
-    | 'icon-secondary';
-  route?: RouteLocationRaw;
+  mode?: 'icon' | 'contain' | 'full';
+  variant?: 'base' | 'primary' | 'secondary' | 'blank';
   icon?: { name: Icons; color?: string; size?: string };
   loading?: boolean;
   disabled?: ButtonHTMLAttributes['disabled'];
@@ -43,23 +33,15 @@ type Props = {
 
 const {
   type = 'button',
+  mode = 'full',
   variant = 'primary',
-  route,
   icon,
   loading,
   disabled,
-  click: clickProp,
 } = defineProps<Props>();
 const { name, color, size = '20px' } = icon || {};
 
-const router = useRouter();
-
 const element = useTemplateRef<HTMLButtonElement>('element');
-
-const click = (event: MouseEvent) => {
-  clickProp?.(event);
-  if (route) router.push(route);
-};
 
 // SLOTS
 defineSlots<{
@@ -69,7 +51,7 @@ defineSlots<{
 
 // EXPOSE
 defineExpose({
-  /** The element ref */
+  /** Element ref */
   element,
 });
 </script>
@@ -79,155 +61,95 @@ defineExpose({
 @use '@/assets/scss/helpers' as *;
 
 [data-component='Button'] {
+  $size: 45px;
+
   font: inherit;
-  font-family: $font-primary;
-  font-size: $font-size;
-  color: $text-color;
-  text-align: center;
-  padding: 0 15px;
-  height: 50px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size);
+  font-weight: 700;
+  color: var(--text-color);
+  @extend %flex-center;
+  gap: 10px;
+  height: $size;
   border: none;
   cursor: pointer;
   background-color: transparent;
-  @extend %flex-center;
-  gap: 10px;
-  font-weight: 700;
   box-shadow: none;
-  transition: background-color 0.4s ease;
+  box-sizing: border-box;
   overflow: hidden;
+  transition: background-color 0.4s ease;
 
   [data-component='Icon'][data-name='Loading'] {
     @include square(30px);
   }
 
-  // VARIANT
+  // Mode
+  &.icon {
+    min-width: $size;
+    min-height: $size;
+    @include square(max-content);
+    padding: 10px;
+  }
 
-  // Base
-  // Primary
-  // Secondary
+  &.contain {
+    min-width: $size;
+    width: max-content;
+    padding: 0 20px;
+  }
+
+  &.full {
+    width: 100%;
+  }
+
+  // Variant
+  &.blank,
   &.base,
   &.primary,
   &.secondary {
-    width: 100%;
-    border-radius: 50px;
+    border-radius: 8px;
   }
 
-  // Base
+  &.blank {
+    @include square(max-content);
+    padding: 0;
+  }
+
   &.base {
     background-color: #fff;
-    border: 1px solid $grey-4;
+    border: 1px solid var(--grey-4);
 
     @include active-style {
       background-color: color.adjust(#fff, $lightness: -2%);
 
       [data-component='Icon'] {
-        color: $primary;
+        color: var(--primary);
       }
     }
   }
 
-  // Primary
   &.primary {
     color: #fff;
-    background-color: $primary;
+    background-color: var(--primary);
 
     @include active-style {
-      background-color: $primary-darker;
+      background-color: var(--primary-darker);
     }
   }
 
-  // Secondary
   &.secondary {
     color: #fff;
-    background-color: $secondary;
+    background-color: var(--secondary);
 
     @include active-style {
-      background-color: $secondary-darker;
+      background-color: var(--secondary-darker);
     }
   }
 
-  // Icon
-  // Icon Base
-  // Icon Primary
-  // Icon Secondary
-  &.icon,
-  &.icon-base,
-  &.icon-primary,
-  &.icon-secondary {
-    @include square(v-bind(size));
-    padding: 0;
-  }
-
-  // Icon Base
-  // Icon Primary
-  // Icon Secondary
-  &.icon-base,
-  &.icon-primary,
-  &.icon-secondary {
-    border-radius: 25%;
-
-    [data-component='Icon'] {
-      @include square(60%);
-    }
-  }
-
-  // Icon Primary
-  // Icon Secondary
-  &.icon-primary,
-  &.icon-secondary {
-    color: #fff;
-  }
-
-  // Icon
-  &.icon {
-    color: $grey-7;
-
-    @include active-style {
-      color: $dark-1;
-    }
-
-    [data-component='Icon'] {
-      @include square(100%);
-    }
-
-    &:disabled {
-      background-color: transparent !important;
-    }
-  }
-
-  // Icon Base
-  &.icon-base {
-    background-color: #fff;
-    border: 1px solid $grey-4;
-
-    @include active-style {
-      background-color: color.adjust(#fff, $lightness: -1%);
-    }
-  }
-
-  // Icon Primary
-  &.icon-primary {
-    background-color: $primary;
-
-    @include active-style {
-      background-color: $primary-darker;
-    }
-  }
-
-  // Icon Secondary
-  &.icon-secondary {
-    background-color: $secondary;
-
-    @include active-style {
-      background-color: $secondary-darker;
-    }
-  }
-
-  // DISABLED
+  // Disabled
   &:disabled {
     font-weight: 400;
-    color: $text-color !important;
-    background-color: $grey-4 !important;
+    color: var(--text-color) !important;
+    background-color: var(--grey-4) !important;
     cursor: not-allowed;
   }
 }
