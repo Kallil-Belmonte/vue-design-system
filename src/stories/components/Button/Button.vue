@@ -79,6 +79,11 @@ defineExpose({
   overflow: hidden;
   transition: background-color 0.4s ease;
 
+  &,
+  [data-component='Icon'] {
+    flex-shrink: 0;
+  }
+
   [data-component='Icon'][data-name='Loading'] {
     @include square(30px);
   }
