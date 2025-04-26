@@ -1,7 +1,7 @@
 <template>
   <div
     ref="element"
-    data-component="Tooltip"
+    data-component="TooltipOld"
     :popovertarget="id"
     @click="click"
     @mouseenter="mouseenter"
@@ -11,11 +11,11 @@
 
     <section
       ref="tooltip"
-      data-subcomponent="TooltipContent"
+      data-subcomponent="TooltipOldContent"
       popover
       data-open="false"
       :id="id"
-      :class="`${animation} ${color} ${position}`"
+      :class="`${color} ${position}`"
     >
       <slot name="tooltip"></slot>
     </section>
@@ -25,11 +25,11 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, useTemplateRef } from 'vue';
 
+import { useElementPosition } from '@/shared/composables';
 import { uuid } from '@/shared/helpers';
 
 type Props = {
   maxWidth?: string;
-  animation?: 'opacity' | 'scale';
   color?: 'base' | 'primary' | 'secondary';
   position?:
     | 'top-start'
@@ -44,7 +44,7 @@ type Props = {
     | 'left-start'
     | 'left'
     | 'left-end';
-  spacing?: string;
+  spacing?: number;
   trigger?: 'hover' | 'click';
   closeOnTooltipClick?: boolean;
   click?: (event: MouseEvent) => void;
@@ -54,10 +54,9 @@ type Props = {
 
 const {
   maxWidth = '300px',
-  animation = 'scale',
   color = 'base',
   position = 'top',
-  spacing = '10px',
+  spacing,
   trigger = 'hover',
   closeOnTooltipClick = false,
   click: clickProp,
@@ -69,9 +68,20 @@ const element = useTemplateRef<HTMLDivElement>('element');
 
 const tooltip = useTemplateRef<HTMLElement>('tooltip');
 
-const id = `tooltip-${uuid().split('-')[0]}`;
+const {
+  top,
+  right,
+  bottom,
+  left,
+  horizontalLeft,
+  horizontalCenter,
+  horizontalRight,
+  verticalTop,
+  verticalCenter,
+  verticalBottom,
+} = useElementPosition(element, tooltip, spacing);
 
-const anchorName = `--${id}`;
+const id = `tooltip-${uuid().split('-')[0]}`;
 
 const open = () => {
   tooltip.value?.setAttribute('data-open', 'true');
@@ -144,138 +154,113 @@ defineExpose({
 <style lang="scss">
 @use '@/assets/scss/helpers' as *;
 
-[data-component='Tooltip'] {
+[data-component='TooltipOld'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
   position: relative;
-  anchor-name: v-bind(anchorName);
 
-  [data-subcomponent='TooltipContent'] {
+  [data-subcomponent='TooltipOldContent'] {
     width: max-content;
     max-width: v-bind(maxWidth);
-    padding: 8px 10px;
+    padding: 10px;
     border-radius: 8px;
+    background-color: #fff;
     border: none;
     margin: 0;
-    position-anchor: v-bind(anchorName);
+    position: absolute;
+    transition: opacity 300ms ease;
 
-    // Animation
-    &.opacity {
-      transition: opacity 300ms ease;
-
-      &:popover-open {
-        @starting-style {
-          opacity: 0;
-        }
-      }
-
-      &[data-open='false'] {
+    &:popover-open {
+      @starting-style {
         opacity: 0;
       }
     }
 
-    &.scale {
-      transition: opacity 300ms ease, scale 300ms ease;
+    // COLOR
 
-      &:popover-open {
-        @starting-style {
-          opacity: 0;
-          scale: 0.8;
-        }
-      }
-
-      &[data-open='false'] {
-        opacity: 0;
-        scale: 0.8;
-      }
-    }
-
-    // Color
+    // Base
     &.base {
       color: var(--text-color);
       background-color: #fff;
       box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.05);
     }
 
+    // Primary
     &.primary {
       color: #fff;
       background-color: var(--primary);
     }
 
+    // Secondary
     &.secondary {
       color: #fff;
       background-color: var(--secondary);
     }
 
-    // Position
+    // POSITION
+
+    // Top
     &.top-start {
-      top: calc(anchor(top) - v-bind(spacing));
-      left: anchor(left);
-      translate: 0% -100%;
+      top: v-bind(top);
+      left: v-bind(horizontalLeft);
     }
 
     &.top {
-      top: calc(anchor(top) - v-bind(spacing));
-      left: anchor(center);
-      translate: -50% -100%;
+      top: v-bind(top);
+      left: v-bind(horizontalCenter);
     }
 
     &.top-end {
-      top: calc(anchor(top) - v-bind(spacing));
-      left: anchor(right);
-      translate: -100% -100%;
+      top: v-bind(top);
+      left: v-bind(horizontalRight);
     }
 
+    // Right
     &.right-start {
-      top: anchor(top);
-      left: calc(anchor(right) + 10px);
+      top: v-bind(verticalTop);
+      left: v-bind(right);
     }
 
     &.right {
-      top: anchor(center);
-      left: calc(anchor(right) + 10px);
-      translate: 0% -50%;
+      top: v-bind(verticalCenter);
+      left: v-bind(right);
     }
 
     &.right-end {
-      top: anchor(bottom);
-      left: calc(anchor(right) + 10px);
-      translate: 0% -100%;
+      top: v-bind(verticalBottom);
+      left: v-bind(right);
     }
 
+    // Bottom
     &.bottom-start {
-      top: calc(anchor(bottom) + v-bind(spacing));
-      left: anchor(left);
+      top: v-bind(bottom);
+      left: v-bind(horizontalLeft);
     }
 
     &.bottom {
-      top: calc(anchor(bottom) + v-bind(spacing));
-      left: anchor(center);
-      translate: -50% 0%;
+      top: v-bind(bottom);
+      left: v-bind(horizontalCenter);
     }
 
     &.bottom-end {
-      top: calc(anchor(bottom) + v-bind(spacing));
-      left: anchor(right);
-      translate: -100% -0%;
+      top: v-bind(bottom);
+      left: v-bind(horizontalRight);
     }
 
+    // Left
     &.left-start {
-      top: anchor(top);
-      left: calc(anchor(left) - 10px);
-      translate: -100% 0%;
+      top: v-bind(verticalTop);
+      left: v-bind(left);
     }
 
     &.left {
-      top: anchor(center);
-      left: calc(anchor(left) - 10px);
-      translate: -100% -50%;
+      top: v-bind(verticalCenter);
+      left: v-bind(left);
     }
 
     &.left-end {
-      top: anchor(bottom);
-      left: calc(anchor(left) - 10px);
-      translate: -100% -100%;
+      top: v-bind(verticalBottom);
+      left: v-bind(left);
     }
   }
 }
