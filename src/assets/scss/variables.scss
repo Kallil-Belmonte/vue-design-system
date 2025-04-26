@@ -28,4 +28,12 @@
   --font-primary: 'Lato', sans-serif;
   --font-secondary: 'Gilroy', sans-serif;
   --font-size: 16px;
+
+  // FORM
+  --field-spacing-y: 15px;
+  --field-spacing-x: 15px;
+  --field-icon-size: 20px;
+  --field-height: 50px;
+  --field-border-color: #dae8f7;
+  --field-active-border-color: var(--primary);
 }

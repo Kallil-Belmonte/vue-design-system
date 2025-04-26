@@ -46,6 +46,12 @@ const meta: Meta<typeof Modal> = {
       options: ['default', 'full'],
     }),
   },
+  args: {
+    title: 'Title',
+    icon: {
+      name: 'Home',
+    },
+  },
   render: args => ({
     components: { Button, Modal },
     setup() {
@@ -66,12 +72,6 @@ const meta: Meta<typeof Modal> = {
       </Modal>
     `,
   }),
-  args: {
-    title: 'Title',
-    icon: {
-      name: 'Home',
-    },
-  },
 };
 
 export const Default: StoryObj<typeof Modal> = {};

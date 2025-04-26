@@ -25,9 +25,9 @@
 <script lang="ts" setup>
 import { useTemplateRef, watchEffect } from 'vue';
 
-import Button from '../Button/Button.vue';
-import Icon from '../Icon/Icon.vue';
-import type { Category, Icons } from '../Icon/types';
+import Button from '@/stories/components/Button/Button.vue';
+import Icon from '@/stories/components/Icon/Icon.vue';
+import type { Category, Icons } from '@/stories/components/Icon/types';
 
 type Props = {
   variant?: 'default' | 'full';

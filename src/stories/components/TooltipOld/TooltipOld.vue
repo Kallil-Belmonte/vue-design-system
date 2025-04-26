@@ -28,22 +28,24 @@ import { onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useElementPosition } from '@/shared/composables';
 import { uuid } from '@/shared/helpers';
 
+type Position =
+  | 'top-start'
+  | 'top'
+  | 'top-end'
+  | 'right-start'
+  | 'right'
+  | 'right-end'
+  | 'bottom-start'
+  | 'bottom'
+  | 'bottom-end'
+  | 'left-start'
+  | 'left'
+  | 'left-end';
+
 type Props = {
   maxWidth?: string;
   color?: 'base' | 'primary' | 'secondary';
-  position?:
-    | 'top-start'
-    | 'top'
-    | 'top-end'
-    | 'right-start'
-    | 'right'
-    | 'right-end'
-    | 'bottom-start'
-    | 'bottom'
-    | 'bottom-end'
-    | 'left-start'
-    | 'left'
-    | 'left-end';
+  position?: Position;
   spacing?: number;
   trigger?: 'hover' | 'click';
   closeOnTooltipClick?: boolean;

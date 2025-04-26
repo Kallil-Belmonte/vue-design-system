@@ -16,8 +16,8 @@
 <script lang="ts" setup>
 import { type ButtonHTMLAttributes, useTemplateRef } from 'vue';
 
-import Icon from '../Icon/Icon.vue';
-import type { Category, Icons } from '../Icon/types';
+import Icon from '@/stories/components/Icon/Icon.vue';
+import type { Category, Icons } from '@/stories/components/Icon/types';
 
 type Props = {
   type?: ButtonHTMLAttributes['type'];

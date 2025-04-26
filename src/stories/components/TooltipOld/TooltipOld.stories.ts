@@ -85,6 +85,7 @@ const meta: Meta<typeof TooltipOld> = {
     }),
   },
   args: {
+    // Slots
     default: 'Content',
     tooltip: 'Tooltip',
   },

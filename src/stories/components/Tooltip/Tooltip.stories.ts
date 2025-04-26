@@ -93,6 +93,7 @@ const meta: Meta<typeof Tooltip> = {
     }),
   },
   args: {
+    // Slots
     default: 'Content',
     tooltip: 'Tooltip',
   },
