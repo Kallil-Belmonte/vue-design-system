@@ -6,8 +6,8 @@
     :type="type"
     :disabled="disabled || loading"
   >
-    <!-- <Icon v-if="loading" name="Loading" color="#fff" />
-    <Icon v-else-if="name" :name="name" :color="color" :size="size" /> -->
+    <Icon v-if="loading" name="Loading" color="#fff" />
+    <Icon v-else-if="name" :name="name" :color="color" :size="size" />
 
     <slot v-if="!loading"></slot>
   </button>
@@ -16,10 +16,8 @@
 <script lang="ts" setup>
 import { type ButtonHTMLAttributes, useTemplateRef } from 'vue';
 
-// import Icon from '../Icon/Icon.vue';
-// import type { Icons } from '../Icon/types';
-
-type Icons = any;
+import Icon from '../Icon/Icon.vue';
+import type { Icons } from '../Icon/types';
 
 type Props = {
   type?: ButtonHTMLAttributes['type'];

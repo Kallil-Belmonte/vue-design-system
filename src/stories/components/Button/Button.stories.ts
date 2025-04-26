@@ -1,4 +1,5 @@
-import type { Meta, StoryFn } from '@storybook/vue3';
+import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { setArgs } from '@/shared/helpers';
 import Button from './Button.vue';
@@ -48,16 +49,28 @@ const meta: Meta<typeof Button> = {
       options: ['blank', 'base', 'primary', 'secondary'],
     }),
   },
+  args: {
+    click: fn(),
+  },
 };
 
-export const Primary: StoryFn<typeof Button> = () => ({
-  components: { Button },
-  template: '<Button>Button</Button>',
-});
+export const Default: StoryObj<typeof Button> = {
+  args: {
+    default: 'Button',
+  },
+};
 
-export const Icon: StoryFn<typeof Button> = () => ({
-  components: { Button },
-  template: '<Button mode="icon" />',
-});
+export const Icon: StoryObj<typeof Button> = {
+  args: {
+    mode: 'icon',
+    icon: { name: 'Home' },
+  },
+};
+
+export const Loading: StoryObj<typeof Button> = {
+  args: {
+    loading: true,
+  },
+};
 
 export default meta;
