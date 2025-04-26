@@ -176,30 +176,24 @@ defineExpose({
       }
     }
 
-    // COLOR
-
-    // Base
+    // Color
     &.base {
       color: var(--text-color);
       background-color: #fff;
       box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.05);
     }
 
-    // Primary
     &.primary {
       color: #fff;
       background-color: var(--primary);
     }
 
-    // Secondary
     &.secondary {
       color: #fff;
       background-color: var(--secondary);
     }
 
-    // POSITION
-
-    // Top
+    // Position
     &.top-start {
       top: v-bind(top);
       left: v-bind(horizontalLeft);
@@ -215,7 +209,6 @@ defineExpose({
       left: v-bind(horizontalRight);
     }
 
-    // Right
     &.right-start {
       top: v-bind(verticalTop);
       left: v-bind(right);
@@ -231,7 +224,6 @@ defineExpose({
       left: v-bind(right);
     }
 
-    // Bottom
     &.bottom-start {
       top: v-bind(bottom);
       left: v-bind(horizontalLeft);
@@ -247,7 +239,6 @@ defineExpose({
       left: v-bind(horizontalRight);
     }
 
-    // Left
     &.left-start {
       top: v-bind(verticalTop);
       left: v-bind(left);

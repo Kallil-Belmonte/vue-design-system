@@ -7,7 +7,7 @@
     :disabled="disabled || loading"
   >
     <Icon v-if="loading" name="Loading" color="#fff" />
-    <Icon v-else-if="name" :name="name" :color="color" :size="size" />
+    <Icon v-else-if="name" :category="category" :name="name" :color="color" :size="size" />
 
     <slot v-if="!loading"></slot>
   </button>
@@ -17,13 +17,13 @@
 import { type ButtonHTMLAttributes, useTemplateRef } from 'vue';
 
 import Icon from '../Icon/Icon.vue';
-import type { Icons } from '../Icon/types';
+import type { Category, Icons } from '../Icon/types';
 
 type Props = {
   type?: ButtonHTMLAttributes['type'];
   mode?: 'icon' | 'contain' | 'full';
   variant?: 'base' | 'primary' | 'secondary' | 'blank';
-  icon?: { name: Icons; color?: string; size?: string };
+  icon?: { category?: Category; name: Icons; color?: string; size?: string };
   loading?: boolean;
   disabled?: ButtonHTMLAttributes['disabled'];
   click?: (event: MouseEvent) => void;
@@ -37,7 +37,7 @@ const {
   loading,
   disabled,
 } = defineProps<Props>();
-const { name, color, size = '20px' } = icon || {};
+const { category, name, color, size = '20px' } = icon || {};
 
 const element = useTemplateRef<HTMLButtonElement>('element');
 
@@ -77,13 +77,12 @@ defineExpose({
   overflow: hidden;
   transition: background-color 0.4s ease;
 
-  &,
   [data-component='Icon'] {
     flex-shrink: 0;
-  }
 
-  [data-component='Icon'][data-name='Loading'] {
-    @include square(30px);
+    &[data-name='Loading'] {
+      @include square(30px);
+    }
   }
 
   // Mode
@@ -95,7 +94,6 @@ defineExpose({
   }
 
   &.contain {
-    min-width: $size;
     width: max-content;
     padding: 0 20px;
   }

@@ -17,7 +17,7 @@ const meta: Meta<typeof Button> = {
     icon: setArgs({
       name: 'icon',
       description: 'Icon props.',
-      type: '{ name: Icons; color?: string; size?: string }',
+      type: '{ category?: Category; name: Icons; color?: string; size?: string }',
       control: 'object',
     }),
     loading: setArgs({
