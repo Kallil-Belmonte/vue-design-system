@@ -2,12 +2,12 @@
 
 :root {
   // COLORS
-  --primary: #8fa1fe;
-  --primary-light: #{color.adjust(#8fa1fe, $lightness: 5%)};
-  --primary-darker: #{color.adjust(#8fa1fe, $lightness: -5%)};
-  --secondary: #a0a0f1;
-  --secondary-light: #{color.adjust(#a0a0f1, $lightness: 5%)};
-  --secondary-darker: #{color.adjust(#a0a0f1, $lightness: -5%)};
+  --primary: #43b883;
+  --primary-light: #{color.adjust(#43b883, $lightness: 5%)};
+  --primary-darker: #{color.adjust(#43b883, $lightness: -5%)};
+  --secondary: #35495e;
+  --secondary-light: #{color.adjust(#35495e, $lightness: 5%)};
+  --secondary-darker: #{color.adjust(#35495e, $lightness: -5%)};
   --info: #14d5f3;
   --success: #37c991;
   --warning: #ffb23e;
