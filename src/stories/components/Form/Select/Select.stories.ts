@@ -63,15 +63,6 @@ const meta: Meta<typeof Select> = {
       control: 'text',
     }),
   },
-  args: {
-    name: 'countries',
-    label: 'Countries',
-    options: [
-      { text: 'Brazil', value: 'BR' },
-      { text: 'Portugal', value: 'PT' },
-      { text: 'United States', value: 'US' },
-    ],
-  },
   render: args => ({
     components: { Select },
     setup() {
@@ -82,7 +73,14 @@ const meta: Meta<typeof Select> = {
         <Select
           required
           :value="country"
-          :v-bind="args"
+          name="countries"
+          label="Countries"
+          :options="[
+            { text: 'Brazil', value: 'BR' },
+            { text: 'Portugal', value: 'PT' },
+            { text: 'United States', value: 'US' },
+          ]"
+          v-bind="args"
           :change="option => country.value = option.value"
         />
       `,

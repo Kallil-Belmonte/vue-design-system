@@ -1,4 +1,3 @@
-import { fn } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { setArgs } from '@/shared/helpers';
@@ -48,9 +47,6 @@ const meta: Meta<typeof Button> = {
       control: 'radio',
       options: ['blank', 'base', 'primary', 'secondary'],
     }),
-  },
-  args: {
-    click: fn(),
   },
 };
 
