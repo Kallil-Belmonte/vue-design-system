@@ -68,7 +68,6 @@ defineExpose({
   color: var(--text-color);
   @extend %flex-center;
   gap: 10px;
-  height: $size;
   border: none;
   cursor: pointer;
   background-color: transparent;
@@ -94,12 +93,12 @@ defineExpose({
   }
 
   &.contain {
-    width: max-content;
+    @include size(max-content, $size);
     padding: 0 20px;
   }
 
   &.full {
-    width: 100%;
+    @include size(100%, $size);
   }
 
   // Variant
@@ -111,6 +110,8 @@ defineExpose({
   }
 
   &.blank {
+    min-width: 0;
+    min-height: 0;
     @include square(max-content);
     padding: 0;
   }
