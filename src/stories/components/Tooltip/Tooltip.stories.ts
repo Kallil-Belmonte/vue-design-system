@@ -10,10 +10,10 @@ const meta: Meta<typeof Tooltip> = {
     animation: setArgs({
       name: 'animation',
       description: 'Animation.',
-      type: 'opacity | scale',
+      type: 'fade | scale',
       defaultValue: 'scale',
       control: 'radio',
-      options: ['opacity', 'scale'],
+      options: ['fade', 'scale'],
     }),
     click: setArgs({
       name: 'click',

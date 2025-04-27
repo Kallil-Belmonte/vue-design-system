@@ -21,8 +21,8 @@ import type { Category, Icons } from '@/stories/components/Icon/types';
 
 type Props = {
   type?: ButtonHTMLAttributes['type'];
-  mode?: 'icon' | 'contain' | 'full';
-  variant?: 'base' | 'primary' | 'secondary' | 'blank';
+  mode?: 'blank' | 'icon' | 'contain' | 'full';
+  variant?: 'base' | 'primary' | 'secondary';
   icon?: { category?: Category; name: Icons; color?: string; size?: string };
   loading?: boolean;
   disabled?: ButtonHTMLAttributes['disabled'];
@@ -85,6 +85,21 @@ defineExpose({
   }
 
   // Mode
+  &.blank {
+    min-width: 0;
+    min-height: 0;
+    @include square(max-content);
+    padding: 0;
+
+    &:disabled {
+      cursor: not-allowed;
+
+      [data-component='Icon'] {
+        color: var(--grey-4) !important;
+      }
+    }
+  }
+
   &.icon {
     min-width: $size;
     min-height: $size;
@@ -101,58 +116,52 @@ defineExpose({
     @include size(100%, $size);
   }
 
-  // Variant
-  &.blank,
-  &.base,
-  &.primary,
-  &.secondary {
-    border-radius: 8px;
-  }
+  &:not(.blank) {
+    // Variant
+    &.base,
+    &.primary,
+    &.secondary {
+      border-radius: 8px;
+    }
 
-  &.blank {
-    min-width: 0;
-    min-height: 0;
-    @include square(max-content);
-    padding: 0;
-  }
+    &.base {
+      background-color: #fff;
+      border: 1px solid var(--grey-4);
 
-  &.base {
-    background-color: #fff;
-    border: 1px solid var(--grey-4);
+      @include active-style {
+        background-color: color.adjust(#fff, $lightness: -2%);
 
-    @include active-style {
-      background-color: color.adjust(#fff, $lightness: -2%);
-
-      [data-component='Icon'] {
-        color: var(--primary);
+        [data-component='Icon'] {
+          color: var(--primary);
+        }
       }
     }
-  }
 
-  &.primary {
-    color: #fff;
-    background-color: var(--primary);
+    &.primary {
+      color: #fff;
+      background-color: var(--primary);
 
-    @include active-style {
-      background-color: var(--primary-darker);
+      @include active-style {
+        background-color: var(--primary-darker);
+      }
     }
-  }
 
-  &.secondary {
-    color: #fff;
-    background-color: var(--secondary);
+    &.secondary {
+      color: #fff;
+      background-color: var(--secondary);
 
-    @include active-style {
-      background-color: var(--secondary-darker);
+      @include active-style {
+        background-color: var(--secondary-darker);
+      }
     }
-  }
 
-  // Disabled
-  &:disabled {
-    font-weight: 400;
-    color: var(--text-color) !important;
-    background-color: var(--grey-4) !important;
-    cursor: not-allowed;
+    // Disabled
+    &:disabled {
+      font-weight: 400;
+      color: var(--text-color) !important;
+      background-color: var(--grey-4) !important;
+      cursor: not-allowed;
+    }
   }
 }
 </style>

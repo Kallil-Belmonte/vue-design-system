@@ -5,13 +5,7 @@
         <Icon v-if="name" :category="category" :name="name" size="30px" />
         <h3>{{ title }}</h3>
       </div>
-      <Button
-        aria-label="Close"
-        mode="contain"
-        variant="blank"
-        :icon="{ name: 'Close' }"
-        @click="close"
-      />
+      <Button aria-label="Close" mode="blank" :icon="{ name: 'Close' }" @click="close" />
     </header>
     <section class="body">
       <slot></slot>

@@ -28,10 +28,10 @@ const meta: Meta<typeof Button> = {
     mode: setArgs({
       name: 'mode',
       description: 'Expansion mode.',
-      type: 'icon | contain | full',
+      type: 'blank | icon | contain | full',
       defaultValue: 'full',
       control: 'radio',
-      options: ['icon', 'contain', 'full'],
+      options: ['blank', 'icon', 'contain', 'full'],
     }),
     type: setArgs({
       name: 'type',
@@ -42,10 +42,10 @@ const meta: Meta<typeof Button> = {
     variant: setArgs({
       name: 'variant',
       description: 'Variation.',
-      type: 'blank | base | primary | secondary',
+      type: 'base | primary | secondary',
       defaultValue: 'primary',
       control: 'radio',
-      options: ['blank', 'base', 'primary', 'secondary'],
+      options: ['base', 'primary', 'secondary'],
     }),
   },
 };

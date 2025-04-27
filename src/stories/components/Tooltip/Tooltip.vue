@@ -43,7 +43,7 @@ type Position =
 
 type Props = {
   maxWidth?: string;
-  animation?: 'opacity' | 'scale';
+  animation?: 'fade' | 'scale';
   color?: 'base' | 'primary' | 'secondary';
   position?: Position;
   spacing?: string;
@@ -162,7 +162,7 @@ defineExpose({
     position-anchor: v-bind(anchorName);
 
     // Animation
-    &.opacity {
+    &.fade {
       transition: opacity 300ms ease;
 
       &:popover-open {

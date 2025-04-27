@@ -53,7 +53,7 @@ const meta: Meta<typeof Select> = {
       name: 'required',
       description: 'Required native prop.',
       type: "InputHTMLAttributes['required']",
-      control: 'text',
+      control: 'boolean',
     }),
     value: setArgs({
       name: 'value',
@@ -71,7 +71,6 @@ const meta: Meta<typeof Select> = {
     },
     template: `
         <Select
-          required
           :value="country"
           name="countries"
           label="Countries"
@@ -81,7 +80,7 @@ const meta: Meta<typeof Select> = {
             { text: 'United States', value: 'US' },
           ]"
           v-bind="args"
-          :change="option => country.value = option.value"
+          :change="option => country = option.value"
         />
       `,
   }),

@@ -38,6 +38,7 @@
       <div class="field-wrapper" :tabindex="disabled ? -1 : 0">
         <Tooltip
           ref="tooltip"
+          animation="fade"
           trigger="click"
           closeOnTooltipClick
           position="bottom"
@@ -58,8 +59,7 @@
               @input="search"
             />
             <Button
-              mode="contain"
-              variant="blank"
+              mode="blank"
               :icon="{ name: 'ArrowDown', size: '15px' }"
               :disabled="disabled"
               @focus="setValue"
@@ -234,6 +234,81 @@ defineExpose({
 @use '@/assets/scss/helpers' as *;
 
 [data-component='Select'].form-field {
+  font-family: var(--font-primary);
+  font-size: var(--font-size);
+  position: relative;
+
+  .label-wrapper {
+    @extend %flex-vertical-center;
+    margin-bottom: 8px;
+
+    label {
+      font-weight: 700;
+    }
+
+    [data-component='Tooltip'] {
+      margin-left: 5px;
+    }
+  }
+
+  &:has(:user-invalid) {
+    .label-wrapper + [data-component='Icon'] {
+      color: var(--danger);
+    }
+  }
+
+  &:has(:focus:not(:user-invalid)) {
+    .label-wrapper + [data-component='Icon'] {
+      color: var(--primary);
+    }
+  }
+
+  input,
+  select {
+    height: var(--field-height);
+    padding: 0 var(--field-spacing-x);
+  }
+
+  input,
+  select {
+    font-family: var(--font-primary);
+    font-size: var(--font-size);
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--field-border-color);
+    box-sizing: border-box;
+    transition: border-color 0.4s ease;
+
+    &::-webkit-input-placeholder,
+    &::-webkit-input-placeholder,
+    &::-webkit-input-placeholder {
+      color: var(--grey-5);
+    }
+
+    &::-moz-placeholder,
+    &::-moz-placeholder,
+    &::-moz-placeholder {
+      color: var(--grey-5);
+    }
+
+    &:focus {
+      border-color: var(--field-active-border-color);
+      outline: none;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &:user-invalid {
+      &,
+      &:focus {
+        border-color: var(--danger);
+      }
+    }
+  }
+
   .field-wrapper {
     input {
       padding: 0 35px 0 var(--field-spacing-x);
@@ -244,23 +319,26 @@ defineExpose({
       @include position(absolute, 18px, 15px);
     }
 
-    &:has([data-subcomponent='PopoverContent']:popover-open) {
+    &:has([data-subcomponent='TooltipContent']:popover-open) {
       [data-component='Button'] {
         rotate: 180deg;
       }
     }
 
-    [data-subcomponent='PopoverContent'] {
+    [data-subcomponent='TooltipContent'] {
       padding: 0;
       border-radius: 0;
       box-shadow: none;
       background-color: transparent;
 
       [role='listbox'] {
-        width: v-bind(fieldWidth);
         max-height: 202px;
+        width: v-bind(fieldWidth);
+        padding: 0;
         border-radius: 4px;
         border: 1px solid var(--field-border-color);
+        margin: 0;
+        list-style: none;
         overflow-y: auto;
 
         [role='option'] {
@@ -283,6 +361,21 @@ defineExpose({
           }
         }
       }
+    }
+  }
+
+  .validation-message {
+    color: var(--danger);
+    margin: 5px 0 0 5px;
+
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
+  }
+
+  &:not(:has(:user-invalid)) {
+    .validation-message {
+      display: none;
     }
   }
 }
