@@ -1,7 +1,7 @@
 @use 'sass:color';
 
 :root {
-  // COLORS
+  // Colors
   --primary: #43b883;
   --primary-light: #{color.adjust(#43b883, $lightness: 5%)};
   --primary-darker: #{color.adjust(#43b883, $lightness: -5%)};
@@ -24,12 +24,12 @@
 
   --text-color: var(--dark-2);
 
-  // FONTS
+  // Fonts
   --font-primary: 'Lato', sans-serif;
   --font-secondary: 'Gilroy', sans-serif;
   --font-size: 16px;
 
-  // FORM
+  // Form
   --field-spacing-y: 15px;
   --field-spacing-x: 15px;
   --field-icon-size: 20px;
