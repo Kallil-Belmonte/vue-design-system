@@ -2,14 +2,14 @@
   <div ref="element" data-component="Select" class="form-field">
     <div class="label-wrapper">
       <label :for="name">{{ label }}</label>
-      <Tooltip v-if="showInfo" :maxWidth="info?.maxWidth" :position="info?.position">
+      <TooltipOld v-if="showInfo" :maxWidth="info?.maxWidth" :position="info?.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
         </template>
         <template #tooltip>
           {{ info?.text }}
         </template>
-      </Tooltip>
+      </TooltipOld>
     </div>
 
     <template v-if="isMobile()">
@@ -36,14 +36,13 @@
     </template>
     <template v-else>
       <div class="field-wrapper" :tabindex="disabled ? -1 : 0">
-        <Tooltip
+        <TooltipOld
           ref="tooltip"
-          animation="fade"
           trigger="click"
           closeOnTooltipClick
           position="bottom"
           maxWidth="none"
-          spacing="0px"
+          :spacing="0"
         >
           <template #default>
             <input
@@ -81,7 +80,7 @@
               </li>
             </ul>
           </template>
-        </Tooltip>
+        </TooltipOld>
       </div>
     </template>
 
@@ -106,7 +105,7 @@ import { useElementBounding } from '@/shared/composables';
 import { isEqual, isMobile, removeAccent } from '@/shared/helpers';
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
-import Tooltip from '@/stories/components/Tooltip/Tooltip.vue';
+import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
 
 type Position =
   | 'top-start'
@@ -129,7 +128,11 @@ type SelectOption = {
 };
 
 type Props = {
-  info?: { text: string; maxWidth?: string; position?: Position };
+  info?: {
+    text: string;
+    maxWidth?: string;
+    position?: Position;
+  };
   label: string;
   name: InputHTMLAttributes['name'];
   required?: InputHTMLAttributes['required'];
@@ -235,7 +238,7 @@ defineExpose({
 <style lang="scss">
 @use '@/assets/scss/helpers' as *;
 
-[data-component='Select'].form-field {
+[data-component='Select'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
   position: relative;
@@ -248,7 +251,7 @@ defineExpose({
       font-weight: 700;
     }
 
-    [data-component='Tooltip'] {
+    [data-component='TooltipOld'] {
       margin-left: 5px;
     }
   }
@@ -321,13 +324,13 @@ defineExpose({
       @include position(absolute, 18px, 15px);
     }
 
-    &:has([data-subcomponent='TooltipContent']:popover-open) {
+    &:has([data-subcomponent='TooltipOldContent']:popover-open) {
       [data-component='Button'] {
         rotate: 180deg;
       }
     }
 
-    [data-subcomponent='TooltipContent'] {
+    [data-subcomponent='TooltipOldContent'] {
       padding: 0;
       border-radius: 0;
       box-shadow: none;
