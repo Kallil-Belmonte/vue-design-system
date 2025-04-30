@@ -3,11 +3,11 @@ import { ref } from 'vue';
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { setArgs } from '@/shared/helpers';
-import Password from './Password.vue';
+import Cellphone from './Cellphone.vue';
 
-const meta: Meta<typeof Password> = {
-  title: 'Components/Form/Password',
-  component: Password,
+const meta: Meta<typeof Cellphone> = {
+  title: 'Components/Form/Cellphone',
+  component: Cellphone,
   argTypes: {
     disabled: setArgs({
       name: 'disabled',
@@ -33,35 +33,11 @@ const meta: Meta<typeof Password> = {
       type: 'string',
       control: 'text',
     }),
-    maxlength: setArgs({
-      name: 'maxlength',
-      description: 'Maxlength native prop.',
-      type: "InputHTMLAttributes['maxlength']",
-      control: 'text',
-    }),
-    minlength: setArgs({
-      name: 'minlength',
-      description: 'Minlength native prop.',
-      type: "InputHTMLAttributes['minlength']",
-      control: 'text',
-    }),
     name: setArgs({
       name: 'name',
       description: 'Name native prop.',
       type: "InputHTMLAttributes['name']",
       required: true,
-      control: 'text',
-    }),
-    pattern: setArgs({
-      name: 'pattern',
-      description: 'Pattern native prop.',
-      type: "InputHTMLAttributes['pattern']",
-      control: 'text',
-    }),
-    placeholder: setArgs({
-      name: 'placeholder',
-      description: 'Placeholder native prop.',
-      type: "InputHTMLAttributes['placeholder']",
       control: 'text',
     }),
     required: setArgs({
@@ -70,19 +46,26 @@ const meta: Meta<typeof Password> = {
       type: "InputHTMLAttributes['required']",
       control: 'boolean',
     }),
+    selectPrefix: setArgs({
+      name: 'selectPrefix',
+      description: 'Callback for when selecting a prefix.',
+      type: '(language: LanguageData) => void',
+      required: true,
+      control: false,
+    }),
   },
   render: args => ({
-    components: { Password },
+    components: { Cellphone },
     setup() {
-      const password = ref('');
-      return { args, password };
+      const cellphone = ref('');
+      return { args, cellphone };
     },
     template: `
-        <Password name="password" v-model="password" v-bind="args" />
+        <Cellphone name="cellphone" v-model="cellphone" v-bind="args" :selectPrefix="() => undefined" />
       `,
   }),
 };
 
-export const Default: StoryObj<typeof Password> = {};
+export const Default: StoryObj<typeof Cellphone> = {};
 
 export default meta;

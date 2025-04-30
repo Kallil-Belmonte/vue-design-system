@@ -70,7 +70,7 @@ const meta: Meta<typeof Date> = {
       return { args };
     },
     template: `
-        <Date name="text" label="Date" v-bind="args" />
+        <Date name="date" label="Date" v-bind="args" />
       `,
   }),
 };

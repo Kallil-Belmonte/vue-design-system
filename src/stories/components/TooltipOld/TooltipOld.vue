@@ -58,7 +58,7 @@ const {
   maxWidth = '300px',
   color = 'base',
   position = 'top',
-  spacing,
+  spacing = 10,
   trigger = 'hover',
   closeOnTooltipClick = false,
   click: clickProp,

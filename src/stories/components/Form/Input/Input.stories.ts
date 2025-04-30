@@ -1,3 +1,5 @@
+import { ref } from 'vue';
+
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { UIIcons } from '@/shared/files/consts';
@@ -99,10 +101,11 @@ const meta: Meta<typeof Input> = {
   render: args => ({
     components: { Input },
     setup() {
-      return { args };
+      const input = ref('');
+      return { args, input };
     },
     template: `
-        <Input name="text" label="Text" v-bind="args" />
+        <Input name="input" label="Input" v-model="input" v-bind="args" />
       `,
   }),
 };

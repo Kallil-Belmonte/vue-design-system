@@ -70,8 +70,18 @@ type Props = {
   input?: (payload: Event) => void;
 };
 
-const { info, label, name, required, pattern, minlength, maxlength, placeholder, disabled, input } =
-  defineProps<Props>();
+const {
+  info,
+  label = 'Password',
+  name,
+  required,
+  pattern,
+  minlength,
+  maxlength,
+  placeholder,
+  disabled,
+  input,
+} = defineProps<Props>();
 
 const [model] = defineModel<string>({ required: true });
 

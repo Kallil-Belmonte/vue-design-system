@@ -30,5 +30,42 @@ export const formatDateInput = (value: string) => {
   return value;
 };
 
+export const formatCellphone = (cellphone: string, country: string) => {
+  if (typeof cellphone === 'string') {
+    let result = cellphone.replace(/\D/g, '').split('');
+
+    if (country === 'United States') {
+      result = result.slice(0, 10);
+      return format(result, [
+        [0, '('],
+        [4, ')'],
+        [5, ' '],
+        [9, ' '],
+      ]);
+    }
+
+    if (country === 'Portugal') {
+      result = result.slice(0, 9);
+      return format(result, [
+        [0, '('],
+        [3, ')'],
+        [4, ' '],
+        [8, ' '],
+      ]);
+    }
+
+    // Brazil
+    result = result.slice(0, 11);
+    return format(result, [
+      [0, '('],
+      [3, ')'],
+      [4, ' '],
+      [10, ' '],
+    ]);
+  }
+
+  return cellphone;
+};
+
 export const removeAccent = (text: string) =>
   typeof text === 'string' ? text.normalize('NFD').replace(/[\u0300-\u036f]/g, '') : text;

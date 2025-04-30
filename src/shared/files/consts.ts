@@ -13,6 +13,7 @@ export const UIIcons: UI[] = [
   'Info',
   'Key',
   'Loading',
+  'Telephone',
   'Warning',
 ];
 

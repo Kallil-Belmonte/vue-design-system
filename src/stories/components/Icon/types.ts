@@ -11,6 +11,7 @@ export type UI =
   | 'Info'
   | 'Key'
   | 'Loading'
+  | 'Telephone'
   | 'Warning';
 
 export type Flag = 'Brazil' | 'Portugal' | 'UnitedStates';

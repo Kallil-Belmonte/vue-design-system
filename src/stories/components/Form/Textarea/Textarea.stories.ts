@@ -1,3 +1,5 @@
+import { ref } from 'vue';
+
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { setArgs } from '@/shared/helpers';
@@ -79,10 +81,11 @@ const meta: Meta<typeof Textarea> = {
   render: args => ({
     components: { Textarea },
     setup() {
-      return { args };
+      const textarea = ref('');
+      return { args, textarea };
     },
     template: `
-        <Textarea name="text" label="Textarea" v-bind="args" />
+        <Textarea name="textarea" label="Textarea" v-model="textarea" v-bind="args" />
       `,
   }),
 };
