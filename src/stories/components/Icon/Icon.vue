@@ -77,6 +77,7 @@ defineExpose({
   color: v-bind(color);
 
   svg {
+    @include square(100%);
     @include transitionAll();
   }
 }
