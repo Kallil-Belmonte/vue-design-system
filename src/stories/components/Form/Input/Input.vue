@@ -136,12 +136,17 @@ defineExpose({
       font-weight: 700;
     }
 
-    [data-component='Tooltip'] {
+    [data-component='TooltipOld'] {
       margin-left: 5px;
     }
 
     + [data-component='Icon'] {
       color: var(--grey-4);
+      left: var(--field-spacing-x);
+
+      + input {
+        padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
+      }
     }
   }
 
@@ -152,14 +157,6 @@ defineExpose({
 
     svg {
       @include transitionAll();
-    }
-  }
-
-  .label-wrapper + [data-component='Icon'] {
-    left: var(--field-spacing-x);
-
-    + input {
-      padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
     }
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <div data-component="Password" class="form-field">
+  <div data-component="Date" class="form-field">
     <div class="label-wrapper">
       <label :for="name">{{ label }}</label>
       <TooltipOld v-if="info" :maxWidth="info.maxWidth" :position="info.position">
@@ -12,23 +12,21 @@
       </TooltipOld>
     </div>
 
-    <Icon name="Key" />
+    <Icon v-if="showCalendarIcon" name="Calendar" />
     <input
       ref="field"
       v-model="model"
       :aria-invalid="!field?.validity?.valid"
-      :type="type"
+      :type="inputType"
       :name="name"
       :id="name"
       :required="required"
-      :pattern="pattern"
-      :minlength="minlength"
-      :maxlength="maxlength"
+      :min="min"
+      :max="max"
       :placeholder="placeholder"
       :disabled="disabled"
-      @input="input"
+      @change="change"
     />
-    <Icon :name="eyeIcon" :color="eyeIconColor" @click="switchVisibility" />
 
     <p v-if="!!field?.validationMessage" class="validation-message">
       <strong>{{ field.validationMessage }}</strong>
@@ -37,10 +35,10 @@
 </template>
 
 <script lang="ts" setup>
-import { type InputHTMLAttributes, ref, useTemplateRef } from 'vue';
+import { computed, type InputHTMLAttributes, useTemplateRef } from 'vue';
 
+import { formatDateInput, isMobile } from '@/shared/helpers';
 import Icon from '@/stories/components/Icon/Icon.vue';
-import type { Icons } from '@/stories/components/Icon/types';
 import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
 
 type Position =
@@ -62,33 +60,28 @@ type Props = {
   label: string;
   name: InputHTMLAttributes['name'];
   required?: InputHTMLAttributes['required'];
-  pattern?: InputHTMLAttributes['pattern'];
-  minlength?: InputHTMLAttributes['minlength'];
-  maxlength?: InputHTMLAttributes['maxlength'];
+  min?: string;
+  max?: string;
   placeholder?: InputHTMLAttributes['placeholder'];
   disabled?: InputHTMLAttributes['disabled'];
-  input?: (payload: Event) => void;
+  change?: InputHTMLAttributes['onChange'];
 };
 
-const { info, label, name, required, pattern, minlength, maxlength, placeholder, disabled, input } =
-  defineProps<Props>();
+const { info, label, name, required, min, max, disabled, change } = defineProps<Props>();
 
-const [model] = defineModel<string>({ required: true });
+const [model] = defineModel<string>({
+  required: true,
+  set: value => {
+    if (isMobile()) return value;
+    return formatDateInput(value);
+  },
+});
 
 const field = useTemplateRef<HTMLInputElement>('field');
 
-const type = ref('password');
-const eyeIcon = ref<Icons>('EyeClosed');
-const eyeIconColor = ref('#e0e0e0');
+const inputType = computed(() => (isMobile() ? 'date' : 'text'));
 
-const switchVisibility = () => {
-  type.value = type.value === 'password' ? 'text' : 'password';
-  eyeIcon.value = eyeIcon.value === 'Eye' ? 'EyeClosed' : 'Eye';
-  eyeIconColor.value =
-    eyeIcon.value === 'Eye'
-      ? getComputedStyle(document.documentElement).getPropertyValue('--primary')
-      : '#e0e0e0';
-};
+const showCalendarIcon = computed(() => inputType.value === 'text');
 
 // EXPOSE
 defineExpose({
@@ -101,7 +94,7 @@ defineExpose({
 @use 'sass:color';
 @use '@/assets/scss/helpers' as *;
 
-[data-component='Password'] {
+[data-component='Date'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
   position: relative;
@@ -190,16 +183,7 @@ defineExpose({
       &,
       &:focus {
         border-color: var(--danger);
-
-        + [data-component='Icon'][data-name='Eye'] {
-          color: var(--danger);
-        }
       }
-    }
-
-    + [data-component='Icon'] {
-      right: var(--field-spacing-x);
-      cursor: pointer;
     }
   }
 

@@ -2,6 +2,7 @@ export type Category = 'UI' | 'Flag';
 
 export type UI =
   | 'ArrowDown'
+  | 'Calendar'
   | 'CheckCircle'
   | 'Close'
   | 'Eye'
@@ -14,4 +15,4 @@ export type UI =
 
 export type Flag = 'Brazil' | 'Portugal' | 'UnitedStates';
 
-export type Icons = Flag | UI;
+export type Icons = UI | Flag;

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
+import { ICONS } from '@/shared/files/consts';
 import { setArgs } from '@/shared/helpers';
 import Icon from './Icon.vue';
 
@@ -27,19 +28,7 @@ const meta: Meta<typeof Icon> = {
       type: 'Icons',
       required: true,
       control: 'select',
-      options: [
-        'Brazil',
-        'Portugal',
-        'UnitedStates',
-        'CheckCircle',
-        'Close',
-        'Eye',
-        'EyeClosed',
-        'Home',
-        'Info',
-        'Loading',
-        'Warning',
-      ],
+      options: ICONS,
     }),
     size: setArgs({
       name: 'size',
