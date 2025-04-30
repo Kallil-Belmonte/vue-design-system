@@ -118,7 +118,7 @@ defineExpose({
       font-weight: 700;
     }
 
-    [data-component='Tooltip'] {
+    [data-component='TooltipOld'] {
       margin-left: 5px;
     }
 
@@ -193,16 +193,16 @@ defineExpose({
       &,
       &:focus {
         border-color: var(--danger);
+
+        + [data-component='Icon'][data-name='Eye'] {
+          color: var(--danger);
+        }
       }
     }
 
     + [data-component='Icon'] {
       right: var(--field-spacing-x);
       cursor: pointer;
-
-      &.eye {
-        color: var(--primary);
-      }
     }
   }
 

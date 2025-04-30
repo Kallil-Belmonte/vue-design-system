@@ -1,5 +1,5 @@
 <template>
-  <div data-component="Input" class="form-field">
+  <div data-component="Textarea" class="form-field">
     <div class="label-wrapper">
       <label :for="name">{{ label }}</label>
       <TooltipOld v-if="info" :maxWidth="info.maxWidth" :position="info.position">
@@ -12,25 +12,21 @@
       </TooltipOld>
     </div>
 
-    <Icon v-if="icon" :name="icon" />
-
-    <input
+    <textarea
       ref="field"
       v-model="model"
       :aria-invalid="!field?.validity?.valid"
-      :type="type"
       :name="name"
       :id="name"
+      :rows="rows"
+      :cols="cols"
       :required="required"
-      :pattern="pattern"
-      :min="min"
-      :max="max"
       :minlength="minlength"
       :maxlength="maxlength"
       :placeholder="placeholder"
       :disabled="disabled"
       @input="input"
-    />
+    ></textarea>
 
     <p v-if="!!field?.validationMessage" class="validation-message">
       <strong>{{ field.validationMessage }}</strong>
@@ -39,11 +35,9 @@
 </template>
 
 <script lang="ts" setup>
-import { type InputHTMLAttributes, useTemplateRef } from 'vue';
+import { type TextareaHTMLAttributes, useTemplateRef } from 'vue';
 
-import { formatDigit, formatText } from '@/shared/helpers';
 import Icon from '@/stories/components/Icon/Icon.vue';
-import type { Icons } from '@/stories/components/Icon/types';
 import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
 
 type Position =
@@ -61,52 +55,36 @@ type Position =
   | 'left-end';
 
 type Props = {
-  info?: {
-    text: string;
-    maxWidth?: string;
-    position?: Position;
-  };
-  icon?: Icons;
+  info?: { text: string; maxWidth?: string; position?: Position };
   label: string;
-  type?: InputHTMLAttributes['type'];
-  name: InputHTMLAttributes['name'];
-  required?: InputHTMLAttributes['required'];
-  pattern?: InputHTMLAttributes['pattern'];
-  min?: InputHTMLAttributes['min'];
-  max?: InputHTMLAttributes['max'];
-  minlength?: InputHTMLAttributes['minlength'];
-  maxlength?: InputHTMLAttributes['maxlength'];
-  placeholder?: InputHTMLAttributes['placeholder'];
-  disabled?: InputHTMLAttributes['disabled'];
+  name: TextareaHTMLAttributes['name'];
+  required?: TextareaHTMLAttributes['required'];
+  minlength?: TextareaHTMLAttributes['minlength'];
+  maxlength?: TextareaHTMLAttributes['maxlength'];
+  placeholder?: TextareaHTMLAttributes['placeholder'];
+  rows?: TextareaHTMLAttributes['rows'];
+  cols?: TextareaHTMLAttributes['cols'];
+  disabled?: TextareaHTMLAttributes['disabled'];
   input?: (payload: Event) => void;
 };
 
 const {
   info,
-  icon,
   label,
-  type = 'text',
   name,
   required,
-  pattern,
-  min,
-  max,
   minlength,
   maxlength,
   placeholder,
+  rows = '4',
+  cols,
   disabled,
   input,
 } = defineProps<Props>();
 
-const [model, modifier] = defineModel<string>({
-  required: true,
-  set: value => {
-    if (modifier.text) return formatText(value);
-    if (modifier.digit) return formatDigit(value);
-    return value;
-  },
-});
-const field = useTemplateRef<HTMLInputElement>('field');
+const [model] = defineModel<string>({ required: true });
+
+const field = useTemplateRef<HTMLTextAreaElement>('field');
 
 // EXPOSE
 defineExpose({
@@ -119,7 +97,7 @@ defineExpose({
 @use 'sass:color';
 @use '@/assets/scss/helpers' as *;
 
-[data-component='Input'] {
+[data-component='Textarea'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
   position: relative;
@@ -136,22 +114,12 @@ defineExpose({
       font-weight: 700;
     }
 
-    [data-component='Tooltip'] {
+    [data-component='TooltipOld'] {
       margin-left: 5px;
     }
 
     + [data-component='Icon'] {
       color: var(--grey-4);
-    }
-  }
-
-  > [data-component='Icon'] {
-    @include square(var(--field-icon-size));
-    position: absolute;
-    top: 42px;
-
-    svg {
-      @include transitionAll();
     }
   }
 
@@ -175,12 +143,12 @@ defineExpose({
     }
   }
 
-  input {
+  textarea {
     font-family: var(--font-primary);
     font-size: var(--font-size);
     display: block;
-    @include size(100%, var(--field-height));
-    padding: 0 var(--field-spacing-x);
+    width: 100%;
+    padding: var(--field-spacing-x);
     border-radius: 10px;
     border: 1px solid var(--field-border-color);
     box-sizing: border-box;
