@@ -33,6 +33,8 @@ const meta: Meta<typeof Icon> = {
         'UnitedStates',
         'CheckCircle',
         'Close',
+        'Eye',
+        'EyeClosed',
         'Home',
         'Info',
         'Loading',

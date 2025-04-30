@@ -1,35 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { setArgs } from '@/shared/helpers';
-import Input from './Input.vue';
+import Password from './Password.vue';
 
-const meta: Meta<typeof Input> = {
-  title: 'Components/Form/Input',
-  component: Input,
+const meta: Meta<typeof Password> = {
+  title: 'Components/Form/Password',
+  component: Password,
   argTypes: {
     disabled: setArgs({
       name: 'disabled',
       description: 'Disabled native prop.',
       type: "InputHTMLAttributes['disabled']",
       control: 'boolean',
-    }),
-    icon: setArgs({
-      name: 'icon',
-      description: 'Icon.',
-      type: 'Icons',
-      control: 'radio',
-      options: [
-        'ArrowDown',
-        'CheckCircle',
-        'Close',
-        'Eye',
-        'EyeClosed',
-        'Home',
-        'Info',
-        'Key',
-        'Loading',
-        'Warning',
-      ],
     }),
     info: setArgs({
       name: 'info',
@@ -50,22 +32,10 @@ const meta: Meta<typeof Input> = {
       required: true,
       control: 'text',
     }),
-    max: setArgs({
-      name: 'max',
-      description: 'Max native prop.',
-      type: "InputHTMLAttributes['max']",
-      control: 'text',
-    }),
     maxlength: setArgs({
       name: 'maxlength',
       description: 'Maxlength native prop.',
       type: "InputHTMLAttributes['maxlength']",
-      control: 'text',
-    }),
-    min: setArgs({
-      name: 'min',
-      description: 'Min native prop.',
-      type: "InputHTMLAttributes['min']",
       control: 'text',
     }),
     minlength: setArgs({
@@ -99,24 +69,18 @@ const meta: Meta<typeof Input> = {
       type: "InputHTMLAttributes['required']",
       control: 'boolean',
     }),
-    type: setArgs({
-      name: 'type',
-      description: 'Type native prop.',
-      type: "InputHTMLAttributes['type']",
-      control: 'text',
-    }),
   },
   render: args => ({
-    components: { Input },
+    components: { Password },
     setup() {
       return { args };
     },
     template: `
-        <Input name="text" label="Text" v-bind="args" />
+        <Password name="password" label="Password" v-bind="args" />
       `,
   }),
 };
 
-export const Default: StoryObj<typeof Input> = {};
+export const Default: StoryObj<typeof Password> = {};
 
 export default meta;
