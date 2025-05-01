@@ -42,7 +42,11 @@ import Icon from '../Icon/Icon.vue';
 import Popover from '../Popover/Popover.vue';
 
 type Props = {
-  info?: { text: string; maxWidth?: string; position?: Position };
+  info?: {
+    text: string;
+    maxWidth?: string;
+    position?: Position;
+  };
   title: string;
   name: InputHTMLAttributes['name'];
   required?: InputHTMLAttributes['required'];

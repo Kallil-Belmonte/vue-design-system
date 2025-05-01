@@ -56,7 +56,11 @@ type Position =
   | 'left-end';
 
 type Props = {
-  info?: { text: string; maxWidth?: string; position?: Position };
+  info?: {
+    text: string;
+    maxWidth?: string;
+    position?: Position;
+  };
   label: string;
   name: InputHTMLAttributes['name'];
   required?: InputHTMLAttributes['required'];

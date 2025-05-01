@@ -49,7 +49,11 @@ type ToggleOption = { text?: string; value: string | number | boolean };
 
 type Props = {
   icon?: Icons;
-  info?: { text: string; maxWidth?: string; position?: Position };
+  info?: {
+    text: string;
+    maxWidth?: string;
+    position?: Position;
+  };
   label: string;
   name: InputHTMLAttributes['name'];
   required?: InputHTMLAttributes['required'];
