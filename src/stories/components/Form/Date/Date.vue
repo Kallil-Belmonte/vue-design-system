@@ -103,10 +103,6 @@ defineExpose({
   font-size: var(--font-size);
   position: relative;
 
-  &:not(:last-child) {
-    margin-bottom: var(--field-spacing-y);
-  }
-
   .label-wrapper {
     @extend %flex-vertical-center;
     margin-bottom: 8px;
