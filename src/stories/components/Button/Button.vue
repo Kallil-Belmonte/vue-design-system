@@ -26,7 +26,6 @@ type Props = {
   icon?: { category?: Category; name: Icons; color?: string; size?: string };
   loading?: boolean;
   disabled?: ButtonHTMLAttributes['disabled'];
-  click?: (event: MouseEvent) => void;
 };
 
 const {
@@ -90,6 +89,12 @@ defineExpose({
     min-height: 0;
     @include square(max-content);
     padding: 0;
+
+    @include active-style {
+      [data-component='Icon'] {
+        color: var(--primary);
+      }
+    }
 
     &:disabled {
       cursor: not-allowed;
