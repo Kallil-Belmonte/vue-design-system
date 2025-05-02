@@ -99,6 +99,7 @@ defineExpose({
 
 [data-component='Toggle'] {
   font-family: var(--font-primary);
+  font-size: var(--font-size);
   font-weight: 700;
 
   &:not(:has(:disabled)) {
@@ -129,7 +130,7 @@ defineExpose({
       margin-left: 5px;
     }
 
-    [data-component='Tooltip'] {
+    [data-component='TooltipOld'] {
       margin-left: 5px;
     }
 

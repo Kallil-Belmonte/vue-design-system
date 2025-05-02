@@ -1,5 +1,5 @@
 <template>
-  <div data-component="RadioButton">
+  <div data-component="RadioButton" class="form-field">
     <div class="title-wrapper">
       <p class="title">{{ title }}</p>
       <TooltipOld v-if="info" :maxWidth="info.maxWidth" :position="info.position">
@@ -54,6 +54,8 @@ type Position =
   | 'left'
   | 'left-end';
 
+type Radio = { label: string; value: string };
+
 type Props = {
   info?: {
     text: string;
@@ -64,7 +66,7 @@ type Props = {
   name: InputHTMLAttributes['name'];
   required?: InputHTMLAttributes['required'];
   disabled?: InputHTMLAttributes['disabled'];
-  radios: { label: string; value: string }[];
+  radios: Radio[];
   change?: (value: string, event: Event) => void;
 };
 
@@ -75,16 +77,18 @@ const [model] = defineModel<string>({ required: true });
 const field = useTemplateRef<HTMLInputElement>('field');
 
 // EXPOSE
-defineExpose({ field });
+defineExpose({
+  /** Field ref */
+  field,
+});
 </script>
 
 <style lang="scss">
 @use '@/assets/scss/helpers' as *;
 
 [data-component='RadioButton'] {
-  &:not(:last-child) {
-    margin-bottom: 20px;
-  }
+  font-family: var(--font-primary);
+  font-size: var(--font-size);
 
   .title-wrapper {
     @extend %flex-vertical-center;
@@ -95,7 +99,7 @@ defineExpose({ field });
       margin: 0;
     }
 
-    [data-component='Tooltip'] {
+    [data-component='TooltipOld'] {
       margin-left: 5px;
     }
   }
@@ -135,7 +139,7 @@ defineExpose({ field });
         border-color: var(--primary);
 
         &::after {
-          @include square(70%);
+          @include square(9px);
         }
       }
 

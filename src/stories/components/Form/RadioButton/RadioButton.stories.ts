@@ -3,16 +3,16 @@ import { ref } from 'vue';
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { setArgs } from '@/shared/helpers';
-import Toggle from './Toggle.vue';
+import RadioButton from './RadioButton.vue';
 
-const meta: Meta<typeof Toggle> = {
-  title: 'Components/Form/Toggle',
-  component: Toggle,
+const meta: Meta<typeof RadioButton> = {
+  title: 'Components/Form/RadioButton',
+  component: RadioButton,
   argTypes: {
     change: setArgs({
       name: 'change',
       description: 'Change callback.',
-      type: "InputHTMLAttributes['onChange']",
+      type: '(value: string, event: Event) => void',
       control: false,
     }),
     disabled: setArgs({
@@ -21,25 +21,11 @@ const meta: Meta<typeof Toggle> = {
       type: "InputHTMLAttributes['disabled']",
       control: 'boolean',
     }),
-    falseOption: setArgs({
-      name: 'falseOption',
-      description: 'Value for when is not checked.',
-      type: 'ToggleOption',
-      required: true,
-      control: 'object',
-    }),
     info: setArgs({
       name: 'info',
       description: 'Info props.',
       type: '{ text: string; maxWidth?: string; position?: Position }',
       control: 'object',
-    }),
-    label: setArgs({
-      name: 'label',
-      description: 'Label.',
-      type: 'string',
-      required: true,
-      control: 'text',
     }),
     name: setArgs({
       name: 'name',
@@ -48,32 +34,39 @@ const meta: Meta<typeof Toggle> = {
       required: true,
       control: 'text',
     }),
+    radios: setArgs({
+      name: 'radios',
+      description: 'Radio options.',
+      type: 'Radio[]',
+      required: true,
+      control: false,
+    }),
     required: setArgs({
       name: 'required',
       description: 'Required native prop.',
       type: "InputHTMLAttributes['required']",
       control: 'boolean',
     }),
-    trueOption: setArgs({
-      name: 'trueOption',
-      description: 'Value for when is checked.',
-      type: 'ToggleOption',
+    title: setArgs({
+      name: 'title',
+      description: 'Title.',
+      type: 'string',
       required: true,
-      control: 'object',
+      control: 'text',
     }),
   },
   render: args => ({
-    components: { Toggle },
+    components: { RadioButton },
     setup() {
-      const toggle = ref(false);
-      return { args, toggle };
+      const radio = ref('');
+      return { args, radio };
     },
     template: `
-      <Toggle name="toggle" label="Toggle" :trueOption="{ value: true }" :falseOption="{ value: false }" v-model="toggle" v-bind="args" />
+      <RadioButton name="radio" title="Title" v-model="radio" :radios="[{ label: 'One', value: 'one' }, { label: 'Two', value: 'two' }, { label: 'Three', value: 'three' }]" v-bind="args" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Toggle> = {};
+export const Default: StoryObj<typeof RadioButton> = {};
 
 export default meta;
