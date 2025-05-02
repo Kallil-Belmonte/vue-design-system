@@ -27,7 +27,7 @@ import Icon from '@/stories/components/Icon/Icon.vue';
 type Status = 'info' | 'success' | 'warning' | 'danger';
 
 type Props = {
-  title?: string;
+  title: string;
   status?: Status;
   close?: (event: MouseEvent) => void;
 };
