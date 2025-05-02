@@ -24,8 +24,8 @@ import Icon from '@/stories/components/Icon/Icon.vue';
 import type { Category, Icons } from '@/stories/components/Icon/types';
 
 type Props = {
-  variant?: 'default' | 'full';
   open: boolean;
+  variant?: 'default' | 'full';
   icon?: { category?: Category; name: Icons };
   title: string;
   close: (event: MouseEvent) => void;
