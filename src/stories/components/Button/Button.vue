@@ -119,6 +119,7 @@ defineExpose({
 
   &.full {
     @include size(100%, $size);
+    padding: 0 20px;
   }
 
   &:not(.blank) {
@@ -133,7 +134,7 @@ defineExpose({
       background-color: #fff;
       border: 1px solid var(--grey-4);
 
-      @include active-style {
+      &:hover {
         background-color: color.adjust(#fff, $lightness: -2%);
 
         [data-component='Icon'] {
