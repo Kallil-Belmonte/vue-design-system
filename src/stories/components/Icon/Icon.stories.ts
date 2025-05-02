@@ -45,8 +45,6 @@ const meta: Meta<typeof Icon> = {
   },
 };
 
-export const Default: StoryObj<typeof Icon> = {
-  args: {},
-};
+export const Default: StoryObj<typeof Icon> = {};
 
 export default meta;
