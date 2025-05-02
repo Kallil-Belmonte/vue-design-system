@@ -166,6 +166,10 @@ defineExpose({
       color: var(--text-color) !important;
       background-color: var(--grey-4) !important;
       cursor: not-allowed;
+
+      [data-component='Icon'][data-name='Loading'] {
+        color: #fff;
+      }
     }
   }
 }
