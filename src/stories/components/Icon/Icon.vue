@@ -22,7 +22,7 @@ type Props = {
   color?: string;
 };
 
-const { category = 'UI', name, size = '100%', color } = defineProps<Props>();
+const { category = 'UI', name, size = '100%', color = 'inherit' } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLDivElement>('element');
 

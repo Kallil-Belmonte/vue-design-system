@@ -20,6 +20,7 @@ const meta: Meta<typeof Icon> = {
       name: 'color',
       description: 'Icon color.',
       type: 'string',
+      defaultValue: 'inherit',
       control: 'color',
     }),
     name: setArgs({
