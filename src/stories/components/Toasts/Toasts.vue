@@ -29,7 +29,7 @@ type Toast = {
   id: string;
   status: Status;
   title: string;
-  description: string;
+  description?: string;
 };
 
 type Props = {
