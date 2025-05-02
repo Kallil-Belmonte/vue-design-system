@@ -2,7 +2,7 @@
   <div ref="element" data-component="Alert" role="alert" :class="status">
     <header>
       <Icon :name="icon" size="25px" />
-      <h3 v-if="title" class="title">{{ title }}</h3>
+      <h3 class="title">{{ title }}</h3>
       <Button
         v-if="close"
         aria-label="Close"
