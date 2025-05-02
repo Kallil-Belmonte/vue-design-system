@@ -12,7 +12,7 @@
       />
     </header>
 
-    <section class="content">
+    <section class="description">
       <slot></slot>
     </section>
   </div>
@@ -32,6 +32,11 @@ type Props = {
   close?: (event: MouseEvent) => void;
 };
 
+type Slots = {
+  /** Default slot */
+  default(): any;
+};
+
 const { status = 'info', close } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLDivElement>('element');
@@ -43,10 +48,7 @@ const icon = computed(() => {
 });
 
 // SLOTS
-defineSlots<{
-  /** Default slot */
-  default(): any;
-}>();
+defineSlots<Slots>();
 
 // EXPOSE
 defineExpose({
@@ -72,6 +74,7 @@ defineExpose({
     gap: 10px;
 
     > .title {
+      font-size: var(--font-size);
       margin: 0;
     }
 
@@ -86,7 +89,7 @@ defineExpose({
     }
   }
 
-  > .content {
+  > .description {
     margin-left: 35px;
   }
 

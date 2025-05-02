@@ -28,6 +28,11 @@ type Props = {
   disabled?: ButtonHTMLAttributes['disabled'];
 };
 
+type Slots = {
+  /** Default slot */
+  default(): any;
+};
+
 const {
   type = 'button',
   mode = 'full',
@@ -41,10 +46,7 @@ const { category, name, color, size = '20px' } = icon || {};
 const element = useTemplateRef<HTMLButtonElement>('element');
 
 // SLOTS
-defineSlots<{
-  /** Default slot */
-  default(): any;
-}>();
+defineSlots<Slots>();
 
 // EXPOSE
 defineExpose({

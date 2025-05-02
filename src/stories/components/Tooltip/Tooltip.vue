@@ -54,6 +54,13 @@ type Props = {
   mouseleave?: (event: MouseEvent) => void;
 };
 
+type Slots = {
+  /** Default slot */
+  default(): any;
+  /** Tooltip slot */
+  tooltip(): any;
+};
+
 const {
   maxWidth = '300px',
   animation = 'scale',
@@ -127,12 +134,7 @@ onUnmounted(() => {
 });
 
 // SLOTS
-defineSlots<{
-  /** Default slot */
-  default(): any;
-  /** Tooltip slot */
-  tooltip(): any;
-}>();
+defineSlots<Slots>();
 
 // EXPOSE
 defineExpose({

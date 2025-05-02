@@ -1,23 +1,21 @@
 <template>
-  <div ref="element" data-component="Toasts">
-    <div class="container">
-      <div
-        v-for="toast in toasts"
-        :key="toast.message"
-        :class="`toast ${toast.status}`"
-        role="alert"
-        aria-live="assertive"
-      >
-        <Icon :name="getIcon(toast.status)" size="25px" />
-        <div class="content">
-          {{ toast.message }}
-        </div>
-        <button type="button" aria-label="Close" @click="removeToast(toast.id)">
-          <Icon name="Close" size="15px" />
-        </button>
+  <section ref="element" data-component="Toasts">
+    <div
+      v-for="toast in toasts"
+      :key="toast.id"
+      :class="`toast ${toast.status}`"
+      role="alert"
+      aria-live="assertive"
+    >
+      <Icon :name="getIcon(toast.status)" size="25px" />
+      <div class="content">
+        {{ toast.description }}
       </div>
+      <button type="button" aria-label="Close" @click="close(toast)">
+        <Icon name="Close" size="15px" />
+      </button>
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
@@ -27,7 +25,21 @@ import Icon from '@/stories/components/Icon/Icon.vue';
 
 type Status = 'info' | 'success' | 'warning' | 'danger';
 
-const element = useTemplateRef<HTMLDivElement>('element');
+type Toast = {
+  id: string;
+  status: Status;
+  title: string;
+  description: string;
+};
+
+type Props = {
+  toasts: Toast[];
+  close: (toast: Toast) => void;
+};
+
+const { toasts } = defineProps<Props>();
+
+const element = useTemplateRef<HTMLElement>('element');
 
 const getIcon = (status: Status) => {
   if (status === 'success') return 'CheckCircle';
@@ -36,7 +48,10 @@ const getIcon = (status: Status) => {
 };
 
 // EXPOSE
-defineExpose({ element });
+defineExpose({
+  /** Element ref */
+  element,
+});
 </script>
 
 <style lang="scss">
@@ -59,32 +74,16 @@ defineExpose({ element });
       margin-bottom: 10px;
     }
 
-    &.info {
-      background-color: var(--info);
-    }
-
-    &.success {
-      background-color: var(--success);
-    }
-
-    &.warning {
-      background-color: var(--warning);
-    }
-
-    &.danger {
-      background-color: var(--danger);
-    }
-
     > [data-component='Icon'] {
       margin: 3px 10px 0 0;
     }
 
-    .content {
+    > .content {
       width: 100%;
       margin-top: 5px;
     }
 
-    button {
+    > button {
       color: #fff;
       align-self: start;
       height: auto;
@@ -103,6 +102,23 @@ defineExpose({ element });
           opacity: 1;
         }
       }
+    }
+
+    // Color
+    &.info {
+      background-color: var(--info);
+    }
+
+    &.success {
+      background-color: var(--success);
+    }
+
+    &.warning {
+      background-color: var(--warning);
+    }
+
+    &.danger {
+      background-color: var(--danger);
     }
   }
 }

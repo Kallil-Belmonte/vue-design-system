@@ -31,6 +31,13 @@ type Props = {
   close: (event: MouseEvent) => void;
 };
 
+type Slots = {
+  /** Default slot */
+  default(): any;
+  /** Footer slot */
+  footer(): any;
+};
+
 const { variant = 'default', open, icon, title, close } = defineProps<Props>();
 const { category, name } = icon || {};
 
@@ -51,12 +58,7 @@ watchEffect(() => {
 });
 
 // SLOTS
-defineSlots<{
-  /** Default slot */
-  default(): any;
-  /** Footer slot */
-  footer(): any;
-}>();
+defineSlots<Slots>();
 
 // EXPOSE
 defineExpose({
