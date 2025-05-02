@@ -1,16 +1,18 @@
+import { ref } from 'vue';
+
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { setArgs } from '@/shared/helpers';
-import Date from './Date.vue';
+import Toggle from './Toggle.vue';
 
-const meta: Meta<typeof Date> = {
-  title: 'Components/Form/Date',
-  component: Date,
+const meta: Meta<typeof Toggle> = {
+  title: 'Components/Form/Toggle',
+  component: Toggle,
   argTypes: {
     change: setArgs({
       name: 'change',
       description: 'Change callback.',
-      type: '(payload: Event) => void',
+      type: "InputHTMLAttributes['onChange']",
       control: false,
     }),
     disabled: setArgs({
@@ -18,6 +20,12 @@ const meta: Meta<typeof Date> = {
       description: 'Disabled native prop.',
       type: "InputHTMLAttributes['disabled']",
       control: 'boolean',
+    }),
+    falseOption: setArgs({
+      name: 'falseOption',
+      description: 'Value for when is not checked.',
+      type: 'ToggleOption',
+      control: 'object',
     }),
     info: setArgs({
       name: 'info',
@@ -32,29 +40,11 @@ const meta: Meta<typeof Date> = {
       required: true,
       control: 'text',
     }),
-    max: setArgs({
-      name: 'max',
-      description: 'Max native prop.',
-      type: "InputHTMLAttributes['max']",
-      control: 'text',
-    }),
-    min: setArgs({
-      name: 'min',
-      description: 'Min native prop.',
-      type: "InputHTMLAttributes['min']",
-      control: 'text',
-    }),
     name: setArgs({
       name: 'name',
       description: 'Name native prop.',
       type: "InputHTMLAttributes['name']",
       required: true,
-      control: 'text',
-    }),
-    placeholder: setArgs({
-      name: 'placeholder',
-      description: 'Placeholder native prop.',
-      type: "InputHTMLAttributes['placeholder']",
       control: 'text',
     }),
     required: setArgs({
@@ -63,18 +53,25 @@ const meta: Meta<typeof Date> = {
       type: "InputHTMLAttributes['required']",
       control: 'boolean',
     }),
+    trueOption: setArgs({
+      name: 'trueOption',
+      description: 'Value for when is checked.',
+      type: 'ToggleOption',
+      control: 'object',
+    }),
   },
   render: args => ({
-    components: { Date },
+    components: { Toggle },
     setup() {
-      return { args };
+      const toggle = ref(false);
+      return { args, toggle };
     },
     template: `
-      <Date name="date" label="Date" v-bind="args" />
+      <Toggle name="toggle" label="Toggle" :trueOption="{ value: true }" :falseOption="{ value: false }" v-model="toggle" v-bind="args" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Date> = {};
+export const Default: StoryObj<typeof Toggle> = {};
 
 export default meta;

@@ -2,14 +2,14 @@
   <div data-component="RadioButton">
     <div class="title-wrapper">
       <p class="title">{{ title }}</p>
-      <Popover v-if="info" :maxWidth="info.maxWidth" :position="info.position">
+      <TooltipOld v-if="info" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
         </template>
-        <template #popover>
+        <template #tooltip>
           {{ info.text }}
         </template>
-      </Popover>
+      </TooltipOld>
     </div>
 
     <div v-for="radio in radios" :key="radio.label" class="item">
@@ -37,9 +37,22 @@
 <script lang="ts" setup>
 import { type InputHTMLAttributes, useTemplateRef } from 'vue';
 
-import type { Position } from '@/shared/files/types';
-import Icon from '../Icon/Icon.vue';
-import Popover from '../Popover/Popover.vue';
+import Icon from '@/stories/components/Icon/Icon.vue';
+import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
+
+type Position =
+  | 'top-start'
+  | 'top'
+  | 'top-end'
+  | 'right-start'
+  | 'right'
+  | 'right-end'
+  | 'bottom-start'
+  | 'bottom'
+  | 'bottom-end'
+  | 'left-start'
+  | 'left'
+  | 'left-end';
 
 type Props = {
   info?: {
@@ -82,7 +95,7 @@ defineExpose({ field });
       margin: 0;
     }
 
-    [data-component='Popover'] {
+    [data-component='Tooltip'] {
       margin-left: 5px;
     }
   }
@@ -106,20 +119,20 @@ defineExpose({ field });
     input {
       appearance: none;
       @include square(18px, 50%);
-      border: 2px solid $primary;
+      border: 2px solid var(--primary);
       margin: 0;
       position: relative;
 
       &::after {
         content: '';
         @include square(0, 50%);
-        background-color: $primary;
+        background-color: var(--primary);
         @extend %absolute-center;
         @include transitionAll(0.2s);
       }
 
       &:checked {
-        border-color: $primary;
+        border-color: var(--primary);
 
         &::after {
           @include square(70%);
@@ -127,7 +140,7 @@ defineExpose({ field });
       }
 
       &:user-invalid {
-        border-color: $danger;
+        border-color: var(--danger);
       }
 
       &:disabled {
@@ -137,7 +150,7 @@ defineExpose({ field });
   }
 
   .validation-message {
-    color: $danger;
+    color: var(--danger);
 
     &:not(:last-child) {
       margin-bottom: 5px;

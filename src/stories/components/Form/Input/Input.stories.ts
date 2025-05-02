@@ -105,8 +105,8 @@ const meta: Meta<typeof Input> = {
       return { args, input };
     },
     template: `
-        <Input name="input" label="Input" v-model="input" v-bind="args" />
-      `,
+      <Input name="input" label="Input" v-model="input" v-bind="args" />
+    `,
   }),
 };
 

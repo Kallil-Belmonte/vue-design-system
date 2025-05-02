@@ -1,16 +1,16 @@
 <template>
   <div data-component="Toggle">
     <label :for="name">
-      <Icon v-if="icon" :name="icon" size="30px" /> {{ label }} <span>{{ text(optionText) }}</span>
+      {{ label }} <span>{{ optionText }}</span>
 
-      <Popover v-if="info" :maxWidth="info.maxWidth" :position="info.position">
+      <TooltipOld v-if="info" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
         </template>
-        <template #popover>
+        <template #tooltip>
           {{ info.text }}
         </template>
-      </Popover>
+      </TooltipOld>
 
       <div class="input-wrapper">
         <input
@@ -39,16 +39,26 @@
 <script lang="ts" setup>
 import { type InputHTMLAttributes, computed, useTemplateRef } from 'vue';
 
-import text from '@/core/languages/text';
-import type { Position } from '@/shared/files/types';
-import Icon from '../Icon/Icon.vue';
-import type { Icons } from '../Icon/types';
-import Popover from '../Popover/Popover.vue';
+import Icon from '@/stories/components/Icon/Icon.vue';
+import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
+
+type Position =
+  | 'top-start'
+  | 'top'
+  | 'top-end'
+  | 'right-start'
+  | 'right'
+  | 'right-end'
+  | 'bottom-start'
+  | 'bottom'
+  | 'bottom-end'
+  | 'left-start'
+  | 'left'
+  | 'left-end';
 
 type ToggleOption = { text?: string; value: string | number | boolean };
 
 type Props = {
-  icon?: Icons;
   info?: {
     text: string;
     maxWidth?: string;
@@ -77,7 +87,10 @@ const optionText = computed(() => {
 });
 
 // EXPOSE
-defineExpose({ field });
+defineExpose({
+  /** Field ref */
+  field,
+});
 </script>
 
 <style lang="scss">
@@ -85,9 +98,8 @@ defineExpose({ field });
 @use '@/assets/scss/helpers' as *;
 
 [data-component='Toggle'] {
-  &:not(:last-child) {
-    margin-bottom: 20px;
-  }
+  font-family: var(--font-primary);
+  font-weight: 700;
 
   &:not(:has(:disabled)) {
     label,
@@ -98,18 +110,17 @@ defineExpose({ field });
 
   label {
     @extend %flex-vertical-center;
-    font-weight: 700;
     width: 100%;
 
     > [data-component='Icon'] {
-      background-color: $grey-2;
+      background-color: var(--grey-2);
       border-radius: 6px;
       margin-right: 5px;
       @include transitionAll();
 
       svg {
         @include square(70%);
-        fill: $grey-6;
+        fill: var(--grey-6);
       }
     }
 
@@ -118,7 +129,7 @@ defineExpose({ field });
       margin-left: 5px;
     }
 
-    [data-component='Popover'] {
+    [data-component='Tooltip'] {
       margin-left: 5px;
     }
 
@@ -143,7 +154,7 @@ defineExpose({ field });
 
       .toggle {
         height: 15px;
-        background-color: $grey-2;
+        background-color: var(--grey-2);
 
         &,
         &::after {
@@ -154,7 +165,7 @@ defineExpose({ field });
         &::after {
           content: '';
           @include square(22px);
-          background-color: $grey-6;
+          background-color: var(--grey-6);
           @extend %absolute-vertical-center;
         }
       }
@@ -162,20 +173,20 @@ defineExpose({ field });
 
     &:has(:checked) {
       > [data-component='Icon'] {
-        background-color: color.adjust($primary, $lightness: 15%);
+        background-color: color.adjust(#43b883, $lightness: 15%);
 
         svg {
-          fill: $primary;
+          fill: var(--primary);
         }
       }
 
       .input-wrapper {
         .toggle {
-          background-color: color.adjust($primary, $lightness: 15%);
+          background-color: color.adjust(#43b883, $lightness: 15%);
 
           &::after {
-            translate: 100% -50%;
-            background-color: $primary;
+            translate: 100% 0;
+            background-color: var(--primary);
           }
         }
       }
@@ -196,7 +207,7 @@ defineExpose({ field });
 
   .validation-message {
     width: 100%;
-    color: $danger;
+    color: var(--danger);
     margin: 5px 0 0 0;
   }
 

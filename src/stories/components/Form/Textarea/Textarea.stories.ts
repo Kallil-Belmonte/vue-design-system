@@ -85,8 +85,8 @@ const meta: Meta<typeof Textarea> = {
       return { args, textarea };
     },
     template: `
-        <Textarea name="textarea" label="Textarea" v-model="textarea" v-bind="args" />
-      `,
+      <Textarea name="textarea" label="Textarea" v-model="textarea" v-bind="args" />
+    `,
   }),
 };
 

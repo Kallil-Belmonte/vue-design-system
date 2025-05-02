@@ -92,11 +92,21 @@ const meta: Meta<typeof Tooltip> = {
       options: ['hover', 'click'],
     }),
   },
-  args: {
-    // Slots
-    default: 'Content',
-    tooltip: 'Tooltip',
-  },
+  render: args => ({
+    components: { Tooltip },
+    setup() {
+      return { args };
+    },
+    template: `
+      <Tooltip v-bind="args">
+        <template #default>
+          Content
+        <template #tooltip>
+          Tooltip
+        </template>
+      </Tooltip>
+    `,
+  }),
 };
 
 export const Default: StoryObj<typeof Tooltip> = {

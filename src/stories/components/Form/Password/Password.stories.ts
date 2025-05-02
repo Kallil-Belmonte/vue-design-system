@@ -78,8 +78,8 @@ const meta: Meta<typeof Password> = {
       return { args, password };
     },
     template: `
-        <Password name="password" v-model="password" v-bind="args" />
-      `,
+      <Password name="password" v-model="password" v-bind="args" />
+    `,
   }),
 };
 

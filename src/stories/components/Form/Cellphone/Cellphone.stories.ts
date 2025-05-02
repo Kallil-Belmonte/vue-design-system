@@ -61,8 +61,8 @@ const meta: Meta<typeof Cellphone> = {
       return { args, cellphone };
     },
     template: `
-        <Cellphone name="cellphone" v-model="cellphone" v-bind="args" :selectPrefix="() => undefined" />
-      `,
+      <Cellphone name="cellphone" v-model="cellphone" v-bind="args" :selectPrefix="() => undefined" />
+    `,
   }),
 };
 

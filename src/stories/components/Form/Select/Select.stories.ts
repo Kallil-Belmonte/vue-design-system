@@ -70,19 +70,19 @@ const meta: Meta<typeof Select> = {
       return { args, country };
     },
     template: `
-        <Select
-          :value="country"
-          name="countries"
-          label="Countries"
-          :options="[
-            { text: 'Brazil', value: 'BR' },
-            { text: 'Portugal', value: 'PT' },
-            { text: 'United States', value: 'US' },
-          ]"
-          v-bind="args"
-          :change="option => country = option.value"
-        />
-      `,
+      <Select
+        :value="country"
+        name="countries"
+        label="Countries"
+        :options="[
+          { text: 'Brazil', value: 'BR' },
+          { text: 'Portugal', value: 'PT' },
+          { text: 'United States', value: 'US' },
+        ]"
+        v-bind="args"
+        :change="option => country = option.value"
+      />
+    `,
   }),
 };
 
