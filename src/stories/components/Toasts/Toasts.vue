@@ -60,15 +60,6 @@ defineExpose({
 @use '@/assets/scss/helpers' as *;
 
 [data-component='Toasts'] {
-  @keyframes grow {
-    0% {
-      width: 0%;
-    }
-    100% {
-      width: 100%;
-    }
-  }
-
   font-family: var(--font-primary);
   font-size: var(--font-size);
   @include position(fixed, 15px, 0, auto, 0, 1000);
@@ -90,10 +81,19 @@ defineExpose({
       width: 100%;
       height: 4px;
       border-radius: 4px 4px 0 0;
-      @include absolute(0, auto, auto, 0);
+      @include position(absolute, 0, auto, auto, 0);
       animation-name: grow;
       animation-duration: v-bind(hideDuration);
       animation-timing-function: ease-in-out;
+
+      @keyframes grow {
+        0% {
+          width: 0%;
+        }
+        100% {
+          width: 100%;
+        }
+      }
     }
 
     &:hover::after {

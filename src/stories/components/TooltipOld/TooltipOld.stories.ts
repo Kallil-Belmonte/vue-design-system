@@ -93,10 +93,11 @@ const meta: Meta<typeof TooltipOld> = {
       <TooltipOld v-bind="args">
         <template #default>
           Content
+        </template>
         <template #tooltip>
           Tooltip
         </template>
-      </Tooltip>
+      </TooltipOld>
     `,
   }),
 };

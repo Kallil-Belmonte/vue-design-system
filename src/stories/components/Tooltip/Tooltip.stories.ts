@@ -101,6 +101,7 @@ const meta: Meta<typeof Tooltip> = {
       <Tooltip v-bind="args">
         <template #default>
           Content
+        </template>
         <template #tooltip>
           Tooltip
         </template>
