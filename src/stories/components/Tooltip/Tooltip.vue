@@ -165,32 +165,35 @@ defineExpose({
 
     // Animation
     &.fade {
-      transition: opacity 300ms ease;
+      opacity: 0;
+      transition: opacity 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
 
       &:popover-open {
-        @starting-style {
-          opacity: 0;
-        }
+        opacity: 1;
       }
 
-      &[data-open='false'] {
-        opacity: 0;
+      @starting-style {
+        &:popover-open {
+          opacity: 0;
+        }
       }
     }
 
     &.scale {
-      transition: opacity 300ms ease, scale 300ms ease;
+      opacity: 0;
+      scale: 0.8;
+      transition: opacity 0.3s, scale 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
 
       &:popover-open {
-        @starting-style {
+        opacity: 1;
+        scale: none;
+      }
+
+      @starting-style {
+        &:popover-open {
           opacity: 0;
           scale: 0.8;
         }
-      }
-
-      &[data-open='false'] {
-        opacity: 0;
-        scale: 0.8;
       }
     }
 

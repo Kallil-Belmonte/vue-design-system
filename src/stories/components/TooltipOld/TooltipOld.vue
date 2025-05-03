@@ -172,10 +172,15 @@ defineExpose({
     border: none;
     margin: 0;
     position: absolute;
-    transition: opacity 300ms ease;
+    opacity: 0;
+    transition: opacity 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
 
     &:popover-open {
-      @starting-style {
+      opacity: 1;
+    }
+
+    @starting-style {
+      &:popover-open {
         opacity: 0;
       }
     }

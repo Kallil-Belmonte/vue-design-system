@@ -75,16 +75,25 @@ defineExpose({
   font-size: var(--font-size);
   padding: 0;
   border: none;
-  transition: opacity 300ms ease, scale 300ms ease;
-
-  &[open] {
-    display: grid;
-    grid-template-rows: 60px 1fr 80px;
-  }
+  grid-template-rows: 60px 1fr 80px;
+  transition: opacity 0.3s, scale 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
 
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
     transition: background-color 300ms ease;
+  }
+
+  &:not([open]) {
+    opacity: 0;
+    scale: 0.8;
+
+    &::backdrop {
+      background-color: transparent;
+    }
+  }
+
+  &[open] {
+    display: grid;
   }
 
   @starting-style {
@@ -96,7 +105,7 @@ defineExpose({
     }
   }
 
-  header {
+  > header {
     @extend %flex-vertical-center;
     justify-content: space-between;
     padding: 0 20px;
@@ -129,7 +138,7 @@ defineExpose({
     }
   }
 
-  .body {
+  > .body {
     padding: 15px;
     overflow-y: auto;
 
@@ -142,7 +151,7 @@ defineExpose({
     }
   }
 
-  footer {
+  > footer {
     @extend %flex-vertical-center;
     column-gap: 20px;
     padding: 0 15px;
