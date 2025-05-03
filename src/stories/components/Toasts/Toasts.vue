@@ -6,6 +6,7 @@
       :class="`toast ${toast.status}`"
       role="alert"
       aria-live="assertive"
+      @animationend="close(toast)"
     >
       <Icon :name="getIcon(toast.status)" size="25px" />
       <div class="content">
@@ -34,10 +35,11 @@ type Toast = {
 
 type Props = {
   toasts: Toast[];
+  hideDuration: number;
   close: (toast: Toast) => void;
 };
 
-const { toasts } = defineProps<Props>();
+const { toasts, hideDuration = 2000 } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
 
@@ -58,6 +60,15 @@ defineExpose({
 @use '@/assets/scss/helpers' as *;
 
 [data-component='Toasts'] {
+  @keyframes grow {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
   font-family: var(--font-primary);
   font-size: var(--font-size);
   @include position(fixed, 15px, 0, auto, 0, 1000);
@@ -72,6 +83,21 @@ defineExpose({
 
     &:not(:last-child) {
       margin-bottom: 10px;
+    }
+
+    &::after {
+      content: '';
+      width: 100%;
+      height: 4px;
+      border-radius: 4px 4px 0 0;
+      @include absolute(0, auto, auto, 0);
+      animation-name: grow;
+      animation-duration: v-bind(hideDuration);
+      animation-timing-function: ease-in-out;
+    }
+
+    &:hover::after {
+      animation-play-state: paused;
     }
 
     > [data-component='Icon'] {
@@ -106,19 +132,31 @@ defineExpose({
 
     // Color
     &.info {
-      background-color: var(--info);
+      &,
+      &::after {
+        background-color: var(--info);
+      }
     }
 
     &.success {
-      background-color: var(--success);
+      &,
+      &::after {
+        background-color: var(--success);
+      }
     }
 
     &.warning {
-      background-color: var(--warning);
+      &,
+      &::after {
+        background-color: var(--warning);
+      }
     }
 
     &.danger {
-      background-color: var(--danger);
+      &,
+      &::after {
+        background-color: var(--danger);
+      }
     }
   }
 }
