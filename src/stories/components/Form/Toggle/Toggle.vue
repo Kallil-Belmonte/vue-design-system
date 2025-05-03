@@ -186,7 +186,7 @@ defineExpose({
           background-color: color.adjust(#43b883, $lightness: 15%);
 
           &::after {
-            translate: 100% 0;
+            translate: 100% -50%;
             background-color: var(--primary);
           }
         }
