@@ -21,13 +21,6 @@ const meta: Meta<typeof Tooltip> = {
       type: '(event: MouseEvent) => void',
       control: false,
     }),
-    closeOnTooltipClick: setArgs({
-      name: 'closeOnTooltipClick',
-      description: 'If <code>true</code>, the tooltip will close when clicked.',
-      type: 'boolean',
-      defaultValue: 'false',
-      control: 'boolean',
-    }),
     color: setArgs({
       name: 'color',
       description: 'Color.',

@@ -1,31 +1,40 @@
 <template>
-  <div
-    ref="element"
-    data-component="Tooltip"
-    :popovertarget="id"
-    @click="click"
-    @mouseenter="mouseenter"
-    @mouseleave="mouseleave"
-  >
-    <slot></slot>
+  <section ref="element" data-component="Tooltip">
+    <div
+      :popovertarget="id"
+      @mouseenter="mouseenter"
+      @mouseleave="mouseleave"
+      @focus="focus"
+      @focusout="focusout"
+      @click="click"
+    >
+      <slot></slot>
+    </div>
 
-    <section
+    <div
       ref="tooltip"
       data-subcomponent="TooltipContent"
-      popover
-      data-open="false"
+      :popover="popoverAttr"
       :id="id"
-      :class="`${animation} ${color} ${position}`"
+      :class="`${trigger} ${animation} ${color} ${position}`"
     >
       <slot name="tooltip"></slot>
-    </section>
-  </div>
+
+      <Button
+        v-if="showClose"
+        mode="blank"
+        :icon="{ name: 'Close' }"
+        @click="tooltip?.hidePopover()"
+      />
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, useTemplateRef } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 
 import { uuid } from '@/shared/helpers';
+import Button from '@/stories/components/Button/Button.vue';
 
 type Position =
   | 'top-start'
@@ -68,70 +77,39 @@ const {
   position = 'top',
   spacing = '10px',
   trigger = 'hover',
-  closeOnTooltipClick = false,
-  click: clickProp,
-  mouseenter: mouseenterProp,
-  mouseleave: mouseleaveProp,
 } = defineProps<Props>();
 
-const element = useTemplateRef<HTMLDivElement>('element');
+const element = useTemplateRef<HTMLElement>('element');
 
-const tooltip = useTemplateRef<HTMLElement>('tooltip');
+const tooltip = useTemplateRef<HTMLDivElement>('tooltip');
 
 const id = `tooltip-${uuid().split('-')[0]}`;
 
 const anchorName = `--${id}`;
 
-const open = () => {
-  tooltip.value?.setAttribute('data-open', 'true');
-  tooltip.value?.showPopover();
+const popoverAttr = computed(() => (trigger === 'hover' ? 'hint' : 'auto'));
+
+const showClose = computed(() => trigger === 'click');
+
+const mouseenter = () => {
+  if (trigger === 'hover') tooltip.value?.showPopover();
 };
 
-const close = () => {
-  tooltip.value?.setAttribute('data-open', 'false');
-  tooltip.value?.hidePopover();
+const mouseleave = () => {
+  if (trigger === 'hover') tooltip.value?.hidePopover();
 };
 
-const mouseenter = (event: MouseEvent) => {
-  if (trigger === 'hover') open();
-  mouseenterProp?.(event);
+const focus = () => {
+  if (trigger === 'hover') tooltip.value?.showPopover();
 };
 
-const mouseleave = (event: MouseEvent) => {
-  if (trigger === 'hover') close();
-  mouseleaveProp?.(event);
+const focusout = () => {
+  if (trigger === 'hover') tooltip.value?.hidePopover();
 };
 
-const click = (event: MouseEvent) => {
-  if (trigger === 'click') {
-    const isOpen = tooltip.value?.getAttribute('data-open') === 'true';
-    const clickedOutsidePopover = !tooltip.value?.contains(event.target as HTMLElement);
-
-    if (clickedOutsidePopover || closeOnTooltipClick) {
-      isOpen ? close() : open();
-    }
-  }
-
-  clickProp?.(event);
+const click = () => {
+  if (trigger === 'click') tooltip.value?.togglePopover();
 };
-
-const clickListener = (event: MouseEvent) => {
-  if (element.value?.contains(event.target as HTMLElement)) return;
-
-  const { display } = window.getComputedStyle(tooltip.value as HTMLElement);
-
-  if (display === 'none') close();
-  else open();
-};
-
-// LIFECYCLE HOOKS
-onMounted(() => {
-  if (trigger === 'click') document.addEventListener('click', clickListener);
-});
-
-onUnmounted(() => {
-  if (trigger === 'click') document.removeEventListener('click', clickListener);
-});
 
 // SLOTS
 defineSlots<Slots>();
@@ -162,6 +140,21 @@ defineExpose({
     border: none;
     margin: 0;
     position-anchor: v-bind(anchorName);
+
+    > [data-component='Button']:has([data-component='Icon'][data-name='Close']) {
+      @include position(absolute, 8px, 10px);
+
+      [data-component='Icon'][data-name='Close'] {
+        @include active-style {
+          color: var(--danger);
+        }
+      }
+    }
+
+    // Trigger
+    &.click {
+      min-width: 200px;
+    }
 
     // Animation
     &.fade {
