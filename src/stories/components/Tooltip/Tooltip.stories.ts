@@ -15,12 +15,6 @@ const meta: Meta<typeof Tooltip> = {
       control: 'radio',
       options: ['fade', 'scale'],
     }),
-    click: setArgs({
-      name: 'click',
-      description: 'Click function.',
-      type: '(event: MouseEvent) => void',
-      control: false,
-    }),
     color: setArgs({
       name: 'color',
       description: 'Color.',
@@ -35,18 +29,6 @@ const meta: Meta<typeof Tooltip> = {
       type: 'string',
       defaultValue: '300px',
       control: 'text',
-    }),
-    mouseenter: setArgs({
-      name: 'mouseenter',
-      description: 'Mouseenter function.',
-      type: '(event: MouseEvent) => void',
-      control: false,
-    }),
-    mouseleave: setArgs({
-      name: 'mouseleave',
-      description: 'Mouseleave function.',
-      type: '(event: MouseEvent) => void',
-      control: false,
     }),
     position: setArgs({
       name: 'position',

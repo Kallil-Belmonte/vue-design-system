@@ -1,13 +1,6 @@
 <template>
   <section ref="element" data-component="Tooltip">
-    <div
-      :popovertarget="id"
-      @mouseenter="mouseenter"
-      @mouseleave="mouseleave"
-      @focus="focus"
-      @focusout="focusout"
-      @click="click"
-    >
+    <div :popovertarget="id" @mouseenter="mouseenter" @mouseleave="mouseleave" @click="click">
       <slot></slot>
     </div>
 
@@ -57,10 +50,6 @@ type Props = {
   position?: Position;
   spacing?: string;
   trigger?: 'hover' | 'click';
-  closeOnTooltipClick?: boolean;
-  click?: (event: MouseEvent) => void;
-  mouseenter?: (event: MouseEvent) => void;
-  mouseleave?: (event: MouseEvent) => void;
 };
 
 type Slots = {
@@ -96,14 +85,6 @@ const mouseenter = () => {
 };
 
 const mouseleave = () => {
-  if (trigger === 'hover') tooltip.value?.hidePopover();
-};
-
-const focus = () => {
-  if (trigger === 'hover') tooltip.value?.showPopover();
-};
-
-const focusout = () => {
   if (trigger === 'hover') tooltip.value?.hidePopover();
 };
 
@@ -153,7 +134,7 @@ defineExpose({
 
     // Trigger
     &.click {
-      min-width: 200px;
+      width: 100%;
     }
 
     // Animation
