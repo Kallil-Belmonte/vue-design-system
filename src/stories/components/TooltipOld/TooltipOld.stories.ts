@@ -7,19 +7,6 @@ const meta: Meta<typeof TooltipOld> = {
   title: 'Components/TooltipOld',
   component: TooltipOld,
   argTypes: {
-    click: setArgs({
-      name: 'click',
-      description: 'Click function.',
-      type: '(event: MouseEvent) => void',
-      control: false,
-    }),
-    closeOnTooltipClick: setArgs({
-      name: 'closeOnTooltipClick',
-      description: 'If <code>true</code>, the tooltip will close when clicked.',
-      type: 'boolean',
-      defaultValue: 'false',
-      control: 'boolean',
-    }),
     color: setArgs({
       name: 'color',
       description: 'Color.',
@@ -34,18 +21,6 @@ const meta: Meta<typeof TooltipOld> = {
       type: 'string',
       defaultValue: '300px',
       control: 'text',
-    }),
-    mouseenter: setArgs({
-      name: 'mouseenter',
-      description: 'Mouseenter function.',
-      type: '(event: MouseEvent) => void',
-      control: false,
-    }),
-    mouseleave: setArgs({
-      name: 'mouseleave',
-      description: 'Mouseleave function.',
-      type: '(event: MouseEvent) => void',
-      control: false,
     }),
     position: setArgs({
       name: 'position',

@@ -8,6 +8,7 @@
       ref="tooltip"
       data-subcomponent="TooltipContent"
       :popover="popoverAttr"
+      :data-open="isOpen"
       :id="id"
       :class="`${trigger} ${animation} ${color} ${position}`"
     >
@@ -17,14 +18,14 @@
         v-if="showClose"
         mode="blank"
         :icon="{ name: 'Close' }"
-        @click="tooltip?.hidePopover()"
+        @click="close"
       />
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { computed, useTemplateRef } from 'vue';
+import { computed, onUnmounted, ref, useTemplateRef } from 'vue';
 
 import { uuid } from '@/shared/helpers';
 import Button from '@/stories/components/Button/Button.vue';
@@ -72,25 +73,49 @@ const element = useTemplateRef<HTMLElement>('element');
 
 const tooltip = useTemplateRef<HTMLDivElement>('tooltip');
 
+const isOpen = ref(false);
+
 const id = `tooltip-${uuid().split('-')[0]}`;
 
 const anchorName = `--${id}`;
 
-const popoverAttr = computed(() => (trigger === 'hover' ? 'hint' : 'auto'));
+const popoverAttr = computed(() => (trigger === 'hover' ? 'hint' : 'manual'));
 
 const showClose = computed(() => trigger === 'click');
 
+const open = () => {
+  isOpen.value = true;
+  tooltip.value?.showPopover();
+  if (trigger === 'click') document.addEventListener('click', clickListener);
+};
+
+const close = () => {
+  isOpen.value = false;
+  tooltip.value?.hidePopover();
+  if (trigger === 'click') document.removeEventListener('click', clickListener);
+};
+
 const mouseenter = () => {
-  if (trigger === 'hover') tooltip.value?.showPopover();
+  if (trigger === 'hover') open();
 };
 
 const mouseleave = () => {
-  if (trigger === 'hover') tooltip.value?.hidePopover();
+  if (trigger === 'hover') close();
+};
+
+const clickListener = (event: MouseEvent) => {
+  const clickedOutside = !element.value?.contains(event.target as HTMLElement);
+  if (clickedOutside) close();
 };
 
 const click = () => {
-  if (trigger === 'click') tooltip.value?.togglePopover();
+  if (trigger === 'click') isOpen.value ? close() : open();
 };
+
+// LIFECYCLE HOOKS
+onUnmounted(() => {
+  if (trigger === 'click') document.removeEventListener('click', clickListener);
+})
 
 // SLOTS
 defineSlots<Slots>();

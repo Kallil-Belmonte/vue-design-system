@@ -1,32 +1,30 @@
 <template>
-  <div
-    ref="element"
-    data-component="TooltipOld"
-    :popovertarget="id"
-    @click="click"
-    @mouseenter="mouseenter"
-    @mouseleave="mouseleave"
-  >
-    <slot></slot>
+  <section ref="element" data-component="TooltipOld">
+    <div :popovertarget="id" @mouseenter="mouseenter" @mouseleave="mouseleave" @click="click">
+      <slot></slot>
+    </div>
 
-    <section
+    <div
       ref="tooltip"
       data-subcomponent="TooltipOldContent"
-      popover
-      data-open="false"
+      :popover="popoverAttr"
+      :data-open="isOpen"
       :id="id"
-      :class="`${color} ${position}`"
+      :class="`${trigger} ${color} ${position}`"
     >
       <slot name="tooltip"></slot>
-    </section>
-  </div>
+
+      <Button v-if="showClose" mode="blank" :icon="{ name: 'Close' }" @click="close" />
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, useTemplateRef } from 'vue';
+import { computed, onUnmounted, ref, useTemplateRef } from 'vue';
 
 import { useElementPosition } from '@/shared/composables';
 import { uuid } from '@/shared/helpers';
+import Button from '@/stories/components/Button/Button.vue';
 
 type Position =
   | 'top-start'
@@ -48,10 +46,6 @@ type Props = {
   position?: Position;
   spacing?: number;
   trigger?: 'hover' | 'click';
-  closeOnTooltipClick?: boolean;
-  click?: (event: MouseEvent) => void;
-  mouseenter?: (event: MouseEvent) => void;
-  mouseleave?: (event: MouseEvent) => void;
 };
 
 type Slots = {
@@ -67,10 +61,6 @@ const {
   position = 'top',
   spacing = 10,
   trigger = 'hover',
-  closeOnTooltipClick = false,
-  click: clickProp,
-  mouseenter: mouseenterProp,
-  mouseleave: mouseleaveProp,
 } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLDivElement>('element');
@@ -90,55 +80,44 @@ const {
   verticalBottom,
 } = useElementPosition(element, tooltip, spacing);
 
+const isOpen = ref(false);
+
 const id = `tooltip-${uuid().split('-')[0]}`;
 
+const popoverAttr = computed(() => (trigger === 'hover' ? 'hint' : 'manual'));
+
+const showClose = computed(() => trigger === 'click');
+
 const open = () => {
-  tooltip.value?.setAttribute('data-open', 'true');
+  isOpen.value = true;
   tooltip.value?.showPopover();
+  if (trigger === 'click') document.addEventListener('click', clickListener);
 };
 
 const close = () => {
-  tooltip.value?.setAttribute('data-open', 'false');
+  isOpen.value = false;
   tooltip.value?.hidePopover();
+  if (trigger === 'click') document.removeEventListener('click', clickListener);
 };
 
-const mouseenter = (event: MouseEvent) => {
+const mouseenter = () => {
   if (trigger === 'hover') open();
-  mouseenterProp?.(event);
 };
 
-const mouseleave = (event: MouseEvent) => {
+const mouseleave = () => {
   if (trigger === 'hover') close();
-  mouseleaveProp?.(event);
-};
-
-const click = (event: MouseEvent) => {
-  if (trigger === 'click') {
-    const isOpen = tooltip.value?.getAttribute('data-open') === 'true';
-    const clickedOutsidePopover = !tooltip.value?.contains(event.target as HTMLElement);
-
-    if (clickedOutsidePopover || closeOnTooltipClick) {
-      isOpen ? close() : open();
-    }
-  }
-
-  clickProp?.(event);
 };
 
 const clickListener = (event: MouseEvent) => {
-  if (element.value?.contains(event.target as HTMLElement)) return;
+  const clickedOutside = !element.value?.contains(event.target as HTMLElement);
+  if (clickedOutside) close();
+};
 
-  const { display } = window.getComputedStyle(tooltip.value as HTMLElement);
-
-  if (display === 'none') close();
-  else open();
+const click = () => {
+  if (trigger === 'click') isOpen.value ? close() : open();
 };
 
 // LIFECYCLE HOOKS
-onMounted(() => {
-  if (trigger === 'click') document.addEventListener('click', clickListener);
-});
-
 onUnmounted(() => {
   if (trigger === 'click') document.removeEventListener('click', clickListener);
 });
@@ -183,6 +162,21 @@ defineExpose({
       &:popover-open {
         opacity: 0;
       }
+    }
+
+    > [data-component='Button']:has([data-component='Icon'][data-name='Close']) {
+      @include position(absolute, 8px, 10px);
+
+      [data-component='Icon'][data-name='Close'] {
+        @include active-style {
+          color: var(--danger);
+        }
+      }
+    }
+
+    // Trigger
+    &.click {
+      width: 100%;
     }
 
     // Color
