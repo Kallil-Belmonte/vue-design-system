@@ -1,5 +1,4 @@
 <template>
-  <button aria-hidden="true" hidden type="button" :popovertarget="id">Open</button>
   <section ref="element" data-component="Toasts" :id="id" popover="manual">
     <div
       v-for="toast in toasts"
@@ -61,9 +60,9 @@ watch(
   () => toasts,
   (newToasts, oldToasts = []) => {
     if (!oldToasts?.length && !!newToasts.length) {
-      setTimeout(() => {
-        document.querySelector<HTMLButtonElement>(`[popovertarget="${id}"]`)?.click();
-      });
+      element.value?.showPopover();
+    } else if (!!oldToasts.length && !newToasts.length) {
+      element.value?.hidePopover();
     }
   },
   { immediate: true },
@@ -102,7 +101,7 @@ defineExpose({
   @include position(fixed, 15px, 15px);
 
   .toast {
-    min-width: 250px;
+    min-width: 300px;
     padding: 8px 15px;
     border-radius: 10px;
     position: relative;

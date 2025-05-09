@@ -29,16 +29,17 @@ const meta: Meta<typeof Alert> = {
       control: 'text',
     }),
   },
+  render: args => ({
+    components: { Alert },
+    setup() {
+      return { args };
+    },
+    template: `
+        <Alert title="Title" v-bind="args">Description.</Alert>
+      `,
+  }),
 };
 
-export const Default: StoryObj<typeof Alert> = {
-  args: {
-    // Props
-    title: 'Title',
-    close: () => undefined,
-    // Slots
-    default: 'Description.',
-  },
-};
+export const Default: StoryObj<typeof Alert> = {};
 
 export default meta;

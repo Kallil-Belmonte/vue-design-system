@@ -43,7 +43,6 @@ const meta: Meta<typeof Toasts> = {
       };
 
       const close = (toast: any) => {
-        console.log('FOI');
         toasts.value = toasts.value.filter(item => item.id !== toast.id);
       };
 
