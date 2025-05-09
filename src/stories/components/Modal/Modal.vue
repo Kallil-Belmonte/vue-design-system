@@ -1,23 +1,27 @@
 <template>
   <dialog ref="element" data-component="Modal" :class="variant" aria-modal="true" @click="click">
     <header>
-      <div class="title">
-        <Icon v-if="name" :category="category" :name="name" size="30px" />
-        <h3>{{ title }}</h3>
-      </div>
-      <Button aria-label="Close" mode="blank" :icon="{ name: 'Close' }" @click="close" />
+      <Icon v-if="name" :category="category" :name="name" size="30px" />
+      <h3 class="title">{{ title }}</h3>
+      <Button
+        aria-label="Close"
+        mode="blank"
+        variant="base"
+        :icon="{ name: 'Close' }"
+        @click="close"
+      />
     </header>
     <section class="body">
       <slot></slot>
     </section>
-    <footer>
+    <footer v-if="slots.footer">
       <slot name="footer"></slot>
     </footer>
   </dialog>
 </template>
 
 <script lang="ts" setup>
-import { useTemplateRef, watchEffect } from 'vue';
+import { useSlots, useTemplateRef, watchEffect } from 'vue';
 
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
@@ -42,6 +46,8 @@ const { variant = 'default', open, icon, title, close } = defineProps<Props>();
 const { category, name } = icon || {};
 
 const element = useTemplateRef<HTMLDialogElement>('element');
+
+const slots = useSlots();
 
 const click = (event: MouseEvent) => {
   if (event.target === element.value) close(event);
@@ -70,12 +76,16 @@ defineExpose({
 <style lang="scss">
 @use '@/assets/scss/helpers' as *;
 
+$modal-height: 500px;
+$header-height: 60px;
+$footer-height: 80px;
+
 [data-component='Modal'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
+  color: var(--text-color);
   padding: 0;
   border: none;
-  grid-template-rows: 60px 1fr 80px;
   transition: opacity 0.3s, scale 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
 
   &::backdrop {
@@ -92,10 +102,6 @@ defineExpose({
     }
   }
 
-  &[open] {
-    display: grid;
-  }
-
   @starting-style {
     opacity: 0;
     scale: 0.8;
@@ -107,39 +113,30 @@ defineExpose({
 
   > header {
     @extend %flex-vertical-center;
-    justify-content: space-between;
+    height: $header-height;
     padding: 0 20px;
     border-bottom: 1px solid var(--grey-1);
+    box-sizing: border-box;
 
-    .title {
-      @extend %flex-vertical-center;
-      color: var(--text-color);
+    > [data-component='Icon'] {
+      color: var(--primary);
+      margin-right: 10px;
+    }
 
-      [data-component='Icon'] {
-        color: var(--primary);
-        margin-right: 10px;
-      }
-
-      h3 {
-        font-weight: 700;
-        line-height: normal;
-        letter-spacing: 1px;
-        margin: 0;
-      }
+    > .title {
+      font-weight: 700;
+      margin: 0;
     }
 
     > [data-component='Button'] {
-      opacity: 0.6;
-      transition: opacity 0.4s ease;
-
-      @include active-style {
-        opacity: 1;
-      }
+      margin-left: auto;
     }
   }
 
   > .body {
+    max-height: calc($modal-height - $header-height - $footer-height);
     padding: 15px;
+    box-sizing: border-box;
     overflow-y: auto;
 
     p {
@@ -154,14 +151,16 @@ defineExpose({
   > footer {
     @extend %flex-vertical-center;
     column-gap: 20px;
+    height: $footer-height;
     padding: 0 15px;
     border-top: 1px solid var(--grey-1);
+    box-sizing: border-box;
   }
 
   // Variant
   &.default {
     max-width: 600px;
-    max-height: 500px;
+    max-height: $modal-height;
     @include size(calc(100% - 40px), max-content, 20px);
   }
 

@@ -58,7 +58,18 @@ defineExpose({
 </script>
 
 <style lang="scss">
+@use 'sass:color';
 @use '@/assets/scss/helpers' as *;
+
+@mixin setColors($color, $bgColor) {
+  background-color: $bgColor;
+
+  > header {
+    > [data-component='Icon'] {
+      color: $color;
+    }
+  }
+}
 
 [data-component='Alert'] {
   font-family: var(--font-primary);
@@ -66,15 +77,13 @@ defineExpose({
   color: var(--text-color);
   padding: 12px;
   border-radius: 15px;
-  border-width: 2px;
-  border-style: solid;
 
   > header {
     @extend %flex-vertical-center;
     gap: 10px;
 
     > .title {
-      font-size: var(--font-size);
+      font-size: 18px;
       margin: 0;
     }
 
@@ -95,43 +104,19 @@ defineExpose({
 
   // Color
   &.info {
-    border-color: var(--info);
-
-    > header {
-      > [data-component='Icon'] {
-        color: var(--info);
-      }
-    }
+    @include setColors(var(--info), #{color.adjust(#14d5f3, $lightness: 45%)});
   }
 
   &.success {
-    border-color: var(--success);
-
-    > header {
-      > [data-component='Icon'] {
-        color: var(--success);
-      }
-    }
+    @include setColors(var(--success), #{color.adjust(#43b883, $lightness: 45%)});
   }
 
   &.warning {
-    border-color: var(--warning);
-
-    > header {
-      > [data-component='Icon'] {
-        color: var(--warning);
-      }
-    }
+    @include setColors(var(--warning), #{color.adjust(#ffb23e, $lightness: 35%)});
   }
 
   &.danger {
-    border-color: var(--danger);
-
-    > header {
-      > [data-component='Icon'] {
-        color: var(--danger);
-      }
-    }
+    @include setColors(var(--danger), #{color.adjust(#fd6e64, $lightness: 28%)});
   }
 }
 </style>

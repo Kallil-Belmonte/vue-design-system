@@ -27,17 +27,17 @@
         </template>
       </TooltipOld>
     </header>
-    <section class="content">
+    <section v-if="slots.default" class="content">
       <slot></slot>
     </section>
-    <footer>
+    <footer v-if="slots.footer">
       <slot name="footer"></slot>
     </footer>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { useTemplateRef } from 'vue';
+import { useSlots, useTemplateRef } from 'vue';
 
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
@@ -66,6 +66,8 @@ type Slots = {
 const { icon, title, subtitle, actions } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
+
+const slots = useSlots();
 
 // SLOTS
 defineSlots<Slots>();
@@ -98,6 +100,7 @@ defineExpose({
     border-bottom: 1px solid var(--grey-3);
 
     > [data-component='Icon'] {
+      color: var(--primary);
       margin-right: 10px;
     }
 

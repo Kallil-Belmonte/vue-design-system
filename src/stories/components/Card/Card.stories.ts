@@ -47,7 +47,7 @@ const meta: Meta<typeof Card> = {
           Content
         </template>
         <template #footer>
-        <Button mode="contain">Confirm</Button>
+          <Button mode="contain">Confirm</Button>
           <Button mode="contain" variant="base">Cancel</Button>
         </template>
       </Card>

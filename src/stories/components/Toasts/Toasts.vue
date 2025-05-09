@@ -96,13 +96,18 @@ defineExpose({
   font-family: var(--font-primary);
   font-size: var(--font-size);
   color: var(--text-color);
+  max-width: 300px;
+  width: 100%;
+  padding: 0;
   border: none;
+  box-sizing: border-box;
+  background-color: transparent;
   @include position(fixed, 15px, 15px);
 
   .toast {
-    min-width: 300px;
     padding: 8px 15px;
     border-radius: 10px;
+    box-sizing: border-box;
     position: relative;
 
     &:not(:last-child) {

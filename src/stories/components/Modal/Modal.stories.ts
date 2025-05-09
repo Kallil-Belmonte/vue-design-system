@@ -66,8 +66,8 @@ const meta: Meta<typeof Modal> = {
           Content
         </template>
         <template #footer>
-          <Button variant="base" @click="open = false">Cancel</Button>
-          <Button @click="open = false">Confirm</Button>
+          <Button mode="contain" @click="open = false">Confirm</Button>
+          <Button mode="contain" variant="base" @click="open = false">Cancel</Button>
         </template>
       </Modal>
     `,

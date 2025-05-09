@@ -21,6 +21,7 @@ const meta: Meta<typeof Toasts> = {
       name: 'duration',
       description: 'Duration until the toast closes, ex: 5s or 5000ms',
       type: 'string',
+      defaultValue: '5s',
       control: 'text',
     }),
     toasts: setArgs({
