@@ -21,7 +21,7 @@
         <template #tooltip>
           <ul>
             <li v-for="action in actions" :key="action.text">
-              {{ action.text }}
+              <button type="button" @click="action.click">{{ action.text }}</button>
             </li>
           </ul>
         </template>
@@ -97,11 +97,11 @@ defineExpose({
     @extend %flex-vertical-center;
     border-bottom: 1px solid var(--grey-3);
 
-    [data-component='Icon'] {
+    > [data-component='Icon'] {
       margin-right: 10px;
     }
 
-    .heading {
+    > .heading {
       .title,
       .subtitle {
         margin: 0;
@@ -116,8 +116,37 @@ defineExpose({
       }
     }
 
-    [data-component='TooltipOld'] {
+    > [data-component='TooltipOld'] {
       margin-left: auto;
+
+      [data-subcomponent='TooltipOldContent'] {
+        padding: 0;
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          li {
+            button {
+              font-family: var(--font-primary);
+              font-size: 14px;
+              color: var(--text-color);
+              text-align: left;
+              @include size(100%, 35px);
+              padding: 0 10px;
+              border: none;
+              background-color: transparent;
+              cursor: pointer;
+              @include transitionAll();
+
+              @include active-style {
+                background-color: var(--grey-3);
+              }
+            }
+          }
+        }
+      }
     }
   }
 
