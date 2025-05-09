@@ -9,9 +9,17 @@
   --secondary-light: #{color.adjust(#35495e, $lightness: 5%)};
   --secondary-darker: #{color.adjust(#35495e, $lightness: -5%)};
   --info: #14d5f3;
+  --info-light: #{color.adjust(#14d5f3, $lightness: 5%)};
+  --info-darker: #{color.adjust(#14d5f3, $lightness: -5%)};
   --success: #37c991;
+  --success-light: #{color.adjust(#37c991, $lightness: 5%)};
+  --success-darker: #{color.adjust(#37c991, $lightness: -5%)};
   --warning: #ffb23e;
+  --warning-light: #{color.adjust(#ffb23e, $lightness: 5%)};
+  --warning-darker: #{color.adjust(#ffb23e, $lightness: -5%)};
   --danger: #fd6e64;
+  --danger-light: #{color.adjust(#fd6e64, $lightness: 5%)};
+  --danger-darker: #{color.adjust(#fd6e64, $lightness: -5%)};
   --grey-1: #f9f9f9;
   --grey-2: #f1f1f1;
   --grey-3: #eef4fb;

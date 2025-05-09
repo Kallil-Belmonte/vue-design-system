@@ -42,10 +42,10 @@ const meta: Meta<typeof Button> = {
     variant: setArgs({
       name: 'variant',
       description: 'Variation.',
-      type: 'base | primary | secondary',
+      type: 'base | info | success | warning | danger | primary | secondary',
       defaultValue: 'primary',
       control: 'radio',
-      options: ['base', 'primary', 'secondary'],
+      options: ['base', 'info', 'success', 'warning', 'danger', 'primary', 'secondary'],
     }),
   },
 };
@@ -59,6 +59,13 @@ export const Default: StoryObj<typeof Button> = {
 export const Icon: StoryObj<typeof Button> = {
   args: {
     mode: 'icon',
+    icon: { name: 'Home' },
+  },
+};
+
+export const BlankIcon: StoryObj<typeof Button> = {
+  args: {
+    mode: 'blank',
     icon: { name: 'Home' },
   },
 };

@@ -1,27 +1,31 @@
 <template>
-  <section ref="element" data-component="Toasts">
+  <button aria-hidden="true" hidden type="button" :popovertarget="id">Open</button>
+  <section ref="element" data-component="Toasts" :id="id" popover="manual">
     <div
       v-for="toast in toasts"
       :key="toast.id"
+      ref="toast"
       :class="`toast ${toast.status}`"
       role="alert"
       aria-live="assertive"
-      @animationend="close(toast)"
     >
-      <Icon :name="getIcon(toast.status)" size="25px" />
-      <div class="content">
-        {{ toast.description }}
-      </div>
-      <button type="button" aria-label="Close" @click="close(toast)">
-        <Icon name="Close" size="15px" />
-      </button>
+      <div class="top-border" @animationend="close(toast)"></div>
+      <header>
+        <Icon :name="getIcon(toast.status)" size="20px" />
+        <h2 class="title">{{ toast.title }}</h2>
+        <Button mode="blank" variant="base" :icon="{ name: 'Close' }" @click="close(toast)" />
+      </header>
+      <article v-if="toast.description">
+        <p>{{ toast.description }}</p>
+      </article>
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { useTemplateRef } from 'vue';
+import { useTemplateRef, watch } from 'vue';
 
+import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
 
 type Status = 'info' | 'success' | 'warning' | 'danger';
@@ -34,20 +38,36 @@ type Toast = {
 };
 
 type Props = {
+  id?: string;
   toasts: Toast[];
-  hideDuration: number;
+  hideDuration?: string;
   close: (toast: Toast) => void;
 };
 
-const { toasts, hideDuration = 2000 } = defineProps<Props>();
+const { id = 'toasts', toasts, hideDuration = '5s' } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
+
+const toast = useTemplateRef<HTMLDivElement>('toast');
 
 const getIcon = (status: Status) => {
   if (status === 'success') return 'CheckCircle';
   if (status === 'warning' || status === 'danger') return 'Warning';
   return 'Info';
 };
+
+// LIFECYCLE HOOKS
+watch(
+  () => toasts,
+  (newToasts, oldToasts = []) => {
+    if (!oldToasts?.length && !!newToasts.length) {
+      setTimeout(() => {
+        document.querySelector<HTMLButtonElement>(`[popovertarget="${id}"]`)?.click();
+      });
+    }
+  },
+  { immediate: true },
+);
 
 // EXPOSE
 defineExpose({
@@ -57,31 +77,44 @@ defineExpose({
 </script>
 
 <style lang="scss">
+@use 'sass:color';
 @use '@/assets/scss/helpers' as *;
+
+@mixin setColors($color, $bgColor) {
+  background-color: $bgColor;
+
+  .top-border {
+    background-color: $color;
+  }
+
+  > header {
+    > [data-component='Icon'] {
+      color: $color;
+    }
+  }
+}
 
 [data-component='Toasts'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
-  @include position(fixed, 15px, 0, auto, 0, 1000);
+  color: var(--text-color);
+  border: none;
+  @include position(fixed, 15px, 15px);
 
   .toast {
-    display: flex;
-    color: #fff;
-    font-weight: 700;
-    min-height: 30px;
+    min-width: 250px;
     padding: 8px 15px;
-    border-radius: 15px;
+    border-radius: 10px;
+    position: relative;
 
     &:not(:last-child) {
       margin-bottom: 10px;
     }
 
-    &::after {
-      content: '';
-      width: 100%;
+    .top-border {
       height: 4px;
-      border-radius: 4px 4px 0 0;
-      @include position(absolute, 0, auto, auto, 0);
+      border-radius: 10px 10px 0 0;
+      @include position(absolute, 0, 1px, auto, 1px);
       animation-name: grow;
       animation-duration: v-bind(hideDuration);
       animation-timing-function: ease-in-out;
@@ -91,72 +124,56 @@ defineExpose({
           width: 0%;
         }
         100% {
-          width: 100%;
+          width: 99%;
         }
       }
     }
 
-    &:hover::after {
+    &:hover .top-border {
       animation-play-state: paused;
     }
 
-    > [data-component='Icon'] {
-      margin: 3px 10px 0 0;
-    }
+    > header {
+      @extend %flex-vertical-center;
 
-    > .content {
-      width: 100%;
-      margin-top: 5px;
-    }
-
-    > button {
-      color: #fff;
-      align-self: start;
-      height: auto;
-      padding: 0;
-      border: none;
-      background-color: transparent;
-      cursor: pointer;
-      margin: 7px 0 0 10px;
-
-      svg {
-        opacity: 0.5;
+      > [data-component='Icon'] {
+        margin-right: 5px;
       }
 
-      &:hover {
-        svg {
-          opacity: 1;
-        }
+      > .title {
+        font-size: var(--font-size);
+        font-weight: 700;
+        margin: 0 5px 0 0;
+      }
+
+      > [data-component='Button'] {
+        margin-left: auto;
+      }
+    }
+
+    > article {
+      margin-top: 3px;
+
+      p {
+        margin: 0;
       }
     }
 
     // Color
     &.info {
-      &,
-      &::after {
-        background-color: var(--info);
-      }
+      @include setColors(var(--info), #{color.adjust(#14d5f3, $lightness: 45%)});
     }
 
     &.success {
-      &,
-      &::after {
-        background-color: var(--success);
-      }
+      @include setColors(var(--success), #{color.adjust(#43b883, $lightness: 45%)});
     }
 
     &.warning {
-      &,
-      &::after {
-        background-color: var(--warning);
-      }
+      @include setColors(var(--warning), #{color.adjust(#ffb23e, $lightness: 35%)});
     }
 
     &.danger {
-      &,
-      &::after {
-        background-color: var(--danger);
-      }
+      @include setColors(var(--danger), #{color.adjust(#fd6e64, $lightness: 28%)});
     }
   }
 }

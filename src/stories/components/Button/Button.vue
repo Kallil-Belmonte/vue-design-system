@@ -22,7 +22,7 @@ import type { Category, Icons } from '@/stories/components/Icon/types';
 type Props = {
   type?: ButtonHTMLAttributes['type'];
   mode?: 'blank' | 'icon' | 'contain' | 'full';
-  variant?: 'base' | 'primary' | 'secondary';
+  variant?: 'base' | 'info' | 'success' | 'warning' | 'danger' | 'primary' | 'secondary';
   icon?: { category?: Category; name: Icons; color?: string; size?: string };
   loading?: boolean;
   disabled?: ButtonHTMLAttributes['disabled'];
@@ -59,9 +59,18 @@ defineExpose({
 @use 'sass:color';
 @use '@/assets/scss/helpers' as *;
 
-[data-component='Button'] {
-  $size: 45px;
+$size: 45px;
 
+@mixin setColors($bgColor, $activeBgColor) {
+  color: #fff;
+  background-color: $bgColor;
+
+  @include active-style {
+    background-color: $activeBgColor;
+  }
+}
+
+[data-component='Button'] {
   font: inherit;
   font-family: var(--font-primary);
   font-size: var(--font-size);
@@ -70,11 +79,11 @@ defineExpose({
   @extend %flex-center;
   gap: 10px;
   border: none;
-  cursor: pointer;
   background-color: transparent;
   box-shadow: none;
   box-sizing: border-box;
   overflow: hidden;
+  cursor: pointer;
   transition: background-color 0.4s ease;
 
   [data-component='Icon'] {
@@ -92,9 +101,61 @@ defineExpose({
     @include square(max-content);
     padding: 0;
 
-    @include active-style {
+    &.base {
       [data-component='Icon'] {
-        color: var(--primary);
+        transition: opacity 0.4s ease;
+
+        @include active-style {
+          opacity: 0.7;
+        }
+      }
+    }
+
+    &.info {
+      [data-component='Icon'] {
+        @include active-style {
+          color: var(--info);
+        }
+      }
+    }
+
+    &.success {
+      [data-component='Icon'] {
+        @include active-style {
+          color: var(--success);
+        }
+      }
+    }
+
+    &.warning {
+      [data-component='Icon'] {
+        @include active-style {
+          color: var(--warning);
+        }
+      }
+    }
+
+    &.danger {
+      [data-component='Icon'] {
+        @include active-style {
+          color: var(--danger);
+        }
+      }
+    }
+
+    &.primary {
+      [data-component='Icon'] {
+        @include active-style {
+          color: var(--primary);
+        }
+      }
+    }
+
+    &.secondary {
+      [data-component='Icon'] {
+        @include active-style {
+          color: var(--secondary);
+        }
       }
     }
 
@@ -127,6 +188,10 @@ defineExpose({
   &:not(.blank) {
     // Variant
     &.base,
+    &.info,
+    &.success,
+    &.warning,
+    &.danger,
     &.primary,
     &.secondary {
       border-radius: 8px;
@@ -145,22 +210,28 @@ defineExpose({
       }
     }
 
-    &.primary {
-      color: #fff;
-      background-color: var(--primary);
+    &.info {
+      @include setColors(var(--info), var(--info-darker));
+    }
 
-      @include active-style {
-        background-color: var(--primary-darker);
-      }
+    &.success {
+      @include setColors(var(--success), var(--success-darker));
+    }
+
+    &.warning {
+      @include setColors(var(--warning), var(--warning-darker));
+    }
+
+    &.danger {
+      @include setColors(var(--danger), var(--danger-darker));
+    }
+
+    &.primary {
+      @include setColors(var(--primary), var(--primary-darker));
     }
 
     &.secondary {
-      color: #fff;
-      background-color: var(--secondary);
-
-      @include active-style {
-        background-color: var(--secondary-darker);
-      }
+      @include setColors(var(--secondary), var(--secondary-darker));
     }
 
     // Disabled
