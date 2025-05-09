@@ -17,6 +17,7 @@
       <Button
         v-if="showClose"
         mode="blank"
+        variant="danger"
         :icon="{ name: 'Close' }"
         @click="close"
       />
@@ -51,6 +52,7 @@ type Props = {
   position?: Position;
   spacing?: string;
   trigger?: 'hover' | 'click';
+  showClose?: boolean;
 };
 
 type Slots = {
@@ -67,6 +69,7 @@ const {
   position = 'top',
   spacing = '10px',
   trigger = 'hover',
+  showClose: showCloseProp = true,
 } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
@@ -81,7 +84,7 @@ const anchorName = `--${id}`;
 
 const popoverAttr = computed(() => (trigger === 'hover' ? 'hint' : 'manual'));
 
-const showClose = computed(() => trigger === 'click');
+const showClose = computed(() => trigger === 'click' && showCloseProp);
 
 const open = () => {
   isOpen.value = true;
@@ -115,7 +118,7 @@ const click = () => {
 // LIFECYCLE HOOKS
 onUnmounted(() => {
   if (trigger === 'click') document.removeEventListener('click', clickListener);
-})
+});
 
 // SLOTS
 defineSlots<Slots>();
@@ -149,12 +152,6 @@ defineExpose({
 
     > [data-component='Button']:has([data-component='Icon'][data-name='Close']) {
       @include position(absolute, 8px, 10px);
-
-      [data-component='Icon'][data-name='Close'] {
-        @include active-style {
-          color: var(--danger);
-        }
-      }
     }
 
     // Trigger

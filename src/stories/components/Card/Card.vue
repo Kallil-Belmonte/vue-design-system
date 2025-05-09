@@ -8,7 +8,13 @@
         <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
       </div>
 
-      <TooltipOld v-if="actions" trigger="click" position="bottom-end">
+      <TooltipOld
+        v-if="actions"
+        trigger="click"
+        :showClose="false"
+        position="bottom-end"
+        maxWidth="200px"
+      >
         <template #default>
           <Button v-if="actions" mode="blank" variant="base" :icon="{ name: 'Actions' }" />
         </template>

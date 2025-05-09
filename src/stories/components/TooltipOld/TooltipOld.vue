@@ -14,7 +14,13 @@
     >
       <slot name="tooltip"></slot>
 
-      <Button v-if="showClose" mode="blank" :icon="{ name: 'Close' }" @click="close" />
+      <Button
+        v-if="showClose"
+        mode="blank"
+        variant="danger"
+        :icon="{ name: 'Close' }"
+        @click="close"
+      />
     </div>
   </section>
 </template>
@@ -46,6 +52,7 @@ type Props = {
   position?: Position;
   spacing?: number;
   trigger?: 'hover' | 'click';
+  showClose?: boolean;
 };
 
 type Slots = {
@@ -61,6 +68,7 @@ const {
   position = 'top',
   spacing = 10,
   trigger = 'hover',
+  showClose: showCloseProp = true,
 } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLDivElement>('element');
@@ -86,7 +94,7 @@ const id = `tooltip-${uuid().split('-')[0]}`;
 
 const popoverAttr = computed(() => (trigger === 'hover' ? 'hint' : 'manual'));
 
-const showClose = computed(() => trigger === 'click');
+const showClose = computed(() => trigger === 'click' && showCloseProp);
 
 const open = () => {
   isOpen.value = true;
@@ -166,12 +174,6 @@ defineExpose({
 
     > [data-component='Button']:has([data-component='Icon'][data-name='Close']) {
       @include position(absolute, 8px, 10px);
-
-      [data-component='Icon'][data-name='Close'] {
-        @include active-style {
-          color: var(--danger);
-        }
-      }
     }
 
     // Trigger

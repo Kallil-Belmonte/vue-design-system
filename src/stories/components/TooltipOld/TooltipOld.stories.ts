@@ -43,6 +43,14 @@ const meta: Meta<typeof TooltipOld> = {
         'left-end',
       ],
     }),
+    showClose: setArgs({
+      name: 'showClose',
+      description:
+        'If <code>trigger</code> is <code>click</code> and <code>showClose</code> is <code>true</code>, the close button is shown.',
+      type: 'boolean',
+      defaultValue: 'true',
+      control: 'boolean',
+    }),
     spacing: setArgs({
       name: 'spacing',
       description: 'Distance between the content from the tooltip.',
