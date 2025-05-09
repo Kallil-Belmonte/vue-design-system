@@ -8,8 +8,8 @@
       :class="`toast ${toast.status}`"
       role="alert"
       aria-live="assertive"
+      @animationend="close(toast)"
     >
-      <div class="top-border" @animationend="close(toast)"></div>
       <header>
         <Icon :name="getIcon(toast.status)" size="20px" />
         <h2 class="title">{{ toast.title }}</h2>
@@ -83,7 +83,7 @@ defineExpose({
 @mixin setColors($color, $bgColor) {
   background-color: $bgColor;
 
-  .top-border {
+  &::after {
     background-color: $color;
   }
 
@@ -111,13 +111,13 @@ defineExpose({
       margin-bottom: 10px;
     }
 
-    .top-border {
+    &::after {
+      content: '';
       height: 4px;
       border-radius: 10px 10px 0 0;
       @include position(absolute, 0, 1px, auto, 1px);
       animation-name: grow;
       animation-duration: v-bind(hideDuration);
-      animation-timing-function: ease-in-out;
 
       @keyframes grow {
         0% {
@@ -129,7 +129,7 @@ defineExpose({
       }
     }
 
-    &:hover .top-border {
+    &:hover::after {
       animation-play-state: paused;
     }
 
