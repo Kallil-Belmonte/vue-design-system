@@ -17,6 +17,12 @@ const meta: Meta<typeof Toasts> = {
       required: true,
       control: false,
     }),
+    duration: setArgs({
+      name: 'duration',
+      description: 'Duration until the toast closes, ex: 5s or 5000ms',
+      type: 'string',
+      control: 'text',
+    }),
     toasts: setArgs({
       name: 'toasts',
       description: 'Toasts.',
@@ -34,7 +40,7 @@ const meta: Meta<typeof Toasts> = {
         toasts.value = [
           ...toasts.value,
           {
-            id: status,
+            id: String(Math.random()),
             status,
             title: `${status.charAt(0).toUpperCase()}${status.slice(1)}`,
             description: 'Description.',

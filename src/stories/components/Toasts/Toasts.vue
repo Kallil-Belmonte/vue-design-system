@@ -1,5 +1,5 @@
 <template>
-  <section ref="element" data-component="Toasts" :id="id" popover="manual">
+  <section ref="element" data-component="Toasts" popover="manual">
     <div
       v-for="toast in toasts"
       :key="toast.id"
@@ -37,13 +37,12 @@ type Toast = {
 };
 
 type Props = {
-  id?: string;
   toasts: Toast[];
-  hideDuration?: string;
+  duration?: string;
   close: (toast: Toast) => void;
 };
 
-const { id = 'toasts', toasts, hideDuration = '5s' } = defineProps<Props>();
+const { toasts, duration = '5s' } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
 
@@ -116,7 +115,7 @@ defineExpose({
       border-radius: 10px 10px 0 0;
       @include position(absolute, 0, 1px, auto, 1px);
       animation-name: grow;
-      animation-duration: v-bind(hideDuration);
+      animation-duration: v-bind(duration);
 
       @keyframes grow {
         0% {
