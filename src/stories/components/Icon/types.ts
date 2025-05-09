@@ -1,6 +1,7 @@
 export type Category = 'UI' | 'Flag';
 
 export type UI =
+  | 'Actions'
   | 'ArrowDown'
   | 'Calendar'
   | 'CheckCircle'

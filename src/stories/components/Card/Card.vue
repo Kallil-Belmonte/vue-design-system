@@ -1,14 +1,25 @@
 <template>
   <section ref="element" data-component="Card">
     <header>
-      <Icon v-if="icon" :name="icon" />
+      <Icon v-if="icon" :name="icon" size="30px" />
 
       <div class="heading">
         <h2 class="title">{{ title }}</h2>
         <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
       </div>
 
-      <Button v-if="actions" :icon="{ name: 'Home' }" />
+      <TooltipOld v-if="actions" trigger="click" position="bottom-end">
+        <template #default>
+          <Button v-if="actions" mode="blank" variant="base" :icon="{ name: 'Actions' }" />
+        </template>
+        <template #tooltip>
+          <ul>
+            <li v-for="action in actions" :key="action.text">
+              {{ action.text }}
+            </li>
+          </ul>
+        </template>
+      </TooltipOld>
     </header>
     <section class="content">
       <slot></slot>
@@ -25,6 +36,7 @@ import { useTemplateRef } from 'vue';
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
 import type { Icons } from '@/stories/components/Icon/types';
+import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
 
 type Action = {
   text: string;
@@ -79,6 +91,10 @@ defineExpose({
     @extend %flex-vertical-center;
     border-bottom: 1px solid var(--grey-3);
 
+    [data-component='Icon'] {
+      margin-right: 10px;
+    }
+
     .heading {
       .title,
       .subtitle {
@@ -91,12 +107,12 @@ defineExpose({
 
       .subtitle {
         font-size: 14px;
-        margin-top: 3px;
       }
     }
-  }
 
-  > .content {
+    [data-component='TooltipOld'] {
+      margin-left: auto;
+    }
   }
 
   > footer {

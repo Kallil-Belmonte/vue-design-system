@@ -57,7 +57,14 @@ const meta: Meta<typeof Card> = {
 
 export const Default: StoryObj<typeof Card> = {
   args: {
+    icon: 'Home',
     subtitle: 'Subtitle',
+    actions: [
+      { text: 'Action', click: () => undefined },
+      { text: 'Action', click: () => undefined },
+      { text: 'Action', click: () => undefined },
+      { text: 'Action', click: () => undefined },
+    ],
   },
 };
 

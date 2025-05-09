@@ -3,6 +3,7 @@ import type { Flag, Icons, UI } from '@/stories/components/Icon/types';
 export const PROJECT_DOMAIN = 'design-system';
 
 export const UIIcons: UI[] = [
+  'Actions',
   'ArrowDown',
   'Calendar',
   'CheckCircle',
