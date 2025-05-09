@@ -6,6 +6,15 @@ import Loader from './Loader.vue';
 const meta: Meta<typeof Loader> = {
   title: 'Components/Loader',
   component: Loader,
+  decorators: [
+    () => ({
+      template: `
+        <div style="display: flex; align-content: center; justify-content: center; height: 50px;">
+          <story/>
+        </div>
+      `,
+    }),
+  ],
   argTypes: {
     loading: setArgs({
       name: 'loading',

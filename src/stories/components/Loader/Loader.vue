@@ -26,7 +26,7 @@ const { loading, mode = 'content', showContent = true } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLDivElement>('element');
 
-const backgroundColor = computed(() => `rgba(255, 255, 255, ${showContent ? '0.9' : '1'})`);
+const backgroundColor = computed(() => `rgba(255, 255, 255, ${showContent ? '0.8' : '1'})`);
 
 // SLOTS
 defineSlots<Slots>();
@@ -46,14 +46,14 @@ defineExpose({
 
   &::after {
     content: '';
-    @include position(absolute, 0, 0, 0, 0, 10);
+    @include position(absolute, 0, 0, 0, 0, 999);
     background-color: v-bind(backgroundColor);
   }
 
   > [data-component='Icon'] {
     color: var(--primary);
     @extend %absolute-center;
-    z-index: 15;
+    z-index: 1000;
   }
 
   // Mode
@@ -62,7 +62,7 @@ defineExpose({
   }
 
   &.page {
-    @include position(fixed, 0, 0, 0, 0, 10);
+    @include position(fixed, 0, 0, 0, 0, 9999);
   }
 }
 </style>
