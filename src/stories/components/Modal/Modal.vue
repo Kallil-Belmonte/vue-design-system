@@ -1,5 +1,11 @@
 <template>
-  <dialog ref="element" data-component="Modal" :class="variant" aria-modal="true" @click="click">
+  <dialog
+    ref="element"
+    data-component="Modal"
+    :class="`${variant}`"
+    aria-modal="true"
+    @click="click"
+  >
     <header>
       <Icon v-if="name" :category="category" :name="name" size="30px" />
       <h3 class="title">{{ title }}</h3>
@@ -77,7 +83,7 @@ defineExpose({
 @use '@/assets/scss/helpers' as *;
 
 $modal-height: 500px;
-$header-height: 60px;
+$header-height: 50px;
 $footer-height: 80px;
 
 [data-component='Modal'] {
@@ -124,6 +130,8 @@ $footer-height: 80px;
     }
 
     > .title {
+      font-family: var(--font-secondary);
+      font-size: 18px;
       font-weight: 700;
       margin: 0;
     }
@@ -134,7 +142,6 @@ $footer-height: 80px;
   }
 
   > .body {
-    max-height: calc($modal-height - $header-height - $footer-height);
     padding: 15px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -162,6 +169,10 @@ $footer-height: 80px;
     max-width: 600px;
     max-height: $modal-height;
     @include size(calc(100% - 40px), max-content, 20px);
+
+    > .body {
+      max-height: calc($modal-height - $header-height - $footer-height);
+    }
   }
 
   &.full {
@@ -170,6 +181,10 @@ $footer-height: 80px;
     @include size(100vw, 100svh);
     margin-top: 0;
     margin-bottom: 0;
+
+    > .body {
+      height: calc(100% - $header-height - $footer-height);
+    }
   }
 }
 </style>

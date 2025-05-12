@@ -7,6 +7,13 @@ const meta: Meta<typeof TooltipOld> = {
   title: 'Components/TooltipOld',
   component: TooltipOld,
   argTypes: {
+    closeOnTooltipClick: setArgs({
+      name: 'closeOnTooltipClick',
+      description: 'If <code>true</code>, the tooltip will close when its content is clicked.',
+      type: 'boolean',
+      defaultValue: 'false',
+      control: 'boolean',
+    }),
     color: setArgs({
       name: 'color',
       description: 'Color.',

@@ -17,7 +17,7 @@
       <Button
         v-if="showClose"
         mode="blank"
-        variant="danger"
+        variant="base"
         :icon="{ name: 'Close' }"
         @click="close"
       />
@@ -48,10 +48,11 @@ type Position =
 
 type Props = {
   maxWidth?: string;
+  trigger?: 'hover' | 'click';
+  closeOnTooltipClick?: boolean;
   color?: 'base' | 'primary' | 'secondary';
   position?: Position;
   spacing?: number;
-  trigger?: 'hover' | 'click';
   showClose?: boolean;
 };
 
@@ -64,10 +65,11 @@ type Slots = {
 
 const {
   maxWidth = '300px',
+  trigger = 'hover',
+  closeOnTooltipClick = false,
   color = 'base',
   position = 'top',
   spacing = 10,
-  trigger = 'hover',
   showClose: showCloseProp = true,
 } = defineProps<Props>();
 
@@ -117,8 +119,10 @@ const mouseleave = () => {
 };
 
 const clickListener = (event: MouseEvent) => {
+  const clickedInTooltip =
+    closeOnTooltipClick && tooltip.value?.contains(event.target as HTMLElement);
   const clickedOutside = !element.value?.contains(event.target as HTMLElement);
-  if (clickedOutside) close();
+  if (clickedInTooltip || clickedOutside) close();
 };
 
 const click = () => {

@@ -40,6 +40,10 @@ const meta: Meta<typeof Alert> = {
   }),
 };
 
-export const Default: StoryObj<typeof Alert> = {};
+export const Default: StoryObj<typeof Alert> = {
+  args: {
+    close: () => undefined,
+  },
+};
 
 export default meta;

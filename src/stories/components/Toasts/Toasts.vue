@@ -144,6 +144,7 @@ defineExpose({
       }
 
       > .title {
+        font-family: var(--font-secondary);
         font-size: var(--font-size);
         font-weight: 700;
         margin: 0 5px 0 0;

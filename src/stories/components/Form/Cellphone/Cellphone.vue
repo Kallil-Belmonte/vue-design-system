@@ -14,7 +14,14 @@
 
     <Icon name="Telephone" />
 
-    <TooltipOld class="prefix-select" trigger="click" :spacing="1" position="bottom-start">
+    <TooltipOld
+      class="prefix-select"
+      trigger="click"
+      closeOnTooltipClick
+      :spacing="1"
+      position="bottom-start"
+      :showClose="false"
+    >
       <template #default>
         <button type="button" :title="language?.country">
           <Icon v-if="language" :name="language.icon" category="Flag" />
@@ -30,7 +37,7 @@
             :aria-selected="isPrefixSelect(languageItem)"
             @click="selectPrefixOption(languageItem)"
           >
-            <Icon :name="languageItem.icon" category="Flag" size="33px" />
+            <Icon :name="languageItem.icon" category="Flag" size="30px" />
             {{ languageItem.text }} {{ languageItem.prefix }}
           </div>
         </div>
@@ -234,7 +241,6 @@ defineExpose({
 
   .prefix-select {
     @include position(absolute, 38px, auto, auto, 42px);
-    cursor: pointer;
 
     button {
       @extend %flex-vertical-center;
@@ -244,6 +250,7 @@ defineExpose({
       border-radius: 4px;
       border: 1px solid var(--field-border-color);
       background-color: transparent;
+      cursor: pointer;
       @include transitionAll();
 
       &:hover,
@@ -253,16 +260,16 @@ defineExpose({
     }
 
     [data-subcomponent='TooltipOldContent'] {
+      width: max-content;
       padding: 0;
 
       [role='listbox'] {
-        width: max-content;
-        max-width: 295px;
         background-color: #fff;
 
         [role='option'] {
           @extend %flex-vertical-center;
           padding: 5px;
+          cursor: pointer;
           @include transitionAll();
 
           &:hover {

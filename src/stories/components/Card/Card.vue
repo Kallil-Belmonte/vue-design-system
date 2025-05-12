@@ -111,7 +111,9 @@ defineExpose({
       }
 
       .title {
+        font-family: var(--font-primary);
         font-size: 18px;
+        font-weight: 700;
       }
 
       .subtitle {

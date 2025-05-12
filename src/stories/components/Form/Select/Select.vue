@@ -43,6 +43,7 @@
           position="bottom"
           maxWidth="none"
           :spacing="0"
+          :showClose="false"
         >
           <template #default>
             <input
@@ -59,7 +60,8 @@
             />
             <Button
               mode="blank"
-              :icon="{ name: 'ArrowDown', size: '15px' }"
+              variant="base"
+              :icon="{ name: 'ArrowDown', size: '18px' }"
               :disabled="disabled"
               @focus="setValue"
             />
@@ -92,13 +94,13 @@
 
 <script lang="ts" setup>
 import {
-  computed,
-  type InputHTMLAttributes,
-  onMounted,
-  onUnmounted,
-  ref,
-  useTemplateRef,
-  watchEffect,
+computed,
+type InputHTMLAttributes,
+onMounted,
+onUnmounted,
+ref,
+useTemplateRef,
+watchEffect,
 } from 'vue';
 
 import { useElementBounding } from '@/shared/composables';
@@ -331,6 +333,7 @@ defineExpose({
     }
 
     [data-subcomponent='TooltipOldContent'] {
+      width: v-bind(fieldWidth);
       padding: 0;
       border-radius: 0;
       box-shadow: none;
@@ -338,7 +341,6 @@ defineExpose({
 
       [role='listbox'] {
         max-height: 202px;
-        width: v-bind(fieldWidth);
         padding: 0;
         border-radius: 4px;
         border: 1px solid var(--field-border-color);

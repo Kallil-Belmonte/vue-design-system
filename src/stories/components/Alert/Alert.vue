@@ -1,5 +1,5 @@
 <template>
-  <div ref="element" data-component="Alert" role="alert" :class="status">
+  <div ref="element" data-component="Alert" role="alert" :class="`${status}`">
     <header>
       <Icon :name="icon" size="25px" />
       <h3 class="title">{{ title }}</h3>
@@ -7,19 +7,20 @@
         v-if="close"
         aria-label="Close"
         mode="blank"
+        variant="base"
         :icon="{ name: 'Close', size: '18px' }"
         @click="close"
       />
     </header>
 
-    <section class="description">
+    <section v-if="slots.default" class="description">
       <slot></slot>
     </section>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, useTemplateRef } from 'vue';
+import { computed, useSlots, useTemplateRef } from 'vue';
 
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
@@ -40,6 +41,8 @@ type Slots = {
 const { status = 'info', close } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLDivElement>('element');
+
+const slots = useSlots();
 
 const icon = computed(() => {
   if (status === 'success') return 'CheckCircle';
@@ -75,31 +78,28 @@ defineExpose({
   font-family: var(--font-primary);
   font-size: var(--font-size);
   color: var(--text-color);
+  width: 100%;
   padding: 12px;
   border-radius: 15px;
 
   > header {
     @extend %flex-vertical-center;
-    gap: 10px;
+    gap: 5px;
 
     > .title {
+      font-family: var(--font-secondary);
       font-size: 18px;
+      font-weight: 700;
       margin: 0;
     }
 
     > [data-component='Button'] {
       margin-left: auto;
-
-      @include active-style {
-        [data-component='Icon'] {
-          color: var(--danger);
-        }
-      }
     }
   }
 
   > .description {
-    margin-left: 35px;
+    margin-left: 30px;
   }
 
   // Color
