@@ -15,6 +15,12 @@ const meta: Meta<typeof Card> = {
       type: 'Action[]',
       control: false,
     }),
+    description: setArgs({
+      name: 'description',
+      description: 'Description.',
+      type: 'string',
+      control: 'text',
+    }),
     icon: setArgs({
       name: 'icon',
       description: 'Icon name.',
@@ -27,12 +33,6 @@ const meta: Meta<typeof Card> = {
       description: 'Title.',
       type: 'string',
       required: true,
-      control: 'text',
-    }),
-    subtitle: setArgs({
-      name: 'subtitle',
-      description: 'Subtitle.',
-      type: 'string',
       control: 'text',
     }),
   },
@@ -58,7 +58,7 @@ const meta: Meta<typeof Card> = {
 export const Default: StoryObj<typeof Card> = {
   args: {
     icon: 'Home',
-    subtitle: 'Subtitle',
+    description: 'Description',
     actions: [
       { text: 'Action', click: () => undefined },
       { text: 'Action', click: () => undefined },

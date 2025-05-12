@@ -1,5 +1,5 @@
 <template>
-  <div ref="element" data-component="Alert" role="alert" :class="`${status}`">
+  <section ref="element" data-component="Alert" role="alert" :class="`${status}`">
     <header>
       <Icon :name="icon" size="25px" />
       <h3 class="title">{{ title }}</h3>
@@ -16,7 +16,7 @@
     <section v-if="slots.default" class="description">
       <slot></slot>
     </section>
-  </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
@@ -38,9 +38,9 @@ type Slots = {
   default(): any;
 };
 
-const { status = 'info', close } = defineProps<Props>();
+const { title, status = 'info', close } = defineProps<Props>();
 
-const element = useTemplateRef<HTMLDivElement>('element');
+const element = useTemplateRef<HTMLElement>('element');
 
 const slots = useSlots();
 

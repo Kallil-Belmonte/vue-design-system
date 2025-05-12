@@ -5,7 +5,7 @@
 
       <div class="heading">
         <h2 class="title">{{ title }}</h2>
-        <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
+        <p v-if="description" class="description">{{ description }}</p>
       </div>
 
       <TooltipOld
@@ -52,7 +52,7 @@ type Action = {
 type Props = {
   icon?: Icons;
   title: string;
-  subtitle?: string;
+  description?: string;
   actions?: Action[];
 };
 
@@ -63,7 +63,7 @@ type Slots = {
   footer(): any;
 };
 
-const { icon, title, subtitle, actions } = defineProps<Props>();
+const { icon, title, description, actions } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
 
@@ -106,17 +106,17 @@ defineExpose({
 
     > .heading {
       .title,
-      .subtitle {
+      .description {
         margin: 0;
       }
 
       .title {
-        font-family: var(--font-primary);
+        font-family: var(--font-secondary);
         font-size: 18px;
         font-weight: 700;
       }
 
-      .subtitle {
+      .description {
         font-size: 14px;
       }
     }
