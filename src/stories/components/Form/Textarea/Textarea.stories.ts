@@ -85,11 +85,16 @@ const meta: Meta<typeof Textarea> = {
       return { args, textarea };
     },
     template: `
-      <Textarea name="textarea" label="Textarea" v-model="textarea" v-bind="args" />
+      <Textarea v-model="textarea" v-bind="args" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Textarea> = {};
+export const Default: StoryObj<typeof Textarea> = {
+  args: {
+    name: 'textarea',
+    label: 'Textarea',
+  },
+};
 
 export default meta;

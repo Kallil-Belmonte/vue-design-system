@@ -70,11 +70,16 @@ const meta: Meta<typeof Date> = {
       return { args };
     },
     template: `
-      <Date name="date" label="Date" v-bind="args" />
+      <Date v-bind="args" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Date> = {};
+export const Default: StoryObj<typeof Date> = {
+  args: {
+    name: 'date',
+    label: 'Date',
+  },
+};
 
 export default meta;

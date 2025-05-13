@@ -105,11 +105,16 @@ const meta: Meta<typeof Input> = {
       return { args, input };
     },
     template: `
-      <Input name="input" label="Input" v-model="input" v-bind="args" />
+      <Input v-model="input" v-bind="args" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Input> = {};
+export const Default: StoryObj<typeof Input> = {
+  args: {
+    name: 'input',
+    label: 'Input',
+  },
+};
 
 export default meta;

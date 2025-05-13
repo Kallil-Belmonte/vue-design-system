@@ -15,7 +15,8 @@
 
 <script lang="ts" setup>
 import { useTemplateRef } from 'vue';
-import Icon from '../Icon/Icon.vue';
+
+import Icon from '@/stories/components/Icon/Icon.vue';
 
 type Props = {
   title: string;
@@ -84,6 +85,7 @@ defineExpose({
       > .title {
         font-family: var(--font-secondary);
         font-size: 18px;
+        font-weight: 700;
         margin: 0;
       }
     }

@@ -62,11 +62,21 @@ const meta: Meta<typeof RadioButton> = {
       return { args, radio };
     },
     template: `
-      <RadioButton name="radio" title="Title" v-model="radio" :radios="[{ label: 'One', value: 'one' }, { label: 'Two', value: 'two' }, { label: 'Three', value: 'three' }]" v-bind="args" />
+      <RadioButton v-model="radio" v-bind="args" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof RadioButton> = {};
+export const Default: StoryObj<typeof RadioButton> = {
+  args: {
+    name: 'radio',
+    title: 'Title',
+    radios: [
+      { label: 'One', value: 'one' },
+      { label: 'Two', value: 'two' },
+      { label: 'Three', value: 'three' },
+    ],
+  },
+};
 
 export default meta;

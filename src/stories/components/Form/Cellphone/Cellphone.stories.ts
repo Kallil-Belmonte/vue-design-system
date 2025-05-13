@@ -61,11 +61,16 @@ const meta: Meta<typeof Cellphone> = {
       return { args, cellphone };
     },
     template: `
-      <Cellphone name="cellphone" v-model="cellphone" v-bind="args" :selectPrefix="() => undefined" />
+      <Cellphone v-model="cellphone" v-bind="args"  />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Cellphone> = {};
+export const Default: StoryObj<typeof Cellphone> = {
+  args: {
+    name: 'cellphone',
+    selectPrefix: () => undefined,
+  },
+};
 
 export default meta;

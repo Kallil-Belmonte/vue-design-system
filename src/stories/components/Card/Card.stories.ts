@@ -42,7 +42,7 @@ const meta: Meta<typeof Card> = {
       return { args };
     },
     template: `
-      <Card title="Title" v-bind="args">
+      <Card v-bind="args">
         <template #default>
           Content
         </template>
@@ -58,6 +58,7 @@ const meta: Meta<typeof Card> = {
 export const Default: StoryObj<typeof Card> = {
   args: {
     icon: 'Home',
+    title: 'Title',
     description: 'Description',
     actions: [
       { text: 'Action', click: () => undefined },

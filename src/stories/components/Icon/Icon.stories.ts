@@ -45,11 +45,16 @@ const meta: Meta<typeof Icon> = {
       return { args };
     },
     template: `
-        <Icon name="Home" size="50px" v-bind="args" />
+        <Icon v-bind="args" />
       `,
   }),
 };
 
-export const Default: StoryObj<typeof Icon> = {};
+export const Default: StoryObj<typeof Icon> = {
+  args: {
+    name: 'Home',
+    size: '50px',
+  },
+};
 
 export default meta;

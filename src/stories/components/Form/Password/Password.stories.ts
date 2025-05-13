@@ -78,11 +78,15 @@ const meta: Meta<typeof Password> = {
       return { args, password };
     },
     template: `
-      <Password name="password" v-model="password" v-bind="args" />
+      <Password v-model="password" v-bind="args" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Password> = {};
+export const Default: StoryObj<typeof Password> = {
+  args: {
+    name: 'password',
+  },
+};
 
 export default meta;

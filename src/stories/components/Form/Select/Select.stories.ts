@@ -70,22 +70,21 @@ const meta: Meta<typeof Select> = {
       return { args, country };
     },
     template: `
-      <Select
-        :value="country"
-        name="countries"
-        label="Countries"
-        :options="[
-          { text: 'Brazil', value: 'BR' },
-          { text: 'Portugal', value: 'PT' },
-          { text: 'United States', value: 'US' },
-        ]"
-        v-bind="args"
-        :change="option => country = option.value"
-      />
+      <Select :value="country" v-bind="args" :change="option => country = option.value" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Select> = {};
+export const Default: StoryObj<typeof Select> = {
+  args: {
+    name: 'countries',
+    label: 'Countries',
+    options: [
+      { text: 'Brazil', value: 'BR' },
+      { text: 'Portugal', value: 'PT' },
+      { text: 'United States', value: 'US' },
+    ],
+  },
+};
 
 export default meta;

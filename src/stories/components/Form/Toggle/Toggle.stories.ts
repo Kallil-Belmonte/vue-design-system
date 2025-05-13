@@ -69,11 +69,18 @@ const meta: Meta<typeof Toggle> = {
       return { args, toggle };
     },
     template: `
-      <Toggle name="toggle" label="Toggle" :trueOption="{ value: true }" :falseOption="{ value: false }" v-model="toggle" v-bind="args" />
+      <Toggle v-model="toggle" v-bind="args" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Toggle> = {};
+export const Default: StoryObj<typeof Toggle> = {
+  args: {
+    name: 'toggle',
+    label: 'Toggle',
+    trueOption: { value: true },
+    falseOption: { value: false },
+  },
+};
 
 export default meta;

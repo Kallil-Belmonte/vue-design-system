@@ -35,13 +35,14 @@ const meta: Meta<typeof Alert> = {
       return { args };
     },
     template: `
-        <Alert title="Title" v-bind="args">Description.</Alert>
+        <Alert v-bind="args">Description.</Alert>
       `,
   }),
 };
 
 export const Default: StoryObj<typeof Alert> = {
   args: {
+    title: 'Title',
     close: () => undefined,
   },
 };

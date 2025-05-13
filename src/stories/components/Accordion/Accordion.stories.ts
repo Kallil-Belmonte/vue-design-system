@@ -27,13 +27,14 @@ const meta: Meta<typeof Accordion> = {
       return { args };
     },
     template: `
-        <Accordion title="Title" v-bind="args">Content</Accordion>
+        <Accordion v-bind="args">Content</Accordion>
       `,
   }),
 };
 
 export const Default: StoryObj<typeof Accordion> = {
   args: {
+    title: 'Title',
     description: 'Description',
   },
 };
