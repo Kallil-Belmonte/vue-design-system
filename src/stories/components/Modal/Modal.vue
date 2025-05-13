@@ -99,7 +99,7 @@ $footer-height: 80px;
     transition: background-color 300ms ease;
   }
 
-  &:not([open]) {
+  &:not(:open) {
     opacity: 0;
     scale: 0.8;
 
