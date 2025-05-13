@@ -21,8 +21,17 @@ const meta: Meta<typeof Tabs> = {
       return { args };
     },
     template: `
-        <Tabs :tabs="[{ icon: 'Home', title: 'Tab 1' }, { icon: 'Home', title: 'Tab 2' }, { icon: 'Home', title: 'Tab 3' }]" v-bind="args">
-          Content
+        <Tabs 
+          :tabs="[
+            { id: 'tab-1', icon: 'Home', title: 'Tab 1' }, 
+            { id: 'tab-2', icon: 'Home', title: 'Tab 2' }, 
+            { id: 'tab-3', icon: 'Home', title: 'Tab 3' }
+          ]"
+          v-bind="args"
+        >
+          <template #tab-1>Content 1</template>
+          <template #tab-2>Content 2</template>
+          <template #tab-3>Content 3</template>
         </Tabs>
       `,
   }),
