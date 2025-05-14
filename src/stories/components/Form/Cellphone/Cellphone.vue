@@ -232,7 +232,7 @@ defineExpose({
   > [data-component='Icon'] {
     @include square(var(--field-icon-size));
     position: absolute;
-    top: 42px;
+    top: 43px;
 
     svg {
       @include transitionAll();
@@ -250,6 +250,7 @@ defineExpose({
       border-radius: 4px;
       border: 1px solid var(--field-border-color);
       background-color: transparent;
+      box-sizing: border-box;
       cursor: pointer;
       @include transitionAll();
 
