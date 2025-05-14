@@ -1,6 +1,6 @@
 <template>
   <section ref="element" data-component="Tabs">
-    <details v-for="tab in tabs" :key="tab.title" class="tab" :name="name">
+    <details v-for="tab in tabs" :key="tab.title" class="tab" :name="name" @click="tab.click">
       <summary>
         <Icon v-if="tab.icon" :name="tab.icon" size="20px" />
         <h3 class="title">{{ tab.title }}</h3>
@@ -22,6 +22,7 @@ type Tab = {
   id: string;
   icon?: Icons;
   title: string;
+  click?: (payload: MouseEvent) => void;
 };
 
 type Props = {
