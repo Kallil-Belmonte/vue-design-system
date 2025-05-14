@@ -33,7 +33,7 @@ const meta: Meta<typeof Tabs> = {
 export const Default: StoryObj<typeof Tabs> = {
   args: {
     tabs: [
-      { id: 'tab-1', icon: 'Home', title: 'Tab 1' },
+      { id: 'tab-1', icon: 'Home', title: 'Tab 1', open: true },
       { id: 'tab-2', icon: 'Home', title: 'Tab 2' },
       { id: 'tab-3', icon: 'Home', title: 'Tab 3' },
     ],
