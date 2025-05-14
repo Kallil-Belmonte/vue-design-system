@@ -99,7 +99,7 @@ $footer-height: 80px;
     transition: background-color 300ms ease;
   }
 
-  &:not(:open) {
+  @starting-style {
     opacity: 0;
     scale: 0.8;
 
@@ -108,7 +108,7 @@ $footer-height: 80px;
     }
   }
 
-  @starting-style {
+  &:not(:open) {
     opacity: 0;
     scale: 0.8;
 
