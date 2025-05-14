@@ -4,9 +4,10 @@
       v-for="tab in tabs"
       :key="tab.title"
       class="tab"
+      :aria-disabled="tab.disabled"
       :name="name"
       :open="tab.open"
-      @click="tab.click"
+      @click="(event: MouseEvent) => tab.disabled ? event.preventDefault() : tab.click?.(tab.id, event)"
     >
       <summary>
         <Icon v-if="tab.icon" :name="tab.icon" size="20px" />
@@ -30,7 +31,8 @@ type Tab = {
   icon?: Icons;
   title: string;
   open?: boolean;
-  click?: (payload: MouseEvent) => void;
+  disabled?: boolean;
+  click?: (id: string, event: MouseEvent) => void;
 };
 
 type Props = {
@@ -109,20 +111,36 @@ $tab-padding: 5px;
       @include position(absolute, auto, 0, auto, 0);
     }
 
-    @include active-style {
-      [data-component='Icon'],
-      .title {
-        color: var(--primary);
+    &:not([aria-disabled='true']) {
+      > summary {
+        @include active-style {
+          [data-component='Icon'],
+          .title {
+            color: var(--primary);
+          }
+        }
+      }
+
+      &:open {
+        > summary {
+          background-color: var(--primary);
+
+          [data-component='Icon'],
+          .title {
+            color: #fff;
+          }
+        }
       }
     }
 
-    &:open {
+    &[aria-disabled='true'] {
       > summary {
-        background-color: var(--primary);
+        background-color: var(--grey-2);
+        cursor: not-allowed;
 
         [data-component='Icon'],
         .title {
-          color: #fff;
+          color: var(--grey-7);
         }
       }
     }
