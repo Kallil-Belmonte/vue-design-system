@@ -107,7 +107,7 @@ $tab-padding: 5px;
     }
 
     > .content {
-      margin-top: calc($tab-padding + 10px);
+      margin-top: calc($tab-padding + 20px);
       @include position(absolute, auto, 0, auto, 0);
     }
 
