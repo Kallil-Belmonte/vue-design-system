@@ -5,9 +5,10 @@
       :key="tab.title"
       class="tab"
       :aria-disabled="tab.disabled"
+      :data-id="tab.id"
       :name="name"
       :open="tab.open"
-      @click="(event: MouseEvent) => tab.disabled ? event.preventDefault() : tab.click?.(tab.id, event)"
+      @click="(event: MouseEvent) => click(tab, event)"
     >
       <summary>
         <Icon v-if="tab.icon" :name="tab.icon" size="20px" />
@@ -50,6 +51,17 @@ const element = useTemplateRef<HTMLElement>('element');
 
 const name = `tab-${useId()}`;
 
+const click = (tab: Tab, event: MouseEvent) => {
+  const selected =
+    element.value
+      ?.querySelector(`[data-id="${tab.id}"] > summary`)
+      ?.contains(event.target as HTMLElement) &&
+    element.value?.querySelector(`[data-id="${tab.id}"]`)?.hasAttribute('open');
+
+  if (selected || tab.disabled) event.preventDefault();
+  else tab.click?.(tab.id, event);
+};
+
 // SLOTS
 defineSlots<Slots>();
 
@@ -85,7 +97,6 @@ $tab-padding: 5px;
       @extend %flex-center;
       height: 100%;
       border-radius: 50px;
-      cursor: pointer;
       transition: background-color 0.4s ease;
 
       [data-component='Icon'],
@@ -118,6 +129,12 @@ $tab-padding: 5px;
           .title {
             color: var(--primary);
           }
+        }
+      }
+
+      &:not(:open) {
+        > summary {
+          cursor: pointer;
         }
       }
 
