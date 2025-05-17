@@ -94,13 +94,13 @@
 
 <script lang="ts" setup>
 import {
-computed,
-type InputHTMLAttributes,
-onMounted,
-onUnmounted,
-ref,
-useTemplateRef,
-watchEffect,
+  computed,
+  type InputHTMLAttributes,
+  onMounted,
+  onUnmounted,
+  ref,
+  useTemplateRef,
+  watchEffect,
 } from 'vue';
 
 import { useElementBounding } from '@/shared/composables';
@@ -243,11 +243,12 @@ defineExpose({
 [data-component='Select'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
+  color: var(--text-color);
   position: relative;
 
   .label-wrapper {
     @extend %flex-vertical-center;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 
     label {
       font-weight: 700;

@@ -100,6 +100,7 @@ defineExpose({
 [data-component='Toggle'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
+  color: var(--text-color);
   font-weight: 700;
 
   &:not(:has(:disabled)) {

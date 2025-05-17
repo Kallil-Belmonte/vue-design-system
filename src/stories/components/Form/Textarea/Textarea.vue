@@ -104,11 +104,12 @@ defineExpose({
 [data-component='Textarea'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
+  color: var(--text-color);
   position: relative;
 
   .label-wrapper {
     @extend %flex-vertical-center;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 
     label {
       font-weight: 700;

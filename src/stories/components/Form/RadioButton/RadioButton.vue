@@ -89,10 +89,11 @@ defineExpose({
 [data-component='RadioButton'] {
   font-family: var(--font-primary);
   font-size: var(--font-size);
+  color: var(--text-color);
 
   .title-wrapper {
     @extend %flex-vertical-center;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 
     .title {
       font-weight: 700;
