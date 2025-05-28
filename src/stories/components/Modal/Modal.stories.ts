@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-import { type Meta, type StoryObj } from '@storybook/vue3';
+import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
 import { setArgs } from '@/shared/helpers';
 import Button from '../Button/Button.vue';
