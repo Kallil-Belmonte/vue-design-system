@@ -139,6 +139,12 @@ defineExpose({
     > header {
       @extend %flex-vertical-center;
 
+      > [data-component='Icon'],
+      > [data-component='Button'] {
+        align-self: start;
+        flex-shrink: 0;
+      }
+
       > [data-component='Icon'] {
         margin-right: 5px;
       }
