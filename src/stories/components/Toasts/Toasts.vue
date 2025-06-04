@@ -96,7 +96,7 @@ defineExpose({
   font-family: var(--font-primary);
   font-size: var(--font-size);
   color: var(--text-color);
-  max-width: 300px;
+  max-width: 400px;
   width: 100%;
   padding: 0;
   border: none;
