@@ -325,11 +325,25 @@ defineExpose({
     [data-component='Button'] {
       transition: rotate 0.3s ease;
       @include position(absolute, 18px, 15px);
+
+      [data-component='Icon'] {
+        opacity: 0.4;
+      }
+
+      @include active-style {
+        [data-component='Icon'] {
+          opacity: 0.8;
+        }
+      }
     }
 
     &:has([data-subcomponent='TooltipOldContent']:popover-open) {
       [data-component='Button'] {
         rotate: 180deg;
+
+        [data-component='Icon'] {
+          opacity: 0.8;
+        }
       }
     }
 
