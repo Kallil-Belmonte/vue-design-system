@@ -1,9 +1,8 @@
 <template>
-  <div v-if="loading" ref="element" data-component="Loader" :class="`${mode}`">
-    <Icon name="Loading" size="40px" />
+  <div ref="element" data-component="Loader" :class="`${loading ? 'loading' : ''} ${mode}`">
+    <Icon v-if="loading" name="Loading" size="40px" />
     <slot></slot>
   </div>
-  <slot v-else></slot>
 </template>
 
 <script lang="ts" setup>
@@ -42,27 +41,29 @@ defineExpose({
 @use '@/assets/scss/helpers' as *;
 
 [data-component='Loader'] {
-  pointer-events: none;
+  &.loading {
+    pointer-events: none;
 
-  &::after {
-    content: '';
-    @include position(absolute, 0, 0, 0, 0, 999);
-    background-color: v-bind(backgroundColor);
-  }
+    &::after {
+      content: '';
+      @include position(absolute, 0, 0, 0, 0, 999);
+      background-color: v-bind(backgroundColor);
+    }
 
-  > [data-component='Icon'] {
-    color: var(--primary);
-    @extend %absolute-center;
-    z-index: 1000;
-  }
+    > [data-component='Icon'] {
+      color: var(--primary);
+      @extend %absolute-center;
+      z-index: 1000;
+    }
 
-  // Mode
-  &.content {
-    position: relative;
-  }
+    // Mode
+    &.content {
+      position: relative;
+    }
 
-  &.page {
-    @include position(fixed, 0, 0, 0, 0, 9999);
+    &.page {
+      @include position(fixed, 0, 0, 0, 0, 9999);
+    }
   }
 }
 </style>
