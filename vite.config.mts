@@ -19,5 +19,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [vue(), oxlintPlugin({ path: 'src' })],
+  plugins: [oxlintPlugin({ path: 'src' }), vue()],
 });
