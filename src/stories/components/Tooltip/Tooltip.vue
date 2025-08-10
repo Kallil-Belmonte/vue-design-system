@@ -123,7 +123,6 @@ const toggleTooltip = () => {
 };
 
 const mouseenter = () => {
-  console.log('openProp', openProp);
   if (typeof openProp === 'boolean') return;
 
   if (trigger === 'hover') {
