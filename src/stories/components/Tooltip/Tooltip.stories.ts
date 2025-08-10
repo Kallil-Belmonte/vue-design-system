@@ -15,6 +15,13 @@ const meta: Meta<typeof Tooltip> = {
       control: 'radio',
       options: ['fade', 'scale'],
     }),
+    closeDelay: setArgs({
+      name: 'closeDelay',
+      description: 'Time before the tooltip closes.',
+      type: 'number',
+      defaultValue: 0,
+      control: 'number',
+    }),
     closeOnTooltipClick: setArgs({
       name: 'closeOnTooltipClick',
       description: 'If <code>true</code>, the tooltip will close when its content is clicked.',
@@ -36,6 +43,12 @@ const meta: Meta<typeof Tooltip> = {
       type: 'string',
       defaultValue: '300px',
       control: 'text',
+    }),
+    open: setArgs({
+      name: 'open',
+      description: 'The value to control the open state.',
+      type: 'boolean',
+      control: 'boolean',
     }),
     position: setArgs({
       name: 'position',

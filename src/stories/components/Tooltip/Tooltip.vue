@@ -8,9 +8,11 @@
       ref="tooltip"
       data-subcomponent="TooltipContent"
       :popover="popoverAttr"
-      :data-open="isOpen"
+      :data-open="open"
       :id="id"
       :class="`${trigger} ${animation} ${color} ${position}`"
+      @mouseenter="mouseenter"
+      @mouseleave="mouseleave"
     >
       <slot name="tooltip"></slot>
 
@@ -19,14 +21,14 @@
         mode="blank"
         variant="base"
         :icon="{ name: 'Close' }"
-        @click="close"
+        @click="closeTooltip"
       />
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { computed, onUnmounted, ref, useTemplateRef } from 'vue';
+import { computed, onUnmounted, ref, useTemplateRef, watchEffect } from 'vue';
 
 import { uuid } from '@/shared/helpers';
 import Button from '@/stories/components/Button/Button.vue';
@@ -48,7 +50,9 @@ type Position =
 type Props = {
   maxWidth?: string;
   animation?: 'fade' | 'scale';
+  open?: boolean;
   trigger?: 'hover' | 'click';
+  closeDelay?: number;
   closeOnTooltipClick?: boolean;
   color?: 'base' | 'primary' | 'secondary';
   position?: Position;
@@ -66,7 +70,9 @@ type Slots = {
 const {
   maxWidth = '300px',
   animation = 'scale',
+  open: openProp = undefined,
   trigger = 'hover',
+  closeDelay = 0,
   closeOnTooltipClick = false,
   color = 'base',
   position = 'top',
@@ -78,48 +84,81 @@ const element = useTemplateRef<HTMLElement>('element');
 
 const tooltip = useTemplateRef<HTMLDivElement>('tooltip');
 
-const isOpen = ref(false);
+const open = ref(false);
+const closeTimeout = ref();
 
 const id = `tooltip-${uuid().split('-')[0]}`;
 
 const anchorName = `--${id}`;
 
-const popoverAttr = computed(() => (trigger === 'hover' ? 'hint' : 'manual'));
+const popoverAttr = computed(() =>
+  typeof openProp !== 'boolean' && trigger === 'hover' ? 'hint' : 'manual',
+);
 
-const showClose = computed(() => trigger === 'click' && showCloseProp);
+const showClose = computed(
+  () => typeof openProp !== 'boolean' && trigger === 'click' && showCloseProp,
+);
 
-const open = () => {
-  isOpen.value = true;
+const openTooltip = () => {
+  open.value = true;
   tooltip.value?.showPopover();
-  if (trigger === 'click') document.addEventListener('click', clickListener);
+
+  if (typeof openProp !== 'boolean' && trigger === 'click') {
+    document.addEventListener('click', clickListener);
+  }
 };
 
-const close = () => {
-  isOpen.value = false;
+const closeTooltip = () => {
+  open.value = false;
   tooltip.value?.hidePopover();
-  if (trigger === 'click') document.removeEventListener('click', clickListener);
+
+  if (typeof openProp !== 'boolean' && trigger === 'click') {
+    document.removeEventListener('click', clickListener);
+  }
+};
+
+const toggleTooltip = () => {
+  if (typeof openProp !== 'boolean') return;
+  openProp ? openTooltip() : closeTooltip();
 };
 
 const mouseenter = () => {
-  if (trigger === 'hover') open();
+  console.log('openProp', openProp);
+  if (typeof openProp === 'boolean') return;
+
+  if (trigger === 'hover') {
+    clearTimeout(closeTimeout.value);
+    openTooltip();
+  }
 };
 
 const mouseleave = () => {
-  if (trigger === 'hover') close();
+  if (typeof openProp === 'boolean') return;
+
+  if (trigger === 'hover') {
+    closeTimeout.value = setTimeout(() => closeTooltip(), closeDelay);
+  }
+};
+
+const click = () => {
+  if (typeof openProp === 'boolean') return;
+
+  if (trigger === 'click') open.value ? closeTooltip() : openTooltip();
 };
 
 const clickListener = (event: MouseEvent) => {
   const clickedInTooltip =
     closeOnTooltipClick && tooltip.value?.contains(event.target as HTMLElement);
   const clickedOutside = !element.value?.contains(event.target as HTMLElement);
-  if (clickedInTooltip || clickedOutside) close();
-};
 
-const click = () => {
-  if (trigger === 'click') isOpen.value ? close() : open();
+  if (clickedInTooltip || clickedOutside) closeTooltip();
 };
 
 // LIFECYCLE HOOKS
+watchEffect(() => {
+  toggleTooltip();
+});
+
 onUnmounted(() => {
   if (trigger === 'click') document.removeEventListener('click', clickListener);
 });
