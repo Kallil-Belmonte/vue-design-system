@@ -102,7 +102,7 @@ const closeTimeout = ref();
 const id = `tooltip-${uuid().split('-')[0]}`;
 
 const popoverAttr = computed(() =>
-  typeof openProp !== 'boolean' && trigger === 'hover' ? 'hint' : 'manual',
+  typeof openProp === 'boolean' || trigger === 'click' ? 'manual' : 'hint',
 );
 
 const showClose = computed(
