@@ -3,7 +3,6 @@
     <div
       v-for="toast in toasts"
       :key="toast.id"
-      ref="toast"
       :class="`toast ${toast.status}`"
       role="alert"
       aria-live="assertive"
@@ -45,8 +44,6 @@ type Props = {
 const { toasts, duration = '5s' } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
-
-const toast = useTemplateRef<HTMLDivElement>('toast');
 
 const getIcon = (status: Status) => {
   if (status === 'success') return 'CheckCircle';
