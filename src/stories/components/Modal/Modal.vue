@@ -94,11 +94,6 @@ $footer-height: 80px;
   border: none;
   transition: opacity 0.3s, scale 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
 
-  &::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: background-color 300ms ease;
-  }
-
   @starting-style {
     opacity: 0;
     scale: 0.8;
@@ -106,6 +101,11 @@ $footer-height: 80px;
     &::backdrop {
       background-color: transparent;
     }
+  }
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: background-color 300ms ease;
   }
 
   &:not(:open) {
