@@ -76,6 +76,10 @@ defineExpose({
     justify-content: space-between;
     cursor: pointer;
 
+    &::marker {
+      content: '';
+    }
+
     > header {
       > .title,
       > .description {
