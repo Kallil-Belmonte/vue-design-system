@@ -9,11 +9,10 @@
     "noEmit": true,
     "skipLibCheck": true,
     "target": "ESNext",
-    /* Linting */
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true,
+    "strict": true
   },
   "include": ["vite.config.mts"]
 }
