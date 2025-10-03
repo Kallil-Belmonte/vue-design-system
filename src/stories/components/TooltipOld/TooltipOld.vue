@@ -135,20 +135,16 @@ const toggleTooltip = () => {
 };
 
 const mouseenter = () => {
-  if (typeof openProp === 'boolean') return;
+  if (typeof openProp === 'boolean' || trigger === 'click') return;
 
-  if (trigger === 'hover') {
-    clearTimeout(closeTimeout.value);
-    openTooltip();
-  }
+  clearTimeout(closeTimeout.value);
+  openTooltip();
 };
 
 const mouseleave = () => {
-  if (typeof openProp === 'boolean') return;
+  if (typeof openProp === 'boolean' || trigger === 'click') return;
 
-  if (trigger === 'hover') {
-    closeTimeout.value = setTimeout(() => closeTooltip(), closeDelay);
-  }
+  closeTimeout.value = setTimeout(() => closeTooltip(), closeDelay);
 };
 
 const click = () => {
