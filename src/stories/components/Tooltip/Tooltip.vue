@@ -119,7 +119,9 @@ const closeTooltip = () => {
 
 const toggleTooltip = () => {
   if (typeof openProp !== 'boolean') return;
-  openProp ? openTooltip() : closeTooltip();
+
+  if (openProp) openTooltip();
+  else closeTooltip();
 };
 
 const mouseenter = () => {
