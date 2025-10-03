@@ -140,9 +140,10 @@ const mouseleave = () => {
 };
 
 const click = () => {
-  if (typeof openProp === 'boolean') return;
+  if (typeof openProp === 'boolean' || trigger === 'hover') return;
 
-  if (trigger === 'click') open.value ? closeTooltip() : openTooltip();
+  if (open.value) closeTooltip();
+  else openTooltip();
 };
 
 const clickListener = (event: MouseEvent) => {
