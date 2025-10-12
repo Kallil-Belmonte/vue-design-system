@@ -20,7 +20,7 @@
     "@vitejs/plugin-vue": "6.0.1",
     "@vitest/browser": "3.2.4",
     "@vitest/coverage-v8": "3.2.4",
-    "oxlint": "1.21.0",
+    "oxlint": "1.22.0",
     "playwright": "1.56.0",
     "sass-embedded": "1.93.2",
     "storybook": "9.1.10",
