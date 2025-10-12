@@ -28,7 +28,7 @@
           :key="index"
           :aria-label="`Slide ${index + 1}`"
           :title="`Slide ${index + 1}`"
-          :class="currentSlideIndex === index ? 'active' : undefined"
+          :class="isCurrentSlide(index) ? 'active' : undefined"
           @click="gotToSlide(index)"
         ></button>
       </div>
@@ -63,7 +63,7 @@ type Props = {
   slides: Slide[];
 };
 
-const { duration = 5000, slides } = defineProps<Props>();
+const { duration = 2000, slides } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
 
@@ -73,8 +73,12 @@ const interval = ref<number>();
 
 const disabled = ref(false);
 
+const isCurrentSlide = (index: number) => currentSlideIndex.value === index;
+
 const getWidth = () =>
   element.value?.querySelector('.slider')?.getBoundingClientRect().width as number;
+
+const getTranslate = (index = currentSlideIndex.value) => getWidth() * index;
 
 const getSlides = () =>
   Array.from(element.value?.querySelectorAll('.slider .slide') || []) as HTMLDivElement[];
@@ -152,12 +156,10 @@ const next = () => {
 };
 
 const gotToSlide = (index: number) => {
-  const translate = getWidth() * index;
-
   clearInterval(interval.value);
 
   getSlides().forEach(item => {
-    item.style.translate = `${translate ? `-${translate}px` : '0'}`;
+    item.style.translate = `${getTranslate(index) ? `-${getTranslate(index)}px` : '0'}`;
     item.style.transition = 'translate 0.4s ease';
   });
 
