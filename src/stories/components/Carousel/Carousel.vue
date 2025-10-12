@@ -21,6 +21,18 @@
       >
         <Icon name="ArrowLeft" />
       </button>
+
+      <div class="slides">
+        <button
+          v-for="index in Array.from({ length: slides.length }).map((_, i) => i)"
+          :key="index"
+          :aria-label="`Slide ${index + 1}`"
+          :title="`Slide ${index + 1}`"
+          :class="currentSlideIndex === index ? 'active' : undefined"
+          @click="gotToSlide(index)"
+        ></button>
+      </div>
+
       <button
         aria-label="Next"
         title="Next"
@@ -55,11 +67,14 @@ const { duration = 5000, slides } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
 
+const currentSlideIndex = ref(0);
+
 const interval = ref<number>();
 
 const disabled = ref(false);
 
-const getWidth = () => element.value?.querySelector('.slider')?.getBoundingClientRect().width || 0;
+const getWidth = () =>
+  element.value?.querySelector('.slider')?.getBoundingClientRect().width as number;
 
 const getSlides = () =>
   Array.from(element.value?.querySelectorAll('.slider .slide') || []) as HTMLDivElement[];
@@ -75,7 +90,7 @@ const getPenultimateSlide = () =>
 const getLastSlide = () =>
   element.value?.querySelector('.slider .slide:last-child') as HTMLDivElement;
 
-const maxTranslate = computed(() => getWidth() * (getSlides().length - 1));
+const maxTranslate = computed(() => getWidth() * (slides.length - 1));
 
 const getBackgroundStyle = (slide: Slide) => {
   if (slide.image) return `background-image: url(${slide.image});`;
@@ -94,7 +109,7 @@ const previous = () => {
 
   // Move last slide before first slide
   if (!getFirstSlide().style.translate) {
-    getLastSlide().style.translate = `-${getWidth() * getSlides().length}px`;
+    getLastSlide().style.translate = `-${getWidth() * slides.length}px`;
   }
 
   setTimeout(() => {
@@ -103,6 +118,9 @@ const previous = () => {
       item.style.translate = `${translate + getWidth()}px`;
       item.style.transition = 'translate 0.4s ease';
     });
+
+    if (currentSlideIndex.value) currentSlideIndex.value -= 1;
+    else currentSlideIndex.value = slides.length - 1;
 
     startTransitions();
   });
@@ -126,8 +144,25 @@ const next = () => {
       item.style.transition = 'translate 0.4s ease';
     });
 
+    if (currentSlideIndex.value === slides.length - 1) currentSlideIndex.value = 0;
+    else currentSlideIndex.value += 1;
+
     startTransitions();
   });
+};
+
+const gotToSlide = (index: number) => {
+  const translate = getWidth() * index;
+
+  clearInterval(interval.value);
+
+  getSlides().forEach(item => {
+    item.style.translate = `${translate ? `-${translate}px` : '0'}`;
+    item.style.transition = 'translate 0.4s ease';
+  });
+
+  currentSlideIndex.value = index;
+  startTransitions();
 };
 
 const transitionEnd = () => {
@@ -196,7 +231,8 @@ defineExpose({
     justify-content: space-between;
     margin: 10px auto 0;
 
-    button {
+    .previous,
+    .next {
       color: #9c9c9c;
       @include square(20px);
       padding: 0;
@@ -205,6 +241,27 @@ defineExpose({
 
       &:not(:disabled) {
         cursor: pointer;
+      }
+
+      &:hover {
+        color: var(--primary);
+      }
+    }
+
+    .slides {
+      display: flex;
+      gap: 10px;
+
+      button {
+        @include square(8px, 50%);
+        padding: 0;
+        border: none;
+        background-color: #9c9c9c;
+        cursor: pointer;
+
+        &.active {
+          background-color: var(--primary);
+        }
       }
     }
   }
