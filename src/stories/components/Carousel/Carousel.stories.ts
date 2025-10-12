@@ -19,7 +19,7 @@ const meta: Meta<typeof Carousel> = {
       name: 'duration',
       description: 'Duration of each slide in miliseconds.',
       type: 'number',
-      defaultValue: '3000',
+      defaultValue: '5000',
       control: 'number',
     }),
   },

@@ -37,7 +37,7 @@
 
 <script lang="ts" setup>
 import Icon from '@/stories/components/Icon/Icon.vue';
-import { computed, onMounted, ref, useTemplateRef } from 'vue';
+import { computed, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 
 type Slide = {
   image?: string;
@@ -51,9 +51,11 @@ type Props = {
   slides: Slide[];
 };
 
-const { duration = 3000, slides } = defineProps<Props>();
+const { duration = 5000, slides } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
+
+const interval = ref<number>();
 
 const disabled = ref(false);
 
@@ -81,9 +83,16 @@ const getBackgroundStyle = (slide: Slide) => {
   if (slide.color) return `background-color: ${slide.color};`;
 };
 
+const startTransitions = () => {
+  interval.value = setInterval(next, duration);
+};
+
 const previous = () => {
   disabled.value = true;
 
+  clearInterval(interval.value);
+
+  // Move last slide before first slide
   if (!getFirstSlide().style.translate) {
     getLastSlide().style.translate = `-${getWidth() * getSlides().length}px`;
   }
@@ -94,12 +103,17 @@ const previous = () => {
       item.style.translate = `${translate + getWidth()}px`;
       item.style.transition = 'translate 0.4s ease';
     });
+
+    startTransitions();
   });
 };
 
 const next = () => {
   disabled.value = true;
 
+  clearInterval(interval.value);
+
+  // Move first slide after last slide
   if (getLastSlide().style.translate === `-${maxTranslate.value}px`) {
     getFirstSlide().style.removeProperty('transition');
     getFirstSlide().style.translate = `${getWidth()}px`;
@@ -111,6 +125,8 @@ const next = () => {
       item.style.translate = `${translate - getWidth()}px`;
       item.style.transition = 'translate 0.4s ease';
     });
+
+    startTransitions();
   });
 };
 
@@ -137,13 +153,13 @@ const transitionEnd = () => {
   }
 };
 
-const startTransitions = () => {
-  setInterval(next, duration);
-};
-
 // LIFECYCLE HOOKS
 onMounted(() => {
   startTransitions();
+});
+
+onUnmounted(() => {
+  clearInterval(interval.value);
 });
 
 // EXPOSE
@@ -168,6 +184,9 @@ defineExpose({
       flex-shrink: 0;
       @include size(100%, 300px);
       background-color: #ddd;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
     }
   }
 
