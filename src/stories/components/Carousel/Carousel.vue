@@ -9,7 +9,8 @@
         v-html="slide.content"
       ></div>
     </div>
-    <section class="actions">
+
+    <section v-if="hasSlides" class="actions">
       <button
         aria-label="Previous"
         title="Previous"
@@ -64,7 +65,7 @@ type Props = {
   slides: Slide[];
 };
 
-const { duration = 2000, slides } = defineProps<Props>();
+const { duration = 5000, slides } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
 
@@ -73,6 +74,8 @@ const currentSlideIndex = ref(0);
 const interval = ref<number>();
 
 const disabled = ref(false);
+
+const hasSlides = computed(() => slides.length > 1);
 
 const isFirstSlide = computed(() => !currentSlideIndex.value);
 
@@ -84,15 +87,10 @@ const getWidth = () =>
   element.value?.querySelector('.slider')?.getBoundingClientRect().width as number;
 
 const getSlides = () =>
-  Array.from(element.value?.querySelectorAll('.slider .slide') || []) as HTMLDivElement[];
+  Array.from(element.value?.querySelectorAll<HTMLDivElement>('.slider .slide') || []);
 
 const getFirstSlide = () =>
   element.value?.querySelector('.slider .slide:first-child') as HTMLDivElement;
-
-const getPenultimateSlide = () =>
-  element.value?.querySelector(
-    '.slider .slide:nth-last-child(2):not(:first-child)',
-  ) as HTMLDivElement;
 
 const getLastSlide = () =>
   element.value?.querySelector('.slider .slide:last-child') as HTMLDivElement;
@@ -111,6 +109,10 @@ const previous = () => {
   clearInterval(interval.value);
 
   const maxTranslate = getWidth() * (slides.length - 1);
+
+  const penultimateSlide = element.value?.querySelector(
+    '.slider .slide:nth-last-child(2)',
+  ) as HTMLDivElement;
 
   disabled.value = true;
 
@@ -131,10 +133,10 @@ const previous = () => {
 
   if (
     getLastSlide().style.translate === `-${maxTranslate}px` &&
-    getPenultimateSlide().style.translate !== `-${maxTranslate}px`
+    penultimateSlide.style.translate !== `-${maxTranslate}px`
   ) {
     getSlides().forEach(item => item.style.removeProperty('transition'));
-    getPenultimateSlide().style.translate = `-${maxTranslate}px`;
+    penultimateSlide.style.translate = `-${maxTranslate}px`;
   }
 
   getSlides().forEach(item => {
@@ -198,7 +200,7 @@ const gotToSlide = (index: number) => {
 
 // LIFECYCLE HOOKS
 onMounted(() => {
-  startTransitions();
+  if (hasSlides.value) startTransitions();
 });
 
 onUnmounted(() => {
