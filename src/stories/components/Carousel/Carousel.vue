@@ -108,15 +108,14 @@ const startTransitions = () => {
 const previous = () => {
   clearInterval(interval.value);
 
-  const maxTranslate = getWidth() * (slides.length - 1);
+  let reset = false;
 
-  const penultimateSlide = element.value?.querySelector(
-    '.slider .slide:nth-last-child(2)',
-  ) as HTMLDivElement;
+  const maxTranslate = getWidth() * (slides.length - 1);
 
   disabled.value = true;
 
   if (isFirstSlide.value) {
+    reset = true;
     currentSlideIndex.value = slides.length - 1;
 
     // Move last slide before first slide
@@ -126,19 +125,7 @@ const previous = () => {
     currentSlideIndex.value -= 1;
   }
 
-  if (getFirstSlide().style.translate === `${maxTranslate}px`) {
-    getFirstSlide().style.removeProperty('transition');
-    getFirstSlide().style.translate = `-${getWidth()}px`;
-  }
-
-  if (
-    getLastSlide().style.translate === `-${maxTranslate}px` &&
-    penultimateSlide.style.translate !== `-${maxTranslate}px`
-  ) {
-    getSlides().forEach(item => item.style.removeProperty('transition'));
-    penultimateSlide.style.translate = `-${maxTranslate}px`;
-  }
-
+  // Transition based on existing value
   getSlides().forEach(item => {
     const translate = Number(item.style.translate.replace('px', ''));
     item.style.translate = `${translate + getWidth()}px`;
@@ -147,6 +134,14 @@ const previous = () => {
 
   setTimeout(() => {
     disabled.value = false;
+
+    if (reset) {
+      getSlides().forEach(item => {
+        item.style.removeProperty('transition');
+        item.style.translate = `-${maxTranslate}px`;
+      });
+    }
+
     startTransitions();
   }, TRANSITION);
 };
@@ -154,9 +149,12 @@ const previous = () => {
 const next = () => {
   clearInterval(interval.value);
 
+  let reset = false;
+
   disabled.value = true;
 
   if (isLastSlide.value) {
+    reset = true;
     currentSlideIndex.value = 0;
 
     // Move first slide after last slide
@@ -166,13 +164,7 @@ const next = () => {
     currentSlideIndex.value += 1;
   }
 
-  if (getFirstSlide().style.translate === '0px') {
-    getSlides().forEach(item => {
-      item.style.removeProperty('translate');
-      item.style.removeProperty('transition');
-    });
-  }
-
+  // Transition based on existing value
   getSlides().forEach(item => {
     const translate = Number(item.style.translate.replace('px', ''));
     item.style.translate = `${translate - getWidth()}px`;
@@ -181,6 +173,14 @@ const next = () => {
 
   setTimeout(() => {
     disabled.value = false;
+
+    if (reset) {
+      getSlides().forEach(item => {
+        item.style.removeProperty('transition');
+        item.style.removeProperty('translate');
+      });
+    }
+
     startTransitions();
   }, TRANSITION);
 };
