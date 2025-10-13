@@ -50,6 +50,8 @@
 import Icon from '@/stories/components/Icon/Icon.vue';
 import { computed, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 
+const TRANSITION = 400;
+
 type Slide = {
   image?: string;
   gradient?: string;
@@ -81,8 +83,6 @@ const isCurrentSlide = (index: number) => currentSlideIndex.value === index;
 const getWidth = () =>
   element.value?.querySelector('.slider')?.getBoundingClientRect().width as number;
 
-const getTranslate = (index = currentSlideIndex.value) => getWidth() * index;
-
 const getSlides = () =>
   Array.from(element.value?.querySelectorAll('.slider .slide') || []) as HTMLDivElement[];
 
@@ -97,8 +97,6 @@ const getPenultimateSlide = () =>
 const getLastSlide = () =>
   element.value?.querySelector('.slider .slide:last-child') as HTMLDivElement;
 
-const maxTranslate = computed(() => getWidth() * (slides.length - 1));
-
 const getBackgroundStyle = (slide: Slide) => {
   if (slide.image) return `background-image: url(${slide.image});`;
   if (slide.gradient) return `background-image: ${slide.gradient};`;
@@ -110,9 +108,11 @@ const startTransitions = () => {
 };
 
 const previous = () => {
-  disabled.value = true;
-
   clearInterval(interval.value);
+
+  const maxTranslate = getWidth() * (slides.length - 1);
+
+  disabled.value = true;
 
   if (isFirstSlide.value) {
     currentSlideIndex.value = slides.length - 1;
@@ -124,34 +124,35 @@ const previous = () => {
     currentSlideIndex.value -= 1;
   }
 
-  if (getFirstSlide().style.translate === `${maxTranslate.value}px`) {
+  if (getFirstSlide().style.translate === `${maxTranslate}px`) {
     getFirstSlide().style.removeProperty('transition');
     getFirstSlide().style.translate = `-${getWidth()}px`;
   }
 
   if (
-    getLastSlide().style.translate === `-${maxTranslate.value}px` &&
-    getPenultimateSlide().style.translate !== `-${maxTranslate.value}px`
+    getLastSlide().style.translate === `-${maxTranslate}px` &&
+    getPenultimateSlide().style.translate !== `-${maxTranslate}px`
   ) {
     getSlides().forEach(item => item.style.removeProperty('transition'));
-    getPenultimateSlide().style.translate = `-${maxTranslate.value}px`;
+    getPenultimateSlide().style.translate = `-${maxTranslate}px`;
   }
 
-  setTimeout(() => {
-    getSlides().forEach(item => {
-      const translate = Number(item.style.translate.replace('px', ''));
-      item.style.translate = `${translate + getWidth()}px`;
-      item.style.transition = 'translate 0.4s ease';
-    });
-
-    startTransitions();
+  getSlides().forEach(item => {
+    const translate = Number(item.style.translate.replace('px', ''));
+    item.style.translate = `${translate + getWidth()}px`;
+    item.style.transition = `translate ${TRANSITION}ms ease`;
   });
+
+  setTimeout(() => {
+    disabled.value = false;
+    startTransitions();
+  }, TRANSITION);
 };
 
 const next = () => {
-  disabled.value = true;
-
   clearInterval(interval.value);
+
+  disabled.value = true;
 
   if (isLastSlide.value) {
     currentSlideIndex.value = 0;
@@ -170,51 +171,30 @@ const next = () => {
     });
   }
 
-  setTimeout(() => {
-    getSlides().forEach(item => {
-      const translate = Number(item.style.translate.replace('px', ''));
-      item.style.translate = `${translate - getWidth()}px`;
-      item.style.transition = 'translate 0.4s ease';
-    });
-
-    startTransitions();
+  getSlides().forEach(item => {
+    const translate = Number(item.style.translate.replace('px', ''));
+    item.style.translate = `${translate - getWidth()}px`;
+    item.style.transition = `translate ${TRANSITION}ms ease`;
   });
+
+  setTimeout(() => {
+    disabled.value = false;
+    startTransitions();
+  }, TRANSITION);
 };
 
 const gotToSlide = (index: number) => {
   clearInterval(interval.value);
 
   getSlides().forEach(item => {
-    item.style.translate = `${getTranslate(index) ? `-${getTranslate(index)}px` : '0'}`;
-    item.style.transition = 'translate 0.4s ease';
+    const translate = getWidth() * index;
+    item.style.translate = `${translate ? `-${translate}px` : '0'}`;
+    item.style.transition = `translate ${TRANSITION}ms ease`;
   });
 
   currentSlideIndex.value = index;
   startTransitions();
 };
-
-// const transitionEnd = () => {
-//   disabled.value = false;
-
-//   if (getFirstSlide().style.translate === '0px') {
-//     getSlides().forEach(item => {
-//       item.style.removeProperty('translate');
-//       item.style.removeProperty('transition');
-//     });
-//   }
-
-//   if (getFirstSlide().style.translate === `${maxTranslate.value}px`) {
-//     getFirstSlide().style.translate = `-${getWidth()}px`;
-//   }
-
-//   if (
-//     getLastSlide().style.translate === `-${maxTranslate.value}px` &&
-//     getPenultimateSlide().style.translate !== `-${maxTranslate.value}px`
-//   ) {
-//     getSlides().forEach(item => item.style.removeProperty('transition'));
-//     getPenultimateSlide().style.translate = `-${maxTranslate.value}px`;
-//   }
-// };
 
 // LIFECYCLE HOOKS
 onMounted(() => {
