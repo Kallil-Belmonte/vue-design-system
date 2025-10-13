@@ -110,8 +110,6 @@ const previous = () => {
 
   let reset = false;
 
-  const maxTranslate = getWidth() * (slides.length - 1);
-
   disabled.value = true;
 
   if (isFirstSlide.value) {
@@ -136,6 +134,8 @@ const previous = () => {
     disabled.value = false;
 
     if (reset) {
+      const maxTranslate = getWidth() * (slides.length - 1);
+
       getSlides().forEach(item => {
         item.style.removeProperty('transition');
         item.style.translate = `-${maxTranslate}px`;
