@@ -7,7 +7,6 @@
         :style="getBackgroundStyle(slide)"
         class="slide"
         v-html="slide.content"
-        @transitionend="transitionEnd"
       ></div>
     </div>
     <section class="actions">
@@ -73,6 +72,10 @@ const interval = ref<number>();
 
 const disabled = ref(false);
 
+const isFirstSlide = computed(() => !currentSlideIndex.value);
+
+const isLastSlide = computed(() => currentSlideIndex.value === slides.length - 1);
+
 const isCurrentSlide = (index: number) => currentSlideIndex.value === index;
 
 const getWidth = () =>
@@ -111,9 +114,27 @@ const previous = () => {
 
   clearInterval(interval.value);
 
-  // Move last slide before first slide
-  if (!getFirstSlide().style.translate) {
+  if (isFirstSlide.value) {
+    currentSlideIndex.value = slides.length - 1;
+
+    // Move last slide before first slide
+    getLastSlide().style.removeProperty('transition');
     getLastSlide().style.translate = `-${getWidth() * slides.length}px`;
+  } else {
+    currentSlideIndex.value -= 1;
+  }
+
+  if (getFirstSlide().style.translate === `${maxTranslate.value}px`) {
+    getFirstSlide().style.removeProperty('transition');
+    getFirstSlide().style.translate = `-${getWidth()}px`;
+  }
+
+  if (
+    getLastSlide().style.translate === `-${maxTranslate.value}px` &&
+    getPenultimateSlide().style.translate !== `-${maxTranslate.value}px`
+  ) {
+    getSlides().forEach(item => item.style.removeProperty('transition'));
+    getPenultimateSlide().style.translate = `-${maxTranslate.value}px`;
   }
 
   setTimeout(() => {
@@ -122,9 +143,6 @@ const previous = () => {
       item.style.translate = `${translate + getWidth()}px`;
       item.style.transition = 'translate 0.4s ease';
     });
-
-    if (currentSlideIndex.value) currentSlideIndex.value -= 1;
-    else currentSlideIndex.value = slides.length - 1;
 
     startTransitions();
   });
@@ -135,10 +153,21 @@ const next = () => {
 
   clearInterval(interval.value);
 
-  // Move first slide after last slide
-  if (getLastSlide().style.translate === `-${maxTranslate.value}px`) {
+  if (isLastSlide.value) {
+    currentSlideIndex.value = 0;
+
+    // Move first slide after last slide
     getFirstSlide().style.removeProperty('transition');
     getFirstSlide().style.translate = `${getWidth()}px`;
+  } else {
+    currentSlideIndex.value += 1;
+  }
+
+  if (getFirstSlide().style.translate === '0px') {
+    getSlides().forEach(item => {
+      item.style.removeProperty('translate');
+      item.style.removeProperty('transition');
+    });
   }
 
   setTimeout(() => {
@@ -147,9 +176,6 @@ const next = () => {
       item.style.translate = `${translate - getWidth()}px`;
       item.style.transition = 'translate 0.4s ease';
     });
-
-    if (currentSlideIndex.value === slides.length - 1) currentSlideIndex.value = 0;
-    else currentSlideIndex.value += 1;
 
     startTransitions();
   });
@@ -167,28 +193,28 @@ const gotToSlide = (index: number) => {
   startTransitions();
 };
 
-const transitionEnd = () => {
-  disabled.value = false;
+// const transitionEnd = () => {
+//   disabled.value = false;
 
-  if (getFirstSlide().style.translate === '0px') {
-    getSlides().forEach(item => {
-      item.style.removeProperty('translate');
-      item.style.removeProperty('transition');
-    });
-  }
+//   if (getFirstSlide().style.translate === '0px') {
+//     getSlides().forEach(item => {
+//       item.style.removeProperty('translate');
+//       item.style.removeProperty('transition');
+//     });
+//   }
 
-  if (getFirstSlide().style.translate === `${maxTranslate.value}px`) {
-    getFirstSlide().style.translate = `-${getWidth()}px`;
-  }
+//   if (getFirstSlide().style.translate === `${maxTranslate.value}px`) {
+//     getFirstSlide().style.translate = `-${getWidth()}px`;
+//   }
 
-  if (
-    getLastSlide().style.translate === `-${maxTranslate.value}px` &&
-    getPenultimateSlide().style.translate !== `-${maxTranslate.value}px`
-  ) {
-    getSlides().forEach(item => item.style.removeProperty('transition'));
-    getPenultimateSlide().style.translate = `-${maxTranslate.value}px`;
-  }
-};
+//   if (
+//     getLastSlide().style.translate === `-${maxTranslate.value}px` &&
+//     getPenultimateSlide().style.translate !== `-${maxTranslate.value}px`
+//   ) {
+//     getSlides().forEach(item => item.style.removeProperty('transition'));
+//     getPenultimateSlide().style.translate = `-${maxTranslate.value}px`;
+//   }
+// };
 
 // LIFECYCLE HOOKS
 onMounted(() => {
