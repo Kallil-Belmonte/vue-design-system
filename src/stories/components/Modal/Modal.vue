@@ -92,6 +92,7 @@ $footer-height: 80px;
   color: var(--text-color);
   padding: 0;
   border: none;
+  margin: auto;
   transition: opacity 0.3s, scale 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
 
   @starting-style {
