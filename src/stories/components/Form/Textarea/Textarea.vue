@@ -126,10 +126,6 @@ defineExpose({
 
   .label-wrapper + [data-component='Icon'] {
     left: var(--field-spacing-x);
-
-    + input {
-      padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
-    }
   }
 
   &:has(:user-invalid) {

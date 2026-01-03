@@ -137,7 +137,7 @@ defineExpose({
       color: var(--grey-4);
       left: var(--field-spacing-x);
 
-      + input {
+      ~ input {
         padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
       }
     }
