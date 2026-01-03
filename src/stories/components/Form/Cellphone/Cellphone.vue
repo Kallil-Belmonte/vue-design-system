@@ -208,6 +208,8 @@ defineExpose({
   color: var(--text-color);
   position: relative;
 
+  --prefix-width: 50px;
+
   .label-wrapper {
     @extend %flex-vertical-center;
     margin-bottom: 5px;
@@ -223,10 +225,6 @@ defineExpose({
     + [data-component='Icon'] {
       color: var(--grey-4);
       left: var(--field-spacing-x);
-
-      ~ input {
-        padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
-      }
     }
   }
 
@@ -241,12 +239,12 @@ defineExpose({
   }
 
   .prefix-select {
-    @include position(absolute, 38px, auto, auto, 42px);
+    @include position(absolute, 34px, auto, auto, 42px);
 
     button {
       @extend %flex-vertical-center;
       column-gap: 2px;
-      @include size(50px, 30px);
+      @include size(var(--prefix-width), 30px);
       padding: 2px;
       border-radius: 4px;
       border: 1px solid var(--field-border-color);
@@ -303,7 +301,8 @@ defineExpose({
     font-size: var(--font-size);
     display: block;
     @include size(100%, var(--field-height));
-    padding: 0 var(--field-spacing-x) 0 95px;
+    padding: 0 var(--field-spacing-x) 0
+      calc(var(--field-spacing-x) + var(--field-icon-size) + var(--prefix-width) + 10px);
     border-radius: 10px;
     border: 1px solid var(--field-border-color);
     box-sizing: border-box;
