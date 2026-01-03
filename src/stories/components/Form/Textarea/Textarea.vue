@@ -121,11 +121,8 @@ defineExpose({
 
     + [data-component='Icon'] {
       color: var(--grey-4);
+      left: var(--field-spacing-x);
     }
-  }
-
-  .label-wrapper + [data-component='Icon'] {
-    left: var(--field-spacing-x);
   }
 
   &:has(:user-invalid) {
