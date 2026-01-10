@@ -177,7 +177,7 @@ const isSelected = (option: SelectOption) => option.text === model.value;
 const format = (text: string) => removeAccent(text.toLowerCase());
 
 const select = (option: SelectOption, event: KeyboardEvent | FocusEvent | MouseEvent) => {
-  if (option.disabled) return;
+  if (option.disabled || isEqual(option.text, model.value)) return;
   change(option, event);
 };
 
@@ -200,6 +200,9 @@ const setValue = (event: FocusEvent | MouseEvent) => {
     text: '',
     value: undefined,
   };
+
+  if (isEqual(option.text, model.value)) return;
+
   change(option, event);
   updateModel();
   updateFilteredOptions();
