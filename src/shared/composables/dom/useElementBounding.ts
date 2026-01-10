@@ -15,7 +15,7 @@ type Element =
 /**
  * @function useElementBounding
  * @description Gets the bounding box of an element.
- * @param { Readonly<ShallowRef<any>> } elementRef - Element reference.
+ * @param elementRef - Element reference.
  */
 
 const useElementBounding = (elementRef: Readonly<ShallowRef<Element>> | Readonly<Ref<Element>>) => {

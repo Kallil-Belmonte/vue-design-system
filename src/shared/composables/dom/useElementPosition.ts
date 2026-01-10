@@ -20,8 +20,8 @@ const divide = (value: number) => value / 2;
 /**
  * @function useElementPosition
  * @description Gets the position values of an element relative to another.
- * @param { RefParam } targetRef - Target ref.
- * @param { RefParam } elementRef - Element ref.
+ * @param targetRef - Target ref.
+ * @param elementRef - Element ref.
  */
 
 const useElementPosition = (targetRef: RefParam, elementRef: RefParam, spacing = 10) => {
