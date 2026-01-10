@@ -3,7 +3,7 @@
     <label :for="name">
       {{ label }} <span>{{ optionText }}</span>
 
-      <TooltipOld v-if="info" :maxWidth="info.maxWidth" :position="info.position">
+      <TooltipOld v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
         </template>

@@ -2,7 +2,7 @@
   <div data-component="Textarea" class="form-field">
     <div class="label-wrapper">
       <label :for="name">{{ label }}</label>
-      <TooltipOld v-if="info" :maxWidth="info.maxWidth" :position="info.position">
+      <TooltipOld v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
         </template>
