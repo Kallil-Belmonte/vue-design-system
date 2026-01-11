@@ -6,7 +6,6 @@
 
     <div
       ref="tooltip"
-      data-subcomponent="TooltipContent"
       :popover="popoverAttr"
       :data-open="open"
       :id="id"
@@ -30,7 +29,6 @@
 <script lang="ts" setup>
 import { computed, onUnmounted, ref, useTemplateRef, watchEffect } from 'vue';
 
-import { uuid } from '@/shared/helpers';
 import Button from '@/stories/components/Button/Button.vue';
 
 type Position =
@@ -87,7 +85,7 @@ const tooltip = useTemplateRef<HTMLDivElement>('tooltip');
 const open = ref(false);
 const closeTimeout = ref();
 
-const id = `tooltip-${uuid().split('-')[0]}`;
+const id = `tooltip-${crypto.randomUUID().split('-')[0]}`;
 
 const anchorName = `--${id}`;
 
@@ -180,9 +178,12 @@ defineExpose({
   font-family: var(--font-primary);
   font-size: var(--font-size);
   position: relative;
-  anchor-name: v-bind(anchorName);
 
-  [data-subcomponent='TooltipContent'] {
+  > [popovertarget] {
+    anchor-name: v-bind(anchorName);
+  }
+
+  > [popover] {
     width: max-content;
     max-width: v-bind(maxWidth);
     padding: 8px 10px;

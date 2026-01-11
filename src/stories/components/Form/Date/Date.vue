@@ -2,22 +2,22 @@
   <div data-component="Date" class="form-field">
     <div class="label-wrapper">
       <label :for="name">{{ label }}</label>
-      <TooltipOld v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
+      <Tooltip v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
         </template>
         <template #tooltip>
           {{ info.text }}
         </template>
-      </TooltipOld>
+      </Tooltip>
     </div>
 
-    <Icon v-if="showCalendarIcon" name="Calendar" />
+    <Icon name="Calendar" />
     <input
       ref="field"
       v-model="model"
       :aria-invalid="!field?.validity?.valid"
-      :type="inputType"
+      type="text"
       :name="name"
       :id="name"
       :required="required"
@@ -35,11 +35,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, type InputHTMLAttributes, useTemplateRef } from 'vue';
+import { type InputHTMLAttributes, useTemplateRef } from 'vue';
 
-import { formatDateInput, isMobile } from '@/shared/helpers';
+import { formatDateInput } from '@/shared/helpers';
 import Icon from '@/stories/components/Icon/Icon.vue';
-import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
+import Tooltip from '@/stories/components/Tooltip/Tooltip.vue';
 
 type Position =
   | 'top-start'
@@ -75,17 +75,10 @@ const { info, label, name, required, min, max, disabled, change } = defineProps<
 
 const [model] = defineModel<string>({
   required: true,
-  set: value => {
-    if (isMobile()) return value;
-    return formatDateInput(value);
-  },
+  set: value => formatDateInput(value),
 });
 
 const field = useTemplateRef<HTMLInputElement>('field');
-
-const inputType = computed(() => (isMobile() ? 'date' : 'text'));
-
-const showCalendarIcon = computed(() => inputType.value === 'text');
 
 // EXPOSE
 defineExpose({
@@ -112,7 +105,7 @@ defineExpose({
       font-weight: 700;
     }
 
-    [data-component='TooltipOld'] {
+    [data-component='Tooltip'] {
       margin-left: 5px;
     }
 

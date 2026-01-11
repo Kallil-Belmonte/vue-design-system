@@ -6,7 +6,6 @@
 
     <div
       ref="tooltip"
-      data-subcomponent="TooltipOldContent"
       :popover="popoverAttr"
       :data-open="open"
       :id="id"
@@ -31,7 +30,6 @@
 import { computed, onUnmounted, ref, useTemplateRef, watchEffect } from 'vue';
 
 import { useElementPosition } from '@/shared/composables';
-import { uuid } from '@/shared/helpers';
 import Button from '@/stories/components/Button/Button.vue';
 
 type Position =
@@ -56,7 +54,7 @@ type Props = {
   closeOnTooltipClick?: boolean;
   color?: 'base' | 'primary' | 'secondary';
   position?: Position;
-  spacing?: number;
+  spacing?: string;
   showClose?: boolean;
 };
 
@@ -75,7 +73,7 @@ const {
   closeOnTooltipClick = false,
   color = 'base',
   position = 'top',
-  spacing = 10,
+  spacing = '10px',
   showClose: showCloseProp = true,
 } = defineProps<Props>();
 
@@ -94,12 +92,12 @@ const {
   verticalTop,
   verticalCenter,
   verticalBottom,
-} = useElementPosition(element, tooltip, spacing);
+} = useElementPosition(element, tooltip, Number(spacing.replace(/[^\d]/g, '')));
 
 const open = ref(false);
 const closeTimeout = ref();
 
-const id = `tooltip-${uuid().split('-')[0]}`;
+const id = `tooltip-${crypto.randomUUID().split('-')[0]}`;
 
 const popoverAttr = computed(() =>
   typeof openProp === 'boolean' || trigger === 'click' ? 'manual' : 'hint',
@@ -191,7 +189,7 @@ defineExpose({
   font-size: var(--font-size);
   position: relative;
 
-  [data-subcomponent='TooltipOldContent'] {
+  > [popover] {
     width: max-content;
     max-width: v-bind(maxWidth);
     padding: 10px;

@@ -2,14 +2,14 @@
   <div data-component="Password" class="form-field">
     <div class="label-wrapper">
       <label :for="name">{{ label }}</label>
-      <TooltipOld v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
+      <Tooltip v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
         </template>
         <template #tooltip>
           {{ info.text }}
         </template>
-      </TooltipOld>
+      </Tooltip>
     </div>
 
     <Icon name="Key" />
@@ -41,7 +41,7 @@ import { type InputHTMLAttributes, ref, useTemplateRef } from 'vue';
 
 import Icon from '@/stories/components/Icon/Icon.vue';
 import type { Icons } from '@/stories/components/Icon/types';
-import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
+import Tooltip from '@/stories/components/Tooltip/Tooltip.vue';
 
 type Position =
   | 'top-start'
@@ -129,7 +129,7 @@ defineExpose({
       font-weight: 700;
     }
 
-    [data-component='TooltipOld'] {
+    [data-component='Tooltip'] {
       margin-left: 5px;
     }
 

@@ -8,7 +8,7 @@
         <p v-if="description" class="description">{{ description }}</p>
       </div>
 
-      <TooltipOld
+      <Tooltip
         v-if="actions"
         trigger="click"
         :showClose="false"
@@ -25,7 +25,7 @@
             </li>
           </ul>
         </template>
-      </TooltipOld>
+      </Tooltip>
     </header>
     <section v-if="slots.default" class="content">
       <slot></slot>
@@ -42,7 +42,7 @@ import { useSlots, useTemplateRef } from 'vue';
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
 import type { Icons } from '@/stories/components/Icon/types';
-import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
+import Tooltip from '@/stories/components/Tooltip/Tooltip.vue';
 
 type Action = {
   text: string;
@@ -121,10 +121,10 @@ defineExpose({
       }
     }
 
-    > [data-component='TooltipOld'] {
+    > [data-component='Tooltip'] {
       margin-left: auto;
 
-      [data-subcomponent='TooltipOldContent'] {
+      > [popover] {
         padding: 0;
 
         ul {

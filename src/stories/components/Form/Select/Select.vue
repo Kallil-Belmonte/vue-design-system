@@ -2,50 +2,29 @@
   <div ref="element" data-component="Select" class="form-field">
     <div class="label-wrapper">
       <label :for="name">{{ label }}</label>
-      <TooltipOld v-if="showInfo" :maxWidth="info?.maxWidth" :position="info?.position">
+      <Tooltip v-if="showInfo" :maxWidth="info?.maxWidth" :position="info?.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
         </template>
         <template #tooltip>
           {{ info?.text }}
         </template>
-      </TooltipOld>
+      </Tooltip>
     </div>
 
-    <template v-if="isMobile()">
-      <select
-        ref="field"
-        v-model="model"
-        :aria-invalid="!field?.validity?.valid"
-        :id="name"
-        :name="name"
-        :required="required"
-        :disabled="disabled"
+    <div class="field-wrapper" :tabindex="disabled ? -1 : 0">
+      <Tooltip
+        ref="tooltip"
+        animation="fade"
+        trigger="click"
+        closeOnTooltipClick
+        position="bottom"
+        maxWidth="none"
+        spacing="0px"
+        :showClose="false"
       >
-        <option value="select" disabled>Select</option>
-        <option
-          v-for="option in filteredOptions"
-          :key="option.value"
-          :value="option.value"
-          :disabled="option.disabled"
-          @click="event => change?.(option, event)"
-        >
-          {{ option.text }}
-        </option>
-      </select>
-    </template>
-    <template v-else>
-      <div class="field-wrapper" :tabindex="disabled ? -1 : 0">
-        <TooltipOld
-          ref="tooltip"
-          trigger="click"
-          closeOnTooltipClick
-          position="bottom"
-          maxWidth="none"
-          :spacing="0"
-          :showClose="false"
-        >
-          <template #default>
+        <template #default>
+          <div>
             <input
               ref="field"
               v-model="model"
@@ -65,26 +44,26 @@
               :disabled="disabled"
               @focus="setValue"
             />
-          </template>
-          <template #tooltip>
-            <ul role="listbox" aria-label="Options">
-              <li
-                v-for="option in filteredOptions"
-                :key="option.value"
-                role="option"
-                :tabindex="disabled || option.disabled ? -1 : 0"
-                :aria-selected="isSelected(option)"
-                :aria-disabled="option.disabled"
-                @keyup.enter="event => select(option, event)"
-                @click="event => select(option, event)"
-              >
-                {{ option.text }}
-              </li>
-            </ul>
-          </template>
-        </TooltipOld>
-      </div>
-    </template>
+          </div>
+        </template>
+        <template #tooltip>
+          <ul role="listbox" aria-label="Options">
+            <li
+              v-for="option in filteredOptions"
+              :key="option.value"
+              role="option"
+              :tabindex="disabled || option.disabled ? -1 : 0"
+              :aria-selected="isSelected(option)"
+              :aria-disabled="option.disabled"
+              @keyup.enter="event => select(option, event)"
+              @click="event => select(option, event)"
+            >
+              {{ option.text }}
+            </li>
+          </ul>
+        </template>
+      </Tooltip>
+    </div>
 
     <p v-if="!!field?.validationMessage" class="validation-message">
       <strong>{{ field.validationMessage }}</strong>
@@ -104,10 +83,10 @@ import {
 } from 'vue';
 
 import { useElementBounding } from '@/shared/composables';
-import { isEqual, isMobile, removeAccent } from '@/shared/helpers';
+import { isEqual, removeAccent } from '@/shared/helpers';
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
-import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
+import Tooltip from '@/stories/components/Tooltip/Tooltip.vue';
 
 type Position =
   | 'top-start'
@@ -159,7 +138,7 @@ const element = useTemplateRef<HTMLDivElement>('element');
 
 const tooltip = useTemplateRef<{ element: HTMLDivElement; tooltip: HTMLElement }>('tooltip');
 
-const field = useTemplateRef<HTMLInputElement | HTMLSelectElement>('field');
+const field = useTemplateRef<HTMLInputElement>('field');
 
 const fieldRect = useElementBounding(field);
 
@@ -168,7 +147,7 @@ const filteredOptions = ref<Props['options']>([]);
 
 const fieldWidth = computed(() => `${fieldRect.width.value}px`);
 
-const showInfo = computed(() => info && options.some(option => option.text === model.value));
+const showInfo = computed(() => info?.text && options.some(isSelected));
 
 const disabled = computed(() => disabledProp || !options.length);
 
@@ -201,7 +180,7 @@ const setValue = (event: FocusEvent | MouseEvent) => {
     value: undefined,
   };
 
-  if (isEqual(option.text, model.value)) return;
+  if (isSelected(option)) return;
 
   change(option, event);
   updateModel();
@@ -257,7 +236,7 @@ defineExpose({
       font-weight: 700;
     }
 
-    [data-component='TooltipOld'] {
+    [data-component='Tooltip'] {
       margin-left: 5px;
     }
   }
@@ -340,7 +319,7 @@ defineExpose({
       }
     }
 
-    &:has([data-subcomponent='TooltipOldContent']:popover-open) {
+    &:has([popover]:popover-open) {
       [data-component='Button'] {
         rotate: 180deg;
 
@@ -350,7 +329,7 @@ defineExpose({
       }
     }
 
-    [data-subcomponent='TooltipOldContent'] {
+    [popover] {
       width: v-bind(fieldWidth);
       padding: 0;
       border-radius: 0;

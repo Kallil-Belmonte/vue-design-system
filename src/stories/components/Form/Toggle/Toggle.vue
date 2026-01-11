@@ -3,14 +3,14 @@
     <label :for="name">
       {{ label }} <span>{{ optionText }}</span>
 
-      <TooltipOld v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
+      <Tooltip v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
         </template>
         <template #tooltip>
           {{ info.text }}
         </template>
-      </TooltipOld>
+      </Tooltip>
 
       <div class="input-wrapper">
         <input
@@ -40,7 +40,7 @@
 import { type InputHTMLAttributes, computed, useTemplateRef } from 'vue';
 
 import Icon from '@/stories/components/Icon/Icon.vue';
-import TooltipOld from '@/stories/components/TooltipOld/TooltipOld.vue';
+import Tooltip from '@/stories/components/Tooltip/Tooltip.vue';
 
 type Position =
   | 'top-start'
@@ -131,7 +131,7 @@ defineExpose({
       margin-left: 5px;
     }
 
-    [data-component='TooltipOld'] {
+    [data-component='Tooltip'] {
       margin-left: 5px;
     }
 
