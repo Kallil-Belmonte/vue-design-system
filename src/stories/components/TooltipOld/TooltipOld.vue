@@ -92,7 +92,7 @@ const {
   verticalTop,
   verticalCenter,
   verticalBottom,
-} = useElementPosition(element, tooltip, Number(spacing.replace(/[^\d]/g, '')));
+} = useElementPosition(element, tooltip, Number(spacing.replace(/\D/g, '')));
 
 const open = ref(false);
 const closeTimeout = ref();
