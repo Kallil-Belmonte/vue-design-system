@@ -102,7 +102,7 @@ defineExpose({
   @include position(fixed, 15px, 15px);
 
   .toast {
-    padding: 8px 15px;
+    padding: 15px 15px 10px;
     border-radius: 10px;
     box-sizing: border-box;
     position: relative;
