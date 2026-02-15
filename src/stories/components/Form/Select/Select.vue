@@ -242,13 +242,13 @@ defineExpose({
   }
 
   &:has(:user-invalid) {
-    .label-wrapper ~ [data-component='Icon'] {
+    .label-wrapper + [data-component='Icon'] {
       color: var(--danger);
     }
   }
 
   &:has(:focus:not(:user-invalid)) {
-    .label-wrapper ~ [data-component='Icon'] {
+    .label-wrapper + [data-component='Icon'] {
       color: var(--primary);
     }
   }

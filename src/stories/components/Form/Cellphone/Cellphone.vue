@@ -223,7 +223,7 @@ defineExpose({
       margin-left: 5px;
     }
 
-    ~ [data-component='Icon'] {
+    + [data-component='Icon'] {
       color: var(--grey-4);
       left: var(--field-spacing-x);
     }
@@ -286,13 +286,13 @@ defineExpose({
   }
 
   &:has(:user-invalid) {
-    .label-wrapper ~ [data-component='Icon'] {
+    .label-wrapper + [data-component='Icon'] {
       color: var(--danger);
     }
   }
 
   &:has(:focus:not(:user-invalid)) {
-    .label-wrapper ~ [data-component='Icon'] {
+    .label-wrapper + [data-component='Icon'] {
       color: var(--primary);
     }
   }
