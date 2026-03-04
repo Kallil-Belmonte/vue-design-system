@@ -10,8 +10,9 @@
     "skipLibCheck": true,
     "target": "esnext",
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["vite.config.mts"]
+  "include": ["vite.config.ts"]
 }
