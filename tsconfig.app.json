@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "target": "ESNext",
+    "target": "esnext",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "noUnusedLocals": true,
