@@ -151,18 +151,7 @@ defineExpose({
     border: 1px solid var(--field-border-color);
     box-sizing: border-box;
     transition: border-color 0.4s ease;
-
-    &::-webkit-input-placeholder,
-    &::-webkit-input-placeholder,
-    &::-webkit-input-placeholder {
-      color: var(--grey-5);
-    }
-
-    &::-moz-placeholder,
-    &::-moz-placeholder,
-    &::-moz-placeholder {
-      color: var(--grey-5);
-    }
+    @include placeholder-color(var(--grey-5));
 
     &:focus {
       border-color: var(--field-active-border-color);

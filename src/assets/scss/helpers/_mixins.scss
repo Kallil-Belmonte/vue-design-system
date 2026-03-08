@@ -6,6 +6,20 @@
   }
 }
 
+@mixin placeholder-color($color) {
+  &::-webkit-input-placeholder,
+  &::-webkit-input-placeholder,
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+
+  &::-moz-placeholder,
+  &::-moz-placeholder,
+  &::-moz-placeholder {
+    color: $color;
+  }
+}
+
 @mixin size($width, $height, $radius: '', $important: false) {
   @if $important == true {
     width: $width !important;

@@ -15,20 +15,20 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "5.0.1",
-    "@storybook/addon-docs": "10.2.13",
-    "@storybook/addon-vitest": "10.2.13",
-    "@storybook/vue3-vite": "10.2.13",
+    "@storybook/addon-docs": "10.2.16",
+    "@storybook/addon-vitest": "10.2.16",
+    "@storybook/vue3-vite": "10.2.16",
     "@vitejs/plugin-vue": "6.0.4",
     "@vitest/browser": "4.0.18",
     "@vitest/coverage-v8": "4.0.18",
-    "oxfmt": "0.35.0",
-    "oxlint": "1.50.0",
+    "oxfmt": "0.36.0",
+    "oxlint": "1.51.0",
     "playwright": "1.58.2",
     "sass-embedded": "1.97.3",
-    "storybook": "10.2.13",
+    "storybook": "10.2.16",
     "typescript": "6.0.0-beta",
     "vite": "7.3.1",
-    "vite-plugin-oxlint": "1.6.0",
+    "vite-plugin-oxlint": "2.0.1",
     "vitest": "4.0.18"
   }
 }
