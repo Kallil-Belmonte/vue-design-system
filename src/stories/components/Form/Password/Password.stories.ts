@@ -24,7 +24,7 @@ const meta: Meta<typeof Password> = {
     input: setArgs({
       name: 'input',
       description: 'Input callback.',
-      type: '(payload: Event) => void',
+      type: "InputHTMLAttributes['onInput']",
       control: false,
     }),
     label: setArgs({

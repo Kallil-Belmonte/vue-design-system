@@ -1,18 +1,14 @@
+import { ref } from 'vue';
+
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import { setArgs } from '@/shared/helpers';
-import Date from './Date.vue';
+import RangeSlider from './RangeSlider.vue';
 
-const meta: Meta<typeof Date> = {
-  title: 'Components/Form/Date',
-  component: Date,
+const meta: Meta<typeof RangeSlider> = {
+  title: 'Components/Form/RangeSlider',
+  component: RangeSlider,
   argTypes: {
-    change: setArgs({
-      name: 'change',
-      description: 'Change callback.',
-      type: "InputHTMLAttributes['onChange']",
-      control: false,
-    }),
     disabled: setArgs({
       name: 'disabled',
       description: 'Disabled native prop.',
@@ -25,6 +21,12 @@ const meta: Meta<typeof Date> = {
       type: '{ text: string; maxWidth?: string; position?: Position }',
       control: 'object',
     }),
+    input: setArgs({
+      name: 'input',
+      description: 'Input callback.',
+      type: "InputHTMLAttributes['onInput']",
+      control: false,
+    }),
     label: setArgs({
       name: 'label',
       description: 'Label.',
@@ -33,13 +35,13 @@ const meta: Meta<typeof Date> = {
     }),
     max: setArgs({
       name: 'max',
-      description: 'Max native prop.',
+      description: 'Max value.',
       type: "InputHTMLAttributes['max']",
       control: 'text',
     }),
     min: setArgs({
       name: 'min',
-      description: 'Min native prop.',
+      description: 'Min value.',
       type: "InputHTMLAttributes['min']",
       control: 'text',
     }),
@@ -50,12 +52,6 @@ const meta: Meta<typeof Date> = {
       required: true,
       control: 'text',
     }),
-    placeholder: setArgs({
-      name: 'placeholder',
-      description: 'Placeholder native prop.',
-      type: "InputHTMLAttributes['placeholder']",
-      control: 'text',
-    }),
     required: setArgs({
       name: 'required',
       description: 'Required native prop.',
@@ -64,20 +60,22 @@ const meta: Meta<typeof Date> = {
     }),
   },
   render: args => ({
-    components: { Date },
+    components: { RangeSlider },
     setup() {
-      return { args };
+      const minValue = ref(0);
+      const maxValue = ref(100);
+      return { args, minValue, maxValue };
     },
     template: `
-      <Date v-bind="args" />
+      <RangeSlider v-model:min-value="minValue" v-model:max-value="maxValue" v-bind="args" />
     `,
   }),
 };
 
-export const Default: StoryObj<typeof Date> = {
+export const Default: StoryObj<typeof RangeSlider> = {
   args: {
-    name: 'date',
-    label: 'Date',
+    name: 'range-slider',
+    label: 'Range Slider',
   },
 };
 

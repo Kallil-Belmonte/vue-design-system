@@ -32,14 +32,13 @@ const meta: Meta<typeof Input> = {
     input: setArgs({
       name: 'input',
       description: 'Input callback.',
-      type: '(payload: Event) => void',
+      type: "InputHTMLAttributes['onInput']",
       control: false,
     }),
     label: setArgs({
       name: 'label',
       description: 'Label.',
       type: 'string',
-      required: true,
       control: 'text',
     }),
     max: setArgs({

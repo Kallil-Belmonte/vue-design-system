@@ -30,14 +30,13 @@ const meta: Meta<typeof Textarea> = {
     input: setArgs({
       name: 'input',
       description: 'Input callback.',
-      type: '(payload: Event) => void',
+      type: "TextareaHTMLAttributes['onInput']",
       control: false,
     }),
     label: setArgs({
       name: 'label',
       description: 'Label.',
       type: 'string',
-      required: true,
       control: 'text',
     }),
     maxlength: setArgs({

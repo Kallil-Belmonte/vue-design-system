@@ -1,7 +1,7 @@
 <template>
   <div data-component="Date" class="form-field">
     <div class="label-wrapper">
-      <label :for="name">{{ label }}</label>
+      <label v-if="label" :for="name">{{ label }}</label>
       <Tooltip v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
@@ -61,7 +61,7 @@ type Props = {
     maxWidth?: string;
     position?: Position;
   };
-  label: string;
+  label?: string;
   name: InputHTMLAttributes['name'];
   required?: InputHTMLAttributes['required'];
   min?: string;

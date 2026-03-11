@@ -1,7 +1,7 @@
 <template>
   <div data-component="Cellphone" class="form-field">
     <div class="label-wrapper">
-      <label :for="name">{{ label }}</label>
+      <label v-if="label" :for="name">{{ label }}</label>
       <Tooltip v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
           <Icon name="Info" size="18px" color="#cbcbcb" />
@@ -98,7 +98,7 @@ type Props = {
   required?: InputHTMLAttributes['required'];
   disabled?: InputHTMLAttributes['disabled'];
   selectPrefix: (language: LanguageData) => void;
-  input?: (payload: Event) => void;
+  input?: InputHTMLAttributes['onInput'];
 };
 
 const {

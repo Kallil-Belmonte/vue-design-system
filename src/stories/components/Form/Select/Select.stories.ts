@@ -32,7 +32,6 @@ const meta: Meta<typeof Select> = {
       name: 'label',
       description: 'Label.',
       type: 'string',
-      required: true,
       control: 'text',
     }),
     name: setArgs({
