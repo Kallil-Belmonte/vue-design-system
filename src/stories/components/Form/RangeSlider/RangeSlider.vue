@@ -30,6 +30,7 @@
         :max="max"
       />
       <input
+        v-model="baseValue"
         class="base"
         type="range"
         :name="name"
@@ -50,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type InputHTMLAttributes, onMounted, useTemplateRef } from 'vue';
+import { type InputHTMLAttributes, onMounted, ref, useTemplateRef, watch } from 'vue';
 
 import Icon from '@/stories/components/Icon/Icon.vue';
 import Tooltip from '@/stories/components/Tooltip/Tooltip.vue';
@@ -84,16 +85,7 @@ type Props = {
   input?: InputHTMLAttributes['onInput'];
 };
 
-const {
-  info,
-  label,
-  name,
-  required,
-  min = 0,
-  max = 100,
-  disabled,
-  input: inputProp,
-} = defineProps<Props>();
+const { info, label, name, required, min = 0, max = 100, disabled, input } = defineProps<Props>();
 
 const [minValue] = defineModel<number, number>('minValue', { required: true });
 const [maxValue] = defineModel<number, number>('maxValue', { required: true });
@@ -103,13 +95,14 @@ const maxField = useTemplateRef<InputHTMLAttributes>('maxField');
 const minBar = useTemplateRef<HTMLDivElement>('minBar');
 const maxBar = useTemplateRef<HTMLDivElement>('maxBar');
 
-const updateValues = (baseValue: string | number) => {
-  const value = Number(baseValue);
+const baseValue = ref('0');
+
+const updateValues = (valueParam: string | number) => {
+  const value = Number(valueParam);
   const total = Number(max);
   const minPercentage = Number(minValue.value) / (total / 100);
   const maxPercentage = Number(maxValue.value) / (total / 100);
   const percentage = Number(value) / (total / 100);
-
   const half = maxPercentage - (maxPercentage - minPercentage) / 2;
 
   const updateMin = () => {
@@ -144,16 +137,22 @@ const updateValues = (baseValue: string | number) => {
   else updateMin();
 };
 
-const input: InputHTMLAttributes['onInput'] = event => {
-  if (disabled) return;
-  updateValues((event.target as HTMLInputElement).value);
-  inputProp?.(event);
-};
-
 // LIFECYCLE HOOKS
 onMounted(() => {
   updateValues(minValue.value);
   updateValues(maxValue.value);
+});
+
+watch(baseValue, newBaseValue => {
+  updateValues(newBaseValue);
+});
+
+watch(minValue, newMin => {
+  updateValues(newMin);
+});
+
+watch(maxValue, newMax => {
+  updateValues(newMax);
 });
 
 // EXPOSE
@@ -206,8 +205,7 @@ defineExpose({
   }
 
   .field {
-    width: 100%;
-    height: 20px;
+    @include size(100%, 20px);
     position: relative;
 
     input[type='range'] {
@@ -223,18 +221,15 @@ defineExpose({
     }
 
     .bar {
-      width: 100%;
-      height: 10px;
+      @include size(100%, 10px, 50px);
       background-color: color.adjust(#43b883, $lightness: 20%);
-      border-radius: 50px;
       position: relative;
       top: 50%;
       translate: 0 -50%;
 
       .min,
       .max {
-        width: 0;
-        height: 100%;
+        @include size(0, 100%);
         background-color: var(--grey-3);
         position: absolute;
         cursor: pointer;
@@ -246,14 +241,10 @@ defineExpose({
 
         &::before {
           content: '';
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
+          @include square(20px, 50%);
           background-color: var(--primary-darker);
-          position: absolute;
-          top: 50%;
+          @extend %absolute-vertical-center;
           left: 100%;
-          translate: 0 -50%;
           z-index: 1;
         }
       }
@@ -265,14 +256,10 @@ defineExpose({
 
         &::after {
           content: '';
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
+          @include square(20px, 50%);
           background-color: var(--primary-darker);
-          position: absolute;
-          top: 50%;
+          @extend %absolute-vertical-center;
           right: 100%;
-          translate: 0 -50%;
           z-index: 1;
         }
       }

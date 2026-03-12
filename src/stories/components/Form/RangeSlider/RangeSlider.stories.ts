@@ -62,8 +62,8 @@ const meta: Meta<typeof RangeSlider> = {
   render: args => ({
     components: { RangeSlider },
     setup() {
-      const minValue = ref(0);
-      const maxValue = ref(100);
+      const minValue = ref(20);
+      const maxValue = ref(80);
       return { args, minValue, maxValue };
     },
     template: `
