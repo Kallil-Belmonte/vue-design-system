@@ -142,7 +142,7 @@ const field = useTemplateRef<HTMLInputElement>('field');
 
 const fieldRect = useElementBounding(field);
 
-const [model] = defineModel<string>({ required: true });
+const model = ref<string>('');
 const filteredOptions = ref<Props['options']>([]);
 
 const fieldWidth = computed(() => `${fieldRect.width.value}px`);
