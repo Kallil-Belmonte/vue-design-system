@@ -12,9 +12,28 @@
       </Tooltip>
     </div>
 
-    <div class="field">
+    <div class="fields">
       <input
         ref="minField"
+        v-model="minValue"
+        type="number"
+        name="min-field"
+        :min="min"
+        :max="max"
+      />
+      <input
+        ref="maxField"
+        v-model="maxValue"
+        type="number"
+        name="max-field"
+        :min="min"
+        :max="max"
+      />
+    </div>
+
+    <div class="range">
+      <input
+        ref="minRange"
         v-model="minValue"
         type="range"
         name="min-range"
@@ -22,7 +41,7 @@
         :max="max"
       />
       <input
-        ref="maxField"
+        ref="maxRange"
         v-model="maxValue"
         type="range"
         name="max-range"
@@ -87,11 +106,27 @@ type Props = {
 
 const { info, label, name, required, min = 0, max = 100, disabled, input } = defineProps<Props>();
 
-const [minValue] = defineModel<number, number>('minValue', { required: true });
-const [maxValue] = defineModel<number, number>('maxValue', { required: true });
+const [minValue] = defineModel<number, number>('minValue', {
+  required: true,
+  set: value => {
+    if (value < Number(min)) return Number(min);
+    if (value > Number(max)) return Number(max);
+    return value;
+  },
+});
+const [maxValue] = defineModel<number, number>('maxValue', {
+  required: true,
+  set: value => {
+    if (value < Number(min)) return Number(min);
+    if (value > Number(max)) return Number(max);
+    return value;
+  },
+});
 
 const minField = useTemplateRef<InputHTMLAttributes>('minField');
 const maxField = useTemplateRef<InputHTMLAttributes>('maxField');
+const minRange = useTemplateRef<InputHTMLAttributes>('minRange');
+const maxRange = useTemplateRef<InputHTMLAttributes>('maxRange');
 const minBar = useTemplateRef<HTMLDivElement>('minBar');
 const maxBar = useTemplateRef<HTMLDivElement>('maxBar');
 
@@ -161,6 +196,10 @@ defineExpose({
   minField,
   /** MaxField ref */
   maxField,
+  /** MinRange ref */
+  minRange,
+  /** MaxRange ref */
+  maxRange,
 });
 </script>
 ''
@@ -204,7 +243,33 @@ defineExpose({
     }
   }
 
-  .field {
+  .fields {
+    @extend %flex-vertical-center;
+    justify-content: space-between;
+
+    input[type='number'] {
+      font-family: var(--font-primary);
+      font-size: 14px;
+      color: var(--text-color);
+      text-align: center;
+      @include size(50px, 25px, 8px);
+      border: none;
+      background-color: var(--grey-3);
+      -moz-appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .range {
     @include size(100%, 20px);
     position: relative;
 
