@@ -140,11 +140,11 @@ const updateValues = (valueParam: string | number) => {
   const maxPercentage = Number(maxValue.value) / (total / 100);
   const percentage = Number(value) / (total / 100);
   const half = maxPercentage - (maxPercentage - minPercentage) / 2;
+  const width = ((value - Number(min)) / range) * 100;
 
   const updateMin = () => {
     const minResult = Number(value);
     const maxResult = Number(maxValue.value);
-    const width = ((Number(value) - Number(min)) / range) * 100;
 
     minValue.value = minResult;
     if (minBar.value) minBar.value.style.width = `${width}%`;
@@ -158,7 +158,6 @@ const updateValues = (valueParam: string | number) => {
   const updateMax = () => {
     const minResult = Number(minValue.value);
     const maxResult = Number(value);
-    const width = ((Number(value) - Number(min)) / range) * 100;
 
     maxValue.value = maxResult;
     if (maxBar.value) maxBar.value.style.width = `${100 - width}%`;
