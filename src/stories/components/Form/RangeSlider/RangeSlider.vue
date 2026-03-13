@@ -135,6 +135,7 @@ const baseValue = ref('0');
 const updateValues = (valueParam: string | number) => {
   const value = Number(valueParam);
   const total = Number(max);
+  const range = Number(max) - Number(min);
   const minPercentage = Number(minValue.value) / (total / 100);
   const maxPercentage = Number(maxValue.value) / (total / 100);
   const percentage = Number(value) / (total / 100);
@@ -143,7 +144,6 @@ const updateValues = (valueParam: string | number) => {
   const updateMin = () => {
     const minResult = Number(value);
     const maxResult = Number(maxValue.value);
-    const range = Number(max) - Number(min);
     const width = ((Number(value) - Number(min)) / range) * 100;
 
     minValue.value = minResult;
@@ -158,7 +158,6 @@ const updateValues = (valueParam: string | number) => {
   const updateMax = () => {
     const minResult = Number(minValue.value);
     const maxResult = Number(value);
-    const range = Number(max) - Number(min);
     const width = ((Number(value) - Number(min)) / range) * 100;
 
     maxValue.value = maxResult;
