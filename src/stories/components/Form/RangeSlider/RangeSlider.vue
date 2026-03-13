@@ -141,35 +141,43 @@ const updateValues = (valueParam: string | number) => {
   const half = maxPercentage - (maxPercentage - minPercentage) / 2;
 
   const updateMin = () => {
-    const min = Number(value);
-    const max = Number(maxValue.value);
-    const percentage = min / (total / 100);
+    const minResult = Number(value);
+    const maxResult = Number(maxValue.value);
+    const range = Number(max) - Number(min);
+    const width = ((Number(value) - Number(min)) / range) * 100;
 
-    minValue.value = Number(value);
-    if (minBar.value) minBar.value.style.width = `${percentage}%`;
+    minValue.value = minResult;
+    if (minBar.value) minBar.value.style.width = `${width}%`;
 
-    if (min >= max) {
-      maxValue.value = Number(value);
-      if (maxBar.value) maxBar.value.style.width = `${100 - percentage}%`;
+    if (minResult >= maxResult) {
+      maxValue.value = minResult;
+      if (maxBar.value) maxBar.value.style.width = `${100 - width}%`;
     }
   };
 
   const updateMax = () => {
-    const min = Number(minValue.value);
-    const max = Number(value);
-    const percentage = max / (total / 100);
+    const minResult = Number(minValue.value);
+    const maxResult = Number(value);
+    const range = Number(max) - Number(min);
+    const width = ((Number(value) - Number(min)) / range) * 100;
 
-    maxValue.value = Number(value);
-    if (maxBar.value) maxBar.value.style.width = `${100 - percentage}%`;
+    maxValue.value = maxResult;
+    if (maxBar.value) maxBar.value.style.width = `${100 - width}%`;
 
-    if (max <= min) {
-      minValue.value = Number(value);
-      if (minBar.value) minBar.value.style.width = `${percentage}%`;
+    if (maxResult <= minResult) {
+      minValue.value = maxResult;
+      if (minBar.value) minBar.value.style.width = `${width}%`;
     }
   };
 
-  if (percentage >= half) updateMax();
-  else updateMin();
+  if (percentage === half) {
+    updateMin();
+    updateMax();
+  } else if (percentage > half) {
+    updateMax();
+  } else {
+    updateMin();
+  }
 };
 
 // LIFECYCLE HOOKS
@@ -202,7 +210,6 @@ defineExpose({
   maxRange,
 });
 </script>
-''
 
 <style lang="scss">
 @use 'sass:color';
@@ -246,6 +253,7 @@ defineExpose({
   .fields {
     @extend %flex-vertical-center;
     justify-content: space-between;
+    margin-bottom: 5px;
 
     input[type='number'] {
       font-family: var(--font-primary);

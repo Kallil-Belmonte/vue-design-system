@@ -62,12 +62,12 @@ const meta: Meta<typeof RangeSlider> = {
   render: args => ({
     components: { RangeSlider },
     setup() {
-      const minValue = ref(20);
-      const maxValue = ref(80);
+      const minValue = ref(0);
+      const maxValue = ref(100);
       return { args, minValue, maxValue };
     },
     template: `
-      <RangeSlider v-model:min-value="minValue" v-model:max-value="maxValue" v-bind="args" />
+      <RangeSlider v-model:min-value="minValue" v-model:max-value="maxValue" :min="0" :max="100" v-bind="args" />
     `,
   }),
 };
