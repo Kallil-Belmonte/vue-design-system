@@ -1,6 +1,6 @@
 <template>
   <div ref="element" data-component="Select" class="form-field">
-    <div class="label-wrapper">
+    <div class="label-wrapper" v-if="label || showInfo">
       <label v-if="label" :for="name">{{ label }}</label>
       <Tooltip v-if="showInfo" :maxWidth="info?.maxWidth" :position="info?.position">
         <template #default>

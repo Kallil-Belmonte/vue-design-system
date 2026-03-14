@@ -1,6 +1,6 @@
 <template>
   <div data-component="Date" class="form-field">
-    <div class="label-wrapper">
+    <div class="label-wrapper" v-if="label || info?.text">
       <label v-if="label" :for="name">{{ label }}</label>
       <Tooltip v-if="info?.text" :maxWidth="info.maxWidth" :position="info.position">
         <template #default>
