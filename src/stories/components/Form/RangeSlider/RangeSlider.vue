@@ -20,6 +20,7 @@
         name="min-field"
         :min="min"
         :max="max"
+        @blur="blurMin"
       />
       <input
         ref="maxField"
@@ -28,6 +29,7 @@
         name="max-field"
         :min="min"
         :max="max"
+        @blur="blurMax"
       />
     </div>
 
@@ -61,9 +63,11 @@
         @input="input"
       />
 
-      <div class="bar">
-        <div ref="minBar" class="min"></div>
-        <div ref="maxBar" class="max"></div>
+      <div class="bar-wrapper">
+        <div class="bar">
+          <div ref="minBar" class="min"></div>
+          <div ref="maxBar" class="max"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -106,22 +110,8 @@ type Props = {
 
 const { info, label, name, required, min = 0, max = 100, disabled, input } = defineProps<Props>();
 
-const [minValue] = defineModel<number, number>('minValue', {
-  required: true,
-  set: value => {
-    if (value < Number(min)) return Number(min);
-    if (value > Number(max)) return Number(max);
-    return value;
-  },
-});
-const [maxValue] = defineModel<number, number>('maxValue', {
-  required: true,
-  set: value => {
-    if (value < Number(min)) return Number(min);
-    if (value > Number(max)) return Number(max);
-    return value;
-  },
-});
+const [minValue] = defineModel<number, number>('minValue', { required: true });
+const [maxValue] = defineModel<number, number>('maxValue', { required: true });
 
 const minField = useTemplateRef<InputHTMLAttributes>('minField');
 const maxField = useTemplateRef<InputHTMLAttributes>('maxField');
@@ -132,6 +122,28 @@ const maxBar = useTemplateRef<HTMLDivElement>('maxBar');
 
 const baseValue = ref('0');
 
+const blurMin: InputHTMLAttributes['onBlur'] = event => {
+  const { value } = event.target as HTMLInputElement;
+
+  if (Number(value) < Number(min)) {
+    minValue.value = Number(min);
+  } else if (Number(value) > Number(max)) {
+    minValue.value = Number(max);
+    maxValue.value = Number(max);
+  }
+};
+
+const blurMax: InputHTMLAttributes['onBlur'] = event => {
+  const { value } = event.target as HTMLInputElement;
+
+  if (Number(value) > Number(max)) {
+    maxValue.value = Number(max);
+  } else if (Number(value) < Number(min)) {
+    minValue.value = Number(min);
+    maxValue.value = Number(min);
+  }
+};
+
 const updateValues = (valueParam: string | number) => {
   const value = Number(valueParam);
   const total = Number(max);
@@ -141,6 +153,8 @@ const updateValues = (valueParam: string | number) => {
   const percentage = Number(value) / (total / 100);
   const half = maxPercentage - (maxPercentage - minPercentage) / 2;
   const width = ((value - Number(min)) / range) * 100;
+
+  if (value < Number(min) || value > Number(max)) return;
 
   const updateMin = () => {
     const minResult = Number(value);
@@ -218,6 +232,9 @@ defineExpose({
   font-size: var(--font-size);
   color: var(--text-color);
 
+  $dot-size: 20px;
+  $dot-half-size: calc($dot-size / 2);
+
   .label-wrapper {
     @extend %flex-vertical-center;
     margin-bottom: 5px;
@@ -276,7 +293,7 @@ defineExpose({
   }
 
   .range {
-    @include size(100%, 20px);
+    @include size(100%, $dot-size);
     position: relative;
 
     input[type='range'] {
@@ -291,12 +308,23 @@ defineExpose({
       }
     }
 
-    .bar {
-      @include size(100%, 10px, 50px);
-      background-color: color.adjust(#43b883, $lightness: 20%);
+    .bar-wrapper {
+      @include size(100%, $dot-half-size, 50px);
+      padding: 0 $dot-half-size;
+      box-sizing: border-box;
       position: relative;
       top: 50%;
       translate: 0 -50%;
+
+      .bar {
+        @include square(100%, 50px);
+        padding: 0 $dot-half-size;
+        box-sizing: border-box;
+        background-color: color.adjust(#43b883, $lightness: 20%);
+        position: relative;
+        top: 50%;
+        translate: 0 -50%;
+      }
 
       .min,
       .max {
@@ -312,10 +340,10 @@ defineExpose({
 
         &::before {
           content: '';
-          @include square(20px, 50%);
+          @include square($dot-size, 50%);
           background-color: var(--primary-darker);
           @extend %absolute-vertical-center;
-          left: 100%;
+          left: calc(100% - $dot-half-size);
           z-index: 1;
         }
       }
@@ -327,10 +355,10 @@ defineExpose({
 
         &::after {
           content: '';
-          @include square(20px, 50%);
+          @include square($dot-size, 50%);
           background-color: var(--primary-darker);
           @extend %absolute-vertical-center;
-          right: 100%;
+          right: calc(100% - $dot-half-size);
           z-index: 1;
         }
       }
