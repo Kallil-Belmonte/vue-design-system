@@ -13,6 +13,7 @@
     </div>
 
     <Icon name="Calendar" />
+
     <input
       ref="field"
       v-model="model"
@@ -108,35 +109,32 @@ defineExpose({
     [data-component='Tooltip'] {
       margin-left: 5px;
     }
-
-    + [data-component='Icon'] {
-      color: var(--grey-4);
-      left: var(--field-spacing-x);
-
-      ~ input {
-        padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
-      }
-    }
   }
 
   > [data-component='Icon'] {
+    color: var(--grey-4);
     @include square(var(--field-icon-size));
     position: absolute;
     top: 40px;
+    left: var(--field-spacing-x);
 
     svg {
       @include transitionAll();
     }
+
+    + input {
+      padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
+    }
   }
 
   &:has(:user-invalid) {
-    .label-wrapper + [data-component='Icon'] {
+    > [data-component='Icon'] {
       color: var(--danger);
     }
   }
 
   &:has(:focus:not(:user-invalid)) {
-    .label-wrapper + [data-component='Icon'] {
+    > [data-component='Icon'] {
       color: var(--primary);
     }
   }

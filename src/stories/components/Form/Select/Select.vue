@@ -241,18 +241,6 @@ defineExpose({
     }
   }
 
-  &:has(:user-invalid) {
-    .label-wrapper + [data-component='Icon'] {
-      color: var(--danger);
-    }
-  }
-
-  &:has(:focus:not(:user-invalid)) {
-    .label-wrapper + [data-component='Icon'] {
-      color: var(--primary);
-    }
-  }
-
   input,
   select {
     height: var(--field-height);

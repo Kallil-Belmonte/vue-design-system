@@ -118,23 +118,6 @@ defineExpose({
     [data-component='Tooltip'] {
       margin-left: 5px;
     }
-
-    + [data-component='Icon'] {
-      color: var(--grey-4);
-      left: var(--field-spacing-x);
-    }
-  }
-
-  &:has(:user-invalid) {
-    .label-wrapper + [data-component='Icon'] {
-      color: var(--danger);
-    }
-  }
-
-  &:has(:focus:not(:user-invalid)) {
-    .label-wrapper + [data-component='Icon'] {
-      color: var(--primary);
-    }
   }
 
   textarea {

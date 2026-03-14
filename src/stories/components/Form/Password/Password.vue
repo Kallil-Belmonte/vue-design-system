@@ -13,6 +13,7 @@
     </div>
 
     <Icon name="Key" />
+
     <input
       ref="field"
       v-model="model"
@@ -132,15 +133,6 @@ defineExpose({
     [data-component='Tooltip'] {
       margin-left: 5px;
     }
-
-    + [data-component='Icon'] {
-      color: var(--grey-4);
-      left: var(--field-spacing-x);
-
-      ~ input {
-        padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
-      }
-    }
   }
 
   > [data-component='Icon'] {
@@ -151,16 +143,25 @@ defineExpose({
     svg {
       @include transitionAll();
     }
+
+    &[data-name='Key'] {
+      color: var(--grey-4);
+      left: var(--field-spacing-x);
+
+      + input {
+        padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
+      }
+    }
   }
 
   &:has(:user-invalid) {
-    .label-wrapper + [data-component='Icon'] {
+    > [data-component='Icon'][data-name='Key'] {
       color: var(--danger);
     }
   }
 
   &:has(:focus:not(:user-invalid)) {
-    .label-wrapper + [data-component='Icon'] {
+    > [data-component='Icon'][data-name='Key'] {
       color: var(--primary);
     }
   }
