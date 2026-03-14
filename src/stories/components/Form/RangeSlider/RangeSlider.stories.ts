@@ -9,6 +9,12 @@ const meta: Meta<typeof RangeSlider> = {
   title: 'Components/Form/RangeSlider',
   component: RangeSlider,
   argTypes: {
+    blur: setArgs({
+      name: 'blur',
+      description: 'Blur callback.',
+      type: "InputHTMLAttributes['onBlur']",
+      control: false,
+    }),
     disabled: setArgs({
       name: 'disabled',
       description: 'Disabled native prop.',

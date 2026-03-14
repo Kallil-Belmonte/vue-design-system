@@ -20,6 +20,7 @@
         name="min-field"
         :min="min"
         :max="max"
+        :disabled="disabled"
         @blur="blurMin"
       />
       <input
@@ -29,6 +30,7 @@
         name="max-field"
         :min="min"
         :max="max"
+        :disabled="disabled"
         @blur="blurMax"
       />
     </div>
@@ -41,6 +43,7 @@
         name="min-range"
         :min="min"
         :max="max"
+        :disabled="disabled"
       />
       <input
         ref="maxRange"
@@ -49,6 +52,7 @@
         name="max-range"
         :min="min"
         :max="max"
+        :disabled="disabled"
       />
       <input
         v-model="baseValue"
@@ -61,6 +65,7 @@
         :max="max"
         :disabled="disabled"
         @input="input"
+        @blur="blur"
       />
 
       <div class="bar-wrapper">
@@ -106,9 +111,20 @@ type Props = {
   max?: InputHTMLAttributes['max'];
   disabled?: InputHTMLAttributes['disabled'];
   input?: InputHTMLAttributes['onInput'];
+  blur?: InputHTMLAttributes['onBlur'];
 };
 
-const { info, label, name, required, min = 0, max = 100, disabled, input } = defineProps<Props>();
+const {
+  info,
+  label,
+  name,
+  required,
+  min = 0,
+  max = 100,
+  disabled,
+  input,
+  blur,
+} = defineProps<Props>();
 
 const [minValue] = defineModel<number, number>('minValue', { required: true });
 const [maxValue] = defineModel<number, number>('maxValue', { required: true });
@@ -123,6 +139,8 @@ const maxBar = useTemplateRef<HTMLDivElement>('maxBar');
 const baseValue = ref('0');
 
 const blurMin: InputHTMLAttributes['onBlur'] = event => {
+  if (disabled) return;
+
   const { value } = event.target as HTMLInputElement;
 
   if (Number(value) < Number(min)) {
@@ -134,6 +152,8 @@ const blurMin: InputHTMLAttributes['onBlur'] = event => {
 };
 
 const blurMax: InputHTMLAttributes['onBlur'] = event => {
+  if (disabled) return;
+
   const { value } = event.target as HTMLInputElement;
 
   if (Number(value) > Number(max)) {
@@ -146,7 +166,8 @@ const blurMax: InputHTMLAttributes['onBlur'] = event => {
 
 const updateValues = (valueParam: string | number) => {
   const value = Number(valueParam);
-  if (value < Number(min) || value > Number(max)) return;
+
+  if (disabled || value < Number(min) || value > Number(max)) return;
 
   const total = Number(max);
   const range = Number(max) - Number(min);
@@ -195,7 +216,6 @@ const updateValues = (valueParam: string | number) => {
 
 // LIFECYCLE HOOKS
 onMounted(() => {
-  // console.log('0', { minValue: minValue.value, maxValue: maxValue.value });
   updateValues(minValue.value);
   updateValues(maxValue.value);
 });
@@ -267,6 +287,12 @@ defineExpose({
     }
   }
 
+  input {
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
   .fields {
     @extend %flex-vertical-center;
     justify-content: space-between;
@@ -301,9 +327,12 @@ defineExpose({
     input[type='range'] {
       margin: 0;
       opacity: 0;
-      cursor: pointer;
       position: absolute;
       inset: 0;
+
+      &:not(:disabled) {
+        cursor: pointer;
+      }
 
       &.base {
         z-index: 1;
@@ -326,46 +355,68 @@ defineExpose({
         position: relative;
         top: 50%;
         translate: 0 -50%;
-      }
 
-      .min,
-      .max {
-        @include size(0, 100%);
-        background-color: var(--grey-3);
-        position: absolute;
-        cursor: pointer;
-      }
+        .min,
+        .max {
+          @include size(0, 100%);
+          background-color: var(--grey-3);
+          position: absolute;
+          cursor: pointer;
+        }
 
-      .min {
-        border-radius: 50px 0 0 50px;
-        padding-left: 10px;
-        margin-left: -10px;
-        left: 0;
+        .min {
+          border-radius: 50px 0 0 50px;
+          padding-left: 10px;
+          margin-left: -10px;
+          left: 0;
 
-        &::before {
-          content: '';
-          @include square($dot-size, 50%);
-          background-color: var(--primary-darker);
-          @extend %absolute-vertical-center;
-          left: calc(100% - $dot-half-size);
-          z-index: 1;
+          &::before {
+            content: '';
+            @include square($dot-size, 50%);
+            background-color: var(--primary-darker);
+            @extend %absolute-vertical-center;
+            left: calc(100% - $dot-half-size);
+            z-index: 1;
+          }
+        }
+
+        .max {
+          border-radius: 0 50px 50px 0;
+          padding-right: 10px;
+          margin-right: -10px;
+          right: 0;
+          left: auto;
+
+          &::after {
+            content: '';
+            @include square($dot-size, 50%);
+            background-color: var(--primary-darker);
+            @extend %absolute-vertical-center;
+            right: calc(100% - $dot-half-size);
+            z-index: 1;
+          }
         }
       }
+    }
+  }
 
-      .max {
-        border-radius: 0 50px 50px 0;
-        padding-right: 10px;
-        margin-right: -10px;
-        right: 0;
-        left: auto;
+  &:has(input:disabled) {
+    .range {
+      .bar-wrapper {
+        .bar {
+          background-color: color.adjust(#43b883, $lightness: 30%);
 
-        &::after {
-          content: '';
-          @include square($dot-size, 50%);
-          background-color: var(--primary-darker);
-          @extend %absolute-vertical-center;
-          right: calc(100% - $dot-half-size);
-          z-index: 1;
+          .min {
+            &::before {
+              background-color: color.adjust(#43b883, $lightness: 10%);
+            }
+          }
+
+          .max {
+            &::after {
+              background-color: color.adjust(#43b883, $lightness: 10%);
+            }
+          }
         }
       }
     }
