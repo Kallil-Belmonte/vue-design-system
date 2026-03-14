@@ -146,6 +146,8 @@ const blurMax: InputHTMLAttributes['onBlur'] = event => {
 
 const updateValues = (valueParam: string | number) => {
   const value = Number(valueParam);
+  if (value < Number(min) || value > Number(max)) return;
+
   const total = Number(max);
   const range = Number(max) - Number(min);
   const minPercentage = Number(minValue.value) / (total / 100);
@@ -153,8 +155,6 @@ const updateValues = (valueParam: string | number) => {
   const percentage = Number(value) / (total / 100);
   const half = maxPercentage - (maxPercentage - minPercentage) / 2;
   const width = ((value - Number(min)) / range) * 100;
-
-  if (value < Number(min) || value > Number(max)) return;
 
   const updateMin = () => {
     const minResult = Number(value);
