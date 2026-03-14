@@ -182,18 +182,20 @@ const updateValues = (valueParam: string | number) => {
     }
   };
 
-  if (percentage === half) {
-    updateMin();
+  if (percentage > half) {
     updateMax();
-  } else if (percentage > half) {
-    updateMax();
-  } else {
+  } else if (percentage < half) {
     updateMin();
+  } else if (value === maxValue.value || value + 1 === maxValue.value) {
+    updateMin();
+  } else if (value === minValue.value) {
+    updateMax();
   }
 };
 
 // LIFECYCLE HOOKS
 onMounted(() => {
+  // console.log('0', { minValue: minValue.value, maxValue: maxValue.value });
   updateValues(minValue.value);
   updateValues(maxValue.value);
 });
