@@ -309,7 +309,7 @@ defineExpose({
     }
 
     .bar-wrapper {
-      @include size(100%, $dot-half-size, 50px);
+      @include size(100%, $dot-half-size);
       padding: 0 $dot-half-size;
       box-sizing: border-box;
       position: relative;
@@ -336,6 +336,8 @@ defineExpose({
 
       .min {
         border-radius: 50px 0 0 50px;
+        padding-left: 10px;
+        margin-left: -10px;
         left: 0;
 
         &::before {
@@ -350,6 +352,8 @@ defineExpose({
 
       .max {
         border-radius: 0 50px 50px 0;
+        padding-right: 10px;
+        margin-right: -10px;
         right: 0;
         left: auto;
 
