@@ -228,7 +228,7 @@ defineExpose({
     color: var(--grey-4);
     @include square(var(--field-icon-size));
     position: absolute;
-    top: 40px;
+    top: 16px;
     left: var(--field-spacing-x);
 
     svg {
@@ -237,7 +237,7 @@ defineExpose({
   }
 
   .prefix-select {
-    @include position(absolute, 34px, auto, auto, 42px);
+    @include position(absolute, 10px, auto, auto, 42px);
 
     button {
       @extend %flex-vertical-center;
@@ -279,6 +279,16 @@ defineExpose({
           }
         }
       }
+    }
+  }
+
+  &:has(.label-wrapper label) {
+    > [data-component='Icon'] {
+      top: 40px;
+    }
+
+    .prefix-select {
+      top: 34px;
     }
   }
 

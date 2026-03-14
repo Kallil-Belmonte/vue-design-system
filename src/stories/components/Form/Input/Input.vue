@@ -142,7 +142,7 @@ defineExpose({
     color: var(--grey-4);
     @include square(var(--field-icon-size));
     position: absolute;
-    top: 40px;
+    top: 16px;
     left: var(--field-spacing-x);
 
     svg {
@@ -151,6 +151,12 @@ defineExpose({
 
     + input {
       padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
+    }
+  }
+
+  &:has(.label-wrapper label) {
+    > [data-component='Icon'] {
+      top: 40px;
     }
   }
 

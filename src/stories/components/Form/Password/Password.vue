@@ -29,6 +29,7 @@
       :disabled="disabled"
       @input="input"
     />
+
     <Icon :name="eyeIcon" :color="eyeIconColor" @click="switchVisibility" />
 
     <p v-if="!!field?.validationMessage" class="validation-message">
@@ -138,7 +139,7 @@ defineExpose({
   > [data-component='Icon'] {
     @include square(var(--field-icon-size));
     position: absolute;
-    top: 40px;
+    top: 16px;
 
     svg {
       @include transitionAll();
@@ -151,6 +152,12 @@ defineExpose({
       + input {
         padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
       }
+    }
+  }
+
+  &:has(.label-wrapper label) {
+    > [data-component='Icon'] {
+      top: 40px;
     }
   }
 
