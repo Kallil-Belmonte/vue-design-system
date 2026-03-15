@@ -9,7 +9,7 @@ export default create({
   base: 'light',
   brandTitle: 'Vue',
   brandUrl: 'https://vuejs.org',
-  brandImage: '/logo/vue.svg',
+  brandImage: '/logos/vue.svg',
   brandTarget: '_blank',
 
   // Colors
