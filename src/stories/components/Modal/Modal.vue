@@ -93,7 +93,19 @@ $footer-height: 80px;
   padding: 0;
   border: none;
   margin: auto;
-  transition: opacity 0.3s, scale 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
+  transition:
+    opacity 0.3s,
+    scale 0.3s,
+    overlay 0.3s allow-discrete,
+    display 0.3s allow-discrete;
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    transition:
+      background-color 300ms ease,
+      backdrop-filter 300ms ease;
+  }
 
   @starting-style {
     opacity: 0;
@@ -101,12 +113,8 @@ $footer-height: 80px;
 
     &::backdrop {
       background-color: transparent;
+      backdrop-filter: blur(0);
     }
-  }
-
-  &::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: background-color 300ms ease;
   }
 
   &:not(:open) {
