@@ -24,22 +24,22 @@
       :showClose="false"
     >
       <template #default>
-        <button type="button" :title="language?.country">
-          <Icon v-if="language" :name="language.icon" category="Flag" />
+        <button type="button" :title="countryData?.country">
+          <Icon v-if="countryData" :name="countryData.icon" category="Flag" />
           <Icon name="ArrowDown" size="15px" />
         </button>
       </template>
       <template #tooltip>
         <div role="listbox" aria-label="Prefix">
           <div
-            v-for="languageItem in LANGUAGES"
-            :key="languageItem.value"
+            v-for="countryItem in COUNTRIES_DATA"
+            :key="countryItem.value"
             role="option"
-            :aria-selected="isPrefixSelect(languageItem)"
-            @click="selectPrefixOption(languageItem)"
+            :aria-selected="isPrefixSelect(countryItem)"
+            @click="selectPrefixOption(countryItem)"
           >
-            <Icon :name="languageItem.icon" category="Flag" size="30px" />
-            {{ languageItem.text }} {{ languageItem.prefix }}
+            <Icon :name="countryItem.icon" category="Flag" size="30px" />
+            {{ countryItem.text }} {{ countryItem.prefix }}
           </div>
         </div>
       </template>
@@ -53,9 +53,9 @@
       :name="name"
       :id="name"
       :required="required"
-      :minlength="language?.phonePlaceholder.length"
-      :maxlength="language?.phonePlaceholder.length"
-      :placeholder="language?.phonePlaceholder"
+      :minlength="countryData?.phonePlaceholder.length"
+      :maxlength="countryData?.phonePlaceholder.length"
+      :placeholder="countryData?.phonePlaceholder"
       :disabled="disabled"
       @input="input"
     />
@@ -97,7 +97,7 @@ type Props = {
   name: InputHTMLAttributes['name'];
   required?: InputHTMLAttributes['required'];
   disabled?: InputHTMLAttributes['disabled'];
-  selectPrefix: (language: LanguageData) => void;
+  selectPrefix: (language: CountryData) => void;
   input?: InputHTMLAttributes['onInput'];
 };
 
@@ -120,7 +120,7 @@ const field = useTemplateRef<HTMLInputElement>('field');
 
 type Language = 'pt-BR' | 'pt-PT' | 'en-US';
 
-type LanguageData = {
+type CountryData = {
   icon: Flag;
   text: string;
   country: string;
@@ -131,7 +131,7 @@ type LanguageData = {
   datePlaceholder: string;
 };
 
-const LANGUAGES: LanguageData[] = [
+const COUNTRIES_DATA: CountryData[] = [
   {
     icon: 'Brazil',
     text: 'Brasil',
@@ -164,27 +164,27 @@ const LANGUAGES: LanguageData[] = [
   },
 ];
 
-const language = ref<LanguageData>();
+const countryData = ref<CountryData>();
 
-const isPrefixSelect = (value: LanguageData) => value.country === language.value?.country;
+const isPrefixSelect = (value: CountryData) => value.country === countryData.value?.country;
 
-const selectPrefixOption = (value: LanguageData) => {
-  language.value = value;
+const selectPrefixOption = (value: CountryData) => {
+  countryData.value = value;
   model.value = '';
   selectPrefix(value);
 };
 
-const format = (value: string) => formatCellphone(value, language.value?.country || 'Brazil');
+const format = (value: string) => formatCellphone(value, countryData.value?.country || 'Brazil');
 
 const setData = () => {
   const hasPrefix = model.value.startsWith('+');
 
   if (hasPrefix) {
-    language.value = LANGUAGES.find(({ prefix }) => prefix === model.value.slice(0, 3));
+    countryData.value = COUNTRIES_DATA.find(({ prefix }) => prefix === model.value.slice(0, 3));
     model.value = format(model.value.slice(3));
   } else {
-    language.value = LANGUAGES[0];
-    selectPrefix(LANGUAGES[0]);
+    countryData.value = COUNTRIES_DATA[0];
+    selectPrefix(COUNTRIES_DATA[0]);
   }
 };
 

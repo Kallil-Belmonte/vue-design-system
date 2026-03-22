@@ -49,7 +49,7 @@ const meta: Meta<typeof Cellphone> = {
     selectPrefix: setArgs({
       name: 'selectPrefix',
       description: 'Callback for when selecting a prefix.',
-      type: '(language: LanguageData) => void',
+      type: '(countryData: CountryData) => void',
       required: true,
       control: false,
     }),
