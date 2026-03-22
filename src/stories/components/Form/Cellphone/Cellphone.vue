@@ -170,6 +170,7 @@ const isPrefixSelect = (value: LanguageData) => value.country === language.value
 
 const selectPrefixOption = (value: LanguageData) => {
   language.value = value;
+  model.value = '';
   selectPrefix(value);
 };
 
