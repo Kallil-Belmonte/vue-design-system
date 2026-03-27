@@ -9,16 +9,10 @@ const meta: Meta<typeof RangeSlider> = {
   title: 'Components/Form/RangeSlider',
   component: RangeSlider,
   argTypes: {
-    blur: setArgs({
-      name: 'blur',
-      description: 'Blur callback.',
-      type: "InputHTMLAttributes['onBlur']",
-      control: false,
-    }),
     disabled: setArgs({
       name: 'disabled',
-      description: 'Disabled native prop.',
-      type: "InputHTMLAttributes['disabled']",
+      description: 'Disabled prop',
+      type: 'boolean',
       control: 'boolean',
     }),
     info: setArgs({
@@ -26,12 +20,6 @@ const meta: Meta<typeof RangeSlider> = {
       description: 'Info props.',
       type: '{ text: string; maxWidth?: string; position?: Position }',
       control: 'object',
-    }),
-    input: setArgs({
-      name: 'input',
-      description: 'Input callback.',
-      type: "InputHTMLAttributes['onInput']",
-      control: false,
     }),
     label: setArgs({
       name: 'label',
@@ -42,27 +30,38 @@ const meta: Meta<typeof RangeSlider> = {
     max: setArgs({
       name: 'max',
       description: 'Max value.',
-      type: "InputHTMLAttributes['max']",
+      type: 'number',
+      control: 'number',
+    }),
+    maxPrefix: setArgs({
+      name: 'maxPrefix',
+      description: 'Prefix for the max value.',
+      type: 'string',
+      control: 'text',
+    }),
+    maxSufix: setArgs({
+      name: 'maxSufix',
+      description: 'Sufix for the max value.',
+      type: 'string',
       control: 'text',
     }),
     min: setArgs({
       name: 'min',
       description: 'Min value.',
-      type: "InputHTMLAttributes['min']",
+      type: 'number',
+      control: 'number',
+    }),
+    minPrefix: setArgs({
+      name: 'minPrefix',
+      description: 'Prefix for the min value.',
+      type: 'string',
       control: 'text',
     }),
-    name: setArgs({
-      name: 'name',
-      description: 'Name native prop.',
-      type: "InputHTMLAttributes['name']",
-      required: true,
+    minSufix: setArgs({
+      name: 'minSufix',
+      description: 'Sufix for the min value.',
+      type: 'string',
       control: 'text',
-    }),
-    required: setArgs({
-      name: 'required',
-      description: 'Required native prop.',
-      type: "InputHTMLAttributes['required']",
-      control: 'boolean',
     }),
   },
   render: args => ({
@@ -80,7 +79,6 @@ const meta: Meta<typeof RangeSlider> = {
 
 export const Default: StoryObj<typeof RangeSlider> = {
   args: {
-    name: 'range-slider',
     label: 'Range Slider',
   },
 };
