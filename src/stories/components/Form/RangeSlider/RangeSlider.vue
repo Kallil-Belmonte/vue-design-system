@@ -12,9 +12,25 @@
       </Tooltip>
     </div>
 
-    <div class="values">
-      <span>{{ minPrefix }}{{ minValue }}{{ minSufix }}</span>
-      <span>{{ maxPrefix }}{{ maxValue }}{{ maxSufix }}</span>
+    <div class="fields">
+      <input
+        v-model="minField"
+        type="number"
+        name="min-field"
+        :min="min"
+        :max="max"
+        :disabled="disabled"
+        @blur="blurMin"
+      />
+      <input
+        v-model="maxField"
+        type="number"
+        name="max-field"
+        :min="min"
+        :max="max"
+        :disabled="disabled"
+        @blur="blurMax"
+      />
     </div>
 
     <div class="slider-wrapper">
@@ -48,7 +64,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount, ref, useTemplateRef } from 'vue';
+import {
+  computed,
+  type InputHTMLAttributes,
+  onBeforeUnmount,
+  ref,
+  useTemplateRef,
+  watch,
+} from 'vue';
 
 import Icon from '@/stories/components/Icon/Icon.vue';
 import Tooltip from '@/stories/components/Tooltip/Tooltip.vue';
@@ -76,26 +99,12 @@ type Props = {
     position?: Position;
   };
   label?: string;
-  minPrefix?: string;
-  minSufix?: string;
-  maxPrefix?: string;
-  maxSufix?: string;
   min?: number;
   max?: number;
   disabled?: boolean;
 };
 
-const {
-  info,
-  label,
-  minPrefix,
-  minSufix,
-  maxPrefix,
-  maxSufix,
-  min = 0,
-  max = 100,
-  disabled,
-} = defineProps<Props>();
+const { info, label, min = 0, max = 100, disabled } = defineProps<Props>();
 
 const [minValue] = defineModel<number, number>('minValue', { required: true });
 const [maxValue] = defineModel<number, number>('maxValue', { required: true });
@@ -103,11 +112,63 @@ const [maxValue] = defineModel<number, number>('maxValue', { required: true });
 const element = useTemplateRef<HTMLDivElement>('element');
 const slider = useTemplateRef<HTMLDivElement>('slider');
 
+const minField = ref(minValue.value);
+const maxField = ref(maxValue.value);
 const activeThumb = ref<Thumb>('min');
 
 const minPercent = computed(() => ((minValue.value - min) / (max - min)) * 100);
 
 const maxPercent = computed(() => ((maxValue.value - min) / (max - min)) * 100);
+
+const blurMin: InputHTMLAttributes['onBlur'] = event => {
+  if (disabled) return;
+
+  const { value } = event.target as HTMLInputElement;
+
+  if (Number(value) < minValue.value) {
+    if (Number(value) < Number(min)) {
+      minField.value = Number(min);
+      minValue.value = Number(min);
+    } else {
+      minValue.value = Number(value);
+    }
+  } else if (Number(value) > maxValue.value) {
+    if (Number(value) > Number(max)) {
+      minValue.value = Number(max);
+      maxValue.value = Number(max);
+    } else {
+      minValue.value = Number(value);
+      maxValue.value = Number(value);
+    }
+  } else {
+    minValue.value = Number(value);
+  }
+};
+
+const blurMax: InputHTMLAttributes['onBlur'] = event => {
+  if (disabled) return;
+
+  const { value } = event.target as HTMLInputElement;
+
+  if (Number(value) > maxValue.value) {
+    if (Number(value) > Number(max)) {
+      maxField.value = Number(max);
+      maxValue.value = Number(max);
+    } else {
+      maxValue.value = Number(value);
+    }
+  } else if (Number(value) < minValue.value) {
+    if (Number(value) < Number(min)) {
+      minValue.value = Number(min);
+      maxValue.value = Number(min);
+    } else {
+      minValue.value = Number(value);
+      maxValue.value = Number(value);
+    }
+  } else {
+    maxValue.value = Number(value);
+  }
+};
 
 const getClientX = (event: MouseEvent | TouchEvent) => {
   if ((event as TouchEvent).touches) return (event as TouchEvent).touches[0].clientX;
@@ -172,6 +233,14 @@ const startDragThumb = (thumb: Thumb) => {
 };
 
 // LIFECYCLE HOOKS
+watch(minValue, newMinValue => {
+  minField.value = newMinValue;
+});
+
+watch(maxValue, newMaxValue => {
+  maxField.value = newMaxValue;
+});
+
 onBeforeUnmount(() => {
   removeListeners();
 });
@@ -210,9 +279,34 @@ defineExpose({
     }
   }
 
-  .values {
-    display: flex;
+  .fields {
+    @extend %flex-vertical-center;
     justify-content: space-between;
+
+    input[type='number'] {
+      font-family: var(--font-primary);
+      font-size: 14px;
+      color: var(--text-color);
+      text-align: center;
+      @include size(50px, 25px, 8px);
+      border: none;
+      background-color: var(--grey-3);
+      -moz-appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+    }
   }
 
   .slider-wrapper {

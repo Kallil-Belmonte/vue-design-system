@@ -33,35 +33,11 @@ const meta: Meta<typeof RangeSlider> = {
       type: 'number',
       control: 'number',
     }),
-    maxPrefix: setArgs({
-      name: 'maxPrefix',
-      description: 'Prefix for the max value.',
-      type: 'string',
-      control: 'text',
-    }),
-    maxSufix: setArgs({
-      name: 'maxSufix',
-      description: 'Sufix for the max value.',
-      type: 'string',
-      control: 'text',
-    }),
     min: setArgs({
       name: 'min',
       description: 'Min value.',
       type: 'number',
       control: 'number',
-    }),
-    minPrefix: setArgs({
-      name: 'minPrefix',
-      description: 'Prefix for the min value.',
-      type: 'string',
-      control: 'text',
-    }),
-    minSufix: setArgs({
-      name: 'minSufix',
-      description: 'Sufix for the min value.',
-      type: 'string',
-      control: 'text',
     }),
   },
   render: args => ({
