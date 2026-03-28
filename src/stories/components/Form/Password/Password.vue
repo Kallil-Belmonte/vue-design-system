@@ -12,25 +12,27 @@
       </Tooltip>
     </div>
 
-    <Icon name="Key" />
+    <div class="field-wrapper">
+      <Icon name="Key" />
 
-    <input
-      ref="field"
-      v-model="model"
-      :aria-invalid="!field?.validity?.valid"
-      :type="type"
-      :name="name"
-      :id="name"
-      :required="required"
-      :pattern="pattern"
-      :minlength="minlength"
-      :maxlength="maxlength"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      @input="input"
-    />
+      <input
+        ref="field"
+        v-model="model"
+        :aria-invalid="!field?.validity?.valid"
+        :type="type"
+        :name="name"
+        :id="name"
+        :required="required"
+        :pattern="pattern"
+        :minlength="minlength"
+        :maxlength="maxlength"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        @input="input"
+      />
 
-    <Icon :name="eyeIcon" :color="eyeIconColor" @click="switchVisibility" />
+      <Icon :name="eyeIcon" :color="eyeIconColor" @click="switchVisibility" />
+    </div>
 
     <p v-if="!!field?.validationMessage" class="validation-message">
       <strong>{{ field.validationMessage }}</strong>
@@ -129,91 +131,93 @@ defineExpose({
 
     label {
       font-weight: 700;
-    }
 
-    [data-component='Tooltip'] {
-      margin-left: 5px;
-    }
-  }
-
-  > [data-component='Icon'] {
-    @include square(var(--field-icon-size));
-    position: absolute;
-    top: 16px;
-
-    svg {
-      @include transitionAll();
-    }
-
-    &[data-name='Key'] {
-      color: var(--grey-4);
-      left: var(--field-spacing-x);
-
-      + input {
-        padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
+      + [data-component='Tooltip'] {
+        margin-left: 5px;
       }
     }
   }
 
-  &:has(.label-wrapper label) {
-    > [data-component='Icon'] {
-      top: 40px;
-    }
-  }
+  .field-wrapper {
+    position: relative;
 
-  &:has(:user-invalid) {
-    > [data-component='Icon'][data-name='Key'] {
-      color: var(--danger);
-    }
-  }
+    [data-component='Icon'] {
+      @include square(var(--field-icon-size));
+      position: absolute;
+      top: 16px;
 
-  &:has(:focus:not(:user-invalid)) {
-    > [data-component='Icon'][data-name='Key'] {
-      color: var(--primary);
-    }
-  }
+      svg {
+        @include transitionAll();
+      }
 
-  input {
-    font-family: var(--font-primary);
-    font-size: var(--font-size);
-    display: block;
-    @include size(100%, var(--field-height));
-    padding: 0 var(--field-spacing-x);
-    border-radius: 10px;
-    border: 1px solid var(--field-border-color);
-    box-sizing: border-box;
-    transition: border-color 0.4s ease;
-    @include placeholder-color(var(--grey-5));
+      &[data-name='Key'] {
+        color: var(--grey-4);
+        left: var(--field-spacing-x);
 
-    &:focus {
-      border-color: var(--field-active-border-color);
-      outline: none;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-
-    &:user-invalid {
-      &,
-      &:focus {
-        border-color: var(--danger);
-
-        + [data-component='Icon'][data-name='Eye'] {
-          color: var(--danger);
+        + input {
+          padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
         }
       }
     }
 
-    ~ [data-component='Icon'] {
-      right: var(--field-spacing-x);
-      cursor: pointer;
+    input {
+      font-family: var(--font-primary);
+      font-size: var(--font-size);
+      display: block;
+      @include size(100%, var(--field-height));
+      padding: 0 var(--field-spacing-x);
+      border-radius: 10px;
+      border: 1px solid var(--field-border-color);
+      box-sizing: border-box;
+      transition: border-color 0.4s ease;
+      @include placeholder-color(var(--grey-5));
+
+      &:focus {
+        border-color: var(--field-active-border-color);
+        outline: none;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &:user-invalid {
+        &,
+        &:focus {
+          border-color: var(--danger);
+
+          + [data-component='Icon'][data-name='Eye'] {
+            color: var(--danger);
+          }
+        }
+      }
+
+      ~ [data-component='Icon'] {
+        right: var(--field-spacing-x);
+        cursor: pointer;
+      }
+    }
+  }
+
+  &:has(:user-invalid) {
+    .field-wrapper {
+      [data-component='Icon'][data-name='Key'] {
+        color: var(--danger);
+      }
+    }
+  }
+
+  &:has(:focus:not(:user-invalid)) {
+    .field-wrapper {
+      [data-component='Icon'][data-name='Key'] {
+        color: var(--primary);
+      }
     }
   }
 
   .validation-message {
     color: var(--danger);
-    margin: 5px 0 0 5px;
+    margin: 5px 0 0 0;
 
     &:not(:last-child) {
       margin-bottom: 5px;

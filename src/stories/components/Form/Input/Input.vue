@@ -12,25 +12,27 @@
       </Tooltip>
     </div>
 
-    <Icon v-if="icon" :name="icon" />
+    <div class="field-wrapper">
+      <Icon v-if="icon" :name="icon" />
 
-    <input
-      ref="field"
-      v-model="model"
-      :aria-invalid="!field?.validity?.valid"
-      :type="type"
-      :name="name"
-      :id="name"
-      :required="required"
-      :pattern="pattern"
-      :min="min"
-      :max="max"
-      :minlength="minlength"
-      :maxlength="maxlength"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      @input="input"
-    />
+      <input
+        ref="field"
+        v-model="model"
+        :aria-invalid="!field?.validity?.valid"
+        :type="type"
+        :name="name"
+        :id="name"
+        :required="required"
+        :pattern="pattern"
+        :min="min"
+        :max="max"
+        :minlength="minlength"
+        :maxlength="maxlength"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        @input="input"
+      />
+    </div>
 
     <p v-if="!!field?.validationMessage" class="validation-message">
       <strong>{{ field.validationMessage }}</strong>
@@ -131,79 +133,81 @@ defineExpose({
 
     label {
       font-weight: 700;
-    }
 
-    [data-component='Tooltip'] {
-      margin-left: 5px;
-    }
-  }
-
-  > [data-component='Icon'] {
-    color: var(--grey-4);
-    @include square(var(--field-icon-size));
-    position: absolute;
-    top: 16px;
-    left: var(--field-spacing-x);
-
-    svg {
-      @include transitionAll();
-    }
-
-    + input {
-      padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
+      + [data-component='Tooltip'] {
+        margin-left: 5px;
+      }
     }
   }
 
-  &:has(.label-wrapper label) {
-    > [data-component='Icon'] {
-      top: 40px;
+  .field-wrapper {
+    position: relative;
+
+    [data-component='Icon'] {
+      color: var(--grey-4);
+      @include square(var(--field-icon-size));
+      position: absolute;
+      top: 16px;
+      left: var(--field-spacing-x);
+
+      svg {
+        @include transitionAll();
+      }
+
+      + input {
+        padding-left: calc(var(--field-spacing-x) + var(--field-icon-size) + 10px);
+      }
+    }
+
+    input {
+      font-family: var(--font-primary);
+      font-size: var(--font-size);
+      display: block;
+      @include size(100%, var(--field-height));
+      padding: 0 var(--field-spacing-x);
+      border-radius: 10px;
+      border: 1px solid var(--field-border-color);
+      box-sizing: border-box;
+      transition: border-color 0.4s ease;
+      @include placeholder-color(var(--grey-5));
+
+      &:focus {
+        border-color: var(--field-active-border-color);
+        outline: none;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &:user-invalid {
+        &,
+        &:focus {
+          border-color: var(--danger);
+        }
+      }
     }
   }
 
   &:has(:user-invalid) {
-    > [data-component='Icon'] {
-      color: var(--danger);
+    .field-wrapper {
+      [data-component='Icon'] {
+        color: var(--danger);
+      }
     }
   }
 
   &:has(:focus:not(:user-invalid)) {
-    > [data-component='Icon'] {
-      color: var(--primary);
-    }
-  }
-
-  input {
-    font-family: var(--font-primary);
-    font-size: var(--font-size);
-    display: block;
-    @include size(100%, var(--field-height));
-    padding: 0 var(--field-spacing-x);
-    border-radius: 10px;
-    border: 1px solid var(--field-border-color);
-    box-sizing: border-box;
-    transition: border-color 0.4s ease;
-    @include placeholder-color(var(--grey-5));
-
-    &:focus {
-      border-color: var(--field-active-border-color);
-      outline: none;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-
-    &:user-invalid {
-      &,
-      &:focus {
-        border-color: var(--danger);
+    .field-wrapper {
+      [data-component='Icon'] {
+        color: var(--primary);
       }
     }
   }
 
   .validation-message {
     color: var(--danger);
-    margin: 5px 0 0 5px;
+    margin: 5px 0 0 0;
 
     &:not(:last-child) {
       margin-bottom: 5px;

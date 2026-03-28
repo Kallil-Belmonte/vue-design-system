@@ -285,10 +285,12 @@ defineExpose({
     .label {
       font-weight: 700;
       margin: 0;
-    }
 
-    [data-component='Tooltip'] {
-      margin-left: 5px;
+      + {
+        [data-component='Tooltip'] {
+          margin-left: 5px;
+        }
+      }
     }
   }
 

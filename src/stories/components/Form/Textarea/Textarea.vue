@@ -113,10 +113,12 @@ defineExpose({
 
     label {
       font-weight: 700;
-    }
 
-    [data-component='Tooltip'] {
-      margin-left: 5px;
+      + {
+        [data-component='Tooltip'] {
+          margin-left: 5px;
+        }
+      }
     }
   }
 
@@ -151,7 +153,7 @@ defineExpose({
 
   .validation-message {
     color: var(--danger);
-    margin: 5px 0 0 5px;
+    margin: 5px 0 0 0;
 
     &:not(:last-child) {
       margin-bottom: 5px;

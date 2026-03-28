@@ -12,53 +12,56 @@
       </Tooltip>
     </div>
 
-    <Icon name="Telephone" />
+    <div class="field-wrapper">
+      <Icon name="Telephone" />
 
-    <Tooltip
-      class="prefix-select"
-      animation="fade"
-      trigger="click"
-      closeOnTooltipClick
-      spacing="1px"
-      position="bottom-start"
-      :showClose="false"
-    >
-      <template #default>
-        <button type="button" :title="countryData?.country">
-          <Icon v-if="countryData" :name="countryData.icon" category="Flag" />
-          <Icon name="ArrowDown" size="15px" />
-        </button>
-      </template>
-      <template #tooltip>
-        <div role="listbox" aria-label="Prefix">
-          <div
-            v-for="countryItem in COUNTRIES_DATA"
-            :key="countryItem.value"
-            role="option"
-            :aria-selected="isPrefixSelect(countryItem)"
-            @click="selectPrefixOption(countryItem)"
-          >
-            <Icon :name="countryItem.icon" category="Flag" size="30px" />
-            {{ countryItem.text }} {{ countryItem.prefix }}
+      <Tooltip
+        class="prefix-select"
+        animation="fade"
+        trigger="click"
+        closeOnTooltipClick
+        spacing="1px"
+        position="bottom-start"
+        :showClose="false"
+      >
+        <template #default>
+          <button type="button" :title="countryData?.country">
+            <Icon v-if="countryData" :name="countryData.icon" category="Flag" />
+            <Icon name="ArrowDown" size="15px" />
+          </button>
+        </template>
+        <template #tooltip>
+          <div role="listbox" aria-label="Prefix">
+            <div
+              v-for="countryItem in COUNTRIES_DATA"
+              :key="countryItem.value"
+              role="option"
+              :aria-selected="isPrefixSelect(countryItem)"
+              @click="selectPrefixOption(countryItem)"
+            >
+              <Icon :name="countryItem.icon" category="Flag" size="30px" />
+              {{ countryItem.text }} {{ countryItem.prefix }}
+            </div>
           </div>
-        </div>
-      </template>
-    </Tooltip>
+        </template>
+      </Tooltip>
 
-    <input
-      ref="field"
-      v-model="model"
-      :aria-invalid="!field?.validity?.valid"
-      type="tel"
-      :name="name"
-      :id="name"
-      :required="required"
-      :minlength="countryData?.phonePlaceholder.length"
-      :maxlength="countryData?.phonePlaceholder.length"
-      :placeholder="countryData?.phonePlaceholder"
-      :disabled="disabled"
-      @input="input"
-    />
+      <input
+        ref="field"
+        v-model="model"
+        :aria-invalid="!field?.validity?.valid"
+        type="tel"
+        :name="name"
+        :id="name"
+        :required="required"
+        :minlength="countryData?.phonePlaceholder.length"
+        :maxlength="countryData?.phonePlaceholder.length"
+        :placeholder="countryData?.phonePlaceholder"
+        :disabled="disabled"
+        @input="input"
+      />
+    </div>
+
     <p v-if="!!field?.validationMessage" class="validation-message">
       <strong>{{ field.validationMessage }}</strong>
     </p>
@@ -218,126 +221,124 @@ defineExpose({
 
     label {
       font-weight: 700;
-    }
 
-    [data-component='Tooltip'] {
-      margin-left: 5px;
-    }
-  }
-
-  > [data-component='Icon'] {
-    color: var(--grey-4);
-    @include square(var(--field-icon-size));
-    position: absolute;
-    top: 16px;
-    left: var(--field-spacing-x);
-
-    svg {
-      @include transitionAll();
+      + [data-component='Tooltip'] {
+        margin-left: 5px;
+      }
     }
   }
 
-  .prefix-select {
-    @include position(absolute, 10px, auto, auto, 42px);
+  .field-wrapper {
+    position: relative;
 
-    button {
-      @extend %flex-vertical-center;
-      column-gap: 2px;
-      @include size(var(--prefix-width), 30px);
-      padding: 2px;
-      border-radius: 4px;
-      border: 1px solid var(--field-border-color);
-      background-color: transparent;
-      box-sizing: border-box;
-      cursor: pointer;
-      @include transitionAll();
+    > [data-component='Icon'] {
+      color: var(--grey-4);
+      @include square(var(--field-icon-size));
+      position: absolute;
+      top: 16px;
+      left: var(--field-spacing-x);
 
-      &:hover,
-      &:focus {
-        border-color: var(--primary);
+      svg {
+        @include transitionAll();
       }
     }
 
-    > [popover] {
-      width: max-content;
-      padding: 0;
+    .prefix-select {
+      @include position(absolute, 10px, auto, auto, 42px);
 
-      [role='listbox'] {
-        background-color: #fff;
+      button {
+        @extend %flex-vertical-center;
+        column-gap: 2px;
+        @include size(var(--prefix-width), 30px);
+        padding: 2px;
+        border-radius: 4px;
+        border: 1px solid var(--field-border-color);
+        background-color: transparent;
+        box-sizing: border-box;
+        cursor: pointer;
+        @include transitionAll();
 
-        [role='option'] {
-          @extend %flex-vertical-center;
-          padding: 5px;
-          cursor: pointer;
-          @include transitionAll();
+        &:hover,
+        &:focus {
+          border-color: var(--primary);
+        }
+      }
 
-          &:hover {
-            background-color: var(--field-border-color);
+      > [popover] {
+        width: max-content;
+        padding: 0;
+
+        [role='listbox'] {
+          background-color: #fff;
+
+          [role='option'] {
+            @extend %flex-vertical-center;
+            padding: 5px;
+            cursor: pointer;
+            @include transitionAll();
+
+            &:hover {
+              background-color: var(--field-border-color);
+            }
+
+            [data-component='Icon'] {
+              margin-right: 5px;
+            }
           }
+        }
+      }
+    }
 
-          [data-component='Icon'] {
-            margin-right: 5px;
-          }
+    input {
+      font-family: var(--font-primary);
+      font-size: var(--font-size);
+      display: block;
+      @include size(100%, var(--field-height));
+      padding: 0 var(--field-spacing-x) 0
+        calc(var(--field-spacing-x) + var(--field-icon-size) + var(--prefix-width) + 10px);
+      border-radius: 10px;
+      border: 1px solid var(--field-border-color);
+      box-sizing: border-box;
+      transition: border-color 0.4s ease;
+      @include placeholder-color(var(--grey-5));
+
+      &:focus {
+        border-color: var(--field-active-border-color);
+        outline: none;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &:user-invalid {
+        &,
+        &:focus {
+          border-color: var(--danger);
         }
       }
     }
   }
 
-  &:has(.label-wrapper label) {
-    > [data-component='Icon'] {
-      top: 40px;
-    }
-
-    .prefix-select {
-      top: 34px;
-    }
-  }
-
   &:has(:user-invalid) {
-    > [data-component='Icon'] {
-      color: var(--danger);
+    .field-wrapper {
+      [data-component='Icon'] {
+        color: var(--danger);
+      }
     }
   }
 
   &:has(:focus:not(:user-invalid)) {
-    > [data-component='Icon'] {
-      color: var(--primary);
-    }
-  }
-
-  input {
-    font-family: var(--font-primary);
-    font-size: var(--font-size);
-    display: block;
-    @include size(100%, var(--field-height));
-    padding: 0 var(--field-spacing-x) 0
-      calc(var(--field-spacing-x) + var(--field-icon-size) + var(--prefix-width) + 10px);
-    border-radius: 10px;
-    border: 1px solid var(--field-border-color);
-    box-sizing: border-box;
-    transition: border-color 0.4s ease;
-    @include placeholder-color(var(--grey-5));
-
-    &:focus {
-      border-color: var(--field-active-border-color);
-      outline: none;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-
-    &:user-invalid {
-      &,
-      &:focus {
-        border-color: var(--danger);
+    .field-wrapper {
+      [data-component='Icon'] {
+        color: var(--primary);
       }
     }
   }
 
   .validation-message {
     color: var(--danger);
-    margin: 5px 0 0 5px;
+    margin: 5px 0 0 0;
 
     &:not(:last-child) {
       margin-bottom: 5px;
