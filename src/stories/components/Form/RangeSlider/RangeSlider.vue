@@ -38,18 +38,18 @@
         <div class="track"></div>
 
         <div
+          class="thumb"
+          :style="{ left: minPercent + '%' }"
+          @mousedown.stop="startDragThumb('min')"
+          @touchstart.stop="startDragThumb('min')"
+        ></div>
+
+        <div
           class="range"
           :style="{
             width: maxPercent - minPercent + '%',
             left: minPercent + '%',
           }"
-        ></div>
-
-        <div
-          class="thumb"
-          :style="{ left: minPercent + '%' }"
-          @mousedown.stop="startDragThumb('min')"
-          @touchstart.stop="startDragThumb('min')"
         ></div>
 
         <div
@@ -125,6 +125,11 @@ const blurMin: InputHTMLAttributes['onBlur'] = event => {
 
   const { value } = event.target as HTMLInputElement;
 
+  if (!value) {
+    minField.value = minValue.value;
+    return;
+  }
+
   if (Number(value) < minValue.value) {
     if (Number(value) < Number(min)) {
       minField.value = Number(min);
@@ -149,6 +154,11 @@ const blurMax: InputHTMLAttributes['onBlur'] = event => {
   if (disabled) return;
 
   const { value } = event.target as HTMLInputElement;
+
+  if (!value) {
+    maxField.value = maxValue.value;
+    return;
+  }
 
   if (Number(value) > maxValue.value) {
     if (Number(value) > Number(max)) {
@@ -216,7 +226,10 @@ const startDrag = (event: MouseEvent | TouchEvent) => {
   const percent = (clickX - left) / width;
   const value = min + percent * (max - min);
 
-  if (Math.abs(value - minValue.value) < Math.abs(value - maxValue.value)) {
+  if (
+    value < minValue.value ||
+    Math.abs(value - minValue.value) < Math.abs(value - maxValue.value)
+  ) {
     activeThumb.value = 'min';
   } else {
     activeThumb.value = 'max';
@@ -284,6 +297,9 @@ defineExpose({
     justify-content: space-between;
 
     input[type='number'] {
+      appearance: textfield;
+      -webkit-appearance: textfield;
+      -moz-appearance: textfield;
       font-family: var(--font-primary);
       font-size: 14px;
       color: var(--text-color);
@@ -291,11 +307,12 @@ defineExpose({
       @include size(50px, 25px, 8px);
       border: none;
       background-color: var(--grey-3);
-      -moz-appearance: textfield;
 
       &::-webkit-outer-spin-button,
       &::-webkit-inner-spin-button {
+        appearance: none;
         -webkit-appearance: none;
+        -moz-appearance: none;
         margin: 0;
       }
 

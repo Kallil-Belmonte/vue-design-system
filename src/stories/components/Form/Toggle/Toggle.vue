@@ -149,6 +149,8 @@ defineExpose({
 
       input {
         appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
         height: 100%;
         margin: 0;
         z-index: 1;

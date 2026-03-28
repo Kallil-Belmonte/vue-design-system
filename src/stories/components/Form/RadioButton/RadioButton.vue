@@ -123,6 +123,8 @@ defineExpose({
 
     input {
       appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
       @include square(18px, 50%);
       border: 2px solid var(--primary);
       margin: 0;
