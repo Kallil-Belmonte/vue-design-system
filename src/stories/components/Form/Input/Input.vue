@@ -129,14 +129,11 @@ defineExpose({
 
   .label-wrapper {
     @extend %flex-vertical-center;
+    gap: 5px;
     margin-bottom: 5px;
 
     label {
       font-weight: 700;
-
-      + [data-component='Tooltip'] {
-        margin-left: 5px;
-      }
     }
   }
 
