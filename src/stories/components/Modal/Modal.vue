@@ -11,9 +11,9 @@
       <Icon v-if="name" :category="category" :name="name" size="30px" />
       <h3 class="title">{{ title }}</h3>
       <Button
+        aria-label="Close"
         :commandfor="id"
         command="close"
-        aria-label="Close"
         mode="blank"
         variant="base"
         :icon="{ name: 'Close' }"
