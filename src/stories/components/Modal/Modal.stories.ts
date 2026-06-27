@@ -1,5 +1,3 @@
-import { ref } from 'vue';
-
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
 import { setArgs } from '@/shared/helpers';
@@ -10,12 +8,13 @@ const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
   component: Modal,
   argTypes: {
-    close: setArgs({
-      name: 'close',
-      description: 'Close callback.',
-      type: '(event: MouseEvent) => void',
-      required: true,
-      control: false,
+    closedby: setArgs({
+      name: 'closedby',
+      description:
+        'Specifies the types of user actions that can be used to close the <code><dialog></code> element. ',
+      type: 'any | closerequest | none',
+      control: 'radio',
+      options: ['any', 'closerequest', 'none'],
     }),
     icon: setArgs({
       name: 'icon',
@@ -23,12 +22,12 @@ const meta: Meta<typeof Modal> = {
       type: '{ category?: Category; name: Icons }',
       control: 'object',
     }),
-    open: setArgs({
-      name: 'open',
-      description: 'If <code>true</code>, the modal will be open.',
-      type: 'bolean',
+    id: setArgs({
+      name: 'id',
+      description: 'Modal id.',
+      type: 'string',
       required: true,
-      control: 'boolean',
+      control: 'text',
     }),
     title: setArgs({
       name: 'title',
@@ -55,19 +54,18 @@ const meta: Meta<typeof Modal> = {
   render: args => ({
     components: { Button, Modal },
     setup() {
-      const open = ref(false);
-      return { args, open };
+      return { args };
     },
     template: `
-      <Button mode="contain" @click="open = true">Open</Button>
+      <Button :commandfor="args.id || 'modal'" command="show-modal" mode="contain">Open</Button>
 
-      <Modal :open="open" v-bind="args" :close="() => open = false">
+      <Modal id="modal" v-bind="args">
         <template #default>
           Content
         </template>
         <template #footer>
-          <Button mode="contain" @click="open = false">Confirm</Button>
-          <Button mode="contain" variant="base" @click="open = false">Cancel</Button>
+          <Button :commandfor="args.id || 'modal'" command="close" mode="contain">Confirm</Button>
+          <Button :commandfor="args.id || 'modal'" command="close" mode="contain" variant="base">Cancel</Button>
         </template>
       </Modal>
     `,

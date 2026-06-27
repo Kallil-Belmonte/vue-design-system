@@ -2,19 +2,21 @@
   <dialog
     ref="element"
     data-component="Modal"
+    :id="id"
     :class="`${variant}`"
     aria-modal="true"
-    @click="click"
+    :closedby="closedby"
   >
     <header>
       <Icon v-if="name" :category="category" :name="name" size="30px" />
       <h3 class="title">{{ title }}</h3>
       <Button
+        :commandfor="id"
+        command="close"
         aria-label="Close"
         mode="blank"
         variant="base"
         :icon="{ name: 'Close' }"
-        @click="close"
       />
     </header>
     <section class="body">
@@ -27,18 +29,18 @@
 </template>
 
 <script lang="ts" setup>
-import { useSlots, useTemplateRef, watchEffect } from 'vue';
+import { useSlots, useTemplateRef } from 'vue';
 
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
 import type { Category, Icons } from '@/stories/components/Icon/types';
 
 type Props = {
-  open: boolean;
+  id: string;
   variant?: 'default' | 'full';
   icon?: { category?: Category; name: Icons };
   title: string;
-  close: (event: MouseEvent) => void;
+  closedby?: 'any' | 'closerequest' | 'none';
 };
 
 type Slots = {
@@ -48,26 +50,12 @@ type Slots = {
   footer(): any;
 };
 
-const { variant = 'default', open, icon, title, close } = defineProps<Props>();
+const { id, variant = 'default', icon, title, closedby = 'any' } = defineProps<Props>();
 const { category, name } = icon || {};
 
 const element = useTemplateRef<HTMLDialogElement>('element');
 
 const slots = useSlots();
-
-const click = (event: MouseEvent) => {
-  if (event.target === element.value) close(event);
-};
-
-const toggleModal = () => {
-  if (open) element.value?.showModal();
-  else element.value?.close();
-};
-
-// LIFECYCLE HOOKS
-watchEffect(() => {
-  toggleModal();
-});
 
 // SLOTS
 defineSlots<Slots>();
