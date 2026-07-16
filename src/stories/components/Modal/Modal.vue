@@ -155,7 +155,7 @@ $footer-height: 80px;
 
   > footer {
     @extend %flex-vertical-center;
-    column-gap: 20px;
+    gap: 15px;
     height: $footer-height;
     padding: 0 15px;
     border-top: 1px solid var(--grey-1);
