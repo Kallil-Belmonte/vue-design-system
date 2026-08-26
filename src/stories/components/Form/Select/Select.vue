@@ -58,6 +58,13 @@
               @keyup.enter="event => select(option, event)"
               @click="event => select(option, event)"
             >
+              <Icon
+                :category="option.icon.category"
+                :name="option.icon.name"
+                size="25px"
+                :color="option.icon.color"
+                v-if="option.icon"
+              />
               {{ option.text }}
             </li>
           </ul>
@@ -86,6 +93,7 @@ import { useElementBounding } from '@/shared/composables';
 import { isEqual, removeAccent } from '@/shared/helpers';
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
+import { Category, Icons } from '@/stories/components/Icon/types';
 import Tooltip from '@/stories/components/Tooltip/Tooltip.vue';
 
 type Position =
@@ -103,6 +111,11 @@ type Position =
   | 'left-end';
 
 type SelectOption = {
+  icon?: {
+    category?: Category;
+    name: Icons;
+    color?: string;
+  };
   text: string;
   value: any;
   disabled?: boolean;
@@ -321,12 +334,13 @@ defineExpose({
 
         [role='option'] {
           @extend %flex-vertical-center;
+          gap: 5px;
           height: 40px;
           padding: 5px;
           background-color: #fff;
           cursor: pointer;
-          @include transitionAll();
           margin: 0;
+          @include transitionAll();
 
           &:hover,
           &[aria-selected='true'] {

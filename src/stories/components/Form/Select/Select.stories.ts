@@ -42,11 +42,11 @@ const meta: Meta<typeof Select> = {
       control: 'text',
     }),
     options: setArgs({
-      name: 'value',
-      description: 'Name native prop.',
+      name: 'options',
+      description: 'Options.',
       type: 'SelectOption[]',
       required: true,
-      control: 'text',
+      control: 'object',
     }),
     required: setArgs({
       name: 'required',
@@ -79,9 +79,9 @@ export const Default: StoryObj<typeof Select> = {
     name: 'countries',
     label: 'Countries',
     options: [
-      { text: 'Brazil', value: 'BR' },
-      { text: 'Portugal', value: 'PT' },
-      { text: 'United States', value: 'US' },
+      { icon: { category: 'Flag', name: 'Brazil' }, text: 'Brazil', value: 'BR' },
+      { icon: { category: 'Flag', name: 'Portugal' }, text: 'Portugal', value: 'PT' },
+      { icon: { category: 'Flag', name: 'UnitedStates' }, text: 'United States', value: 'US' },
     ],
   },
 };
