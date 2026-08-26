@@ -164,12 +164,12 @@ const showInfo = computed(() => info?.text && options.some(isSelected));
 
 const disabled = computed(() => disabledProp || !options.length);
 
-const isSelected = (option: SelectOption) => option.text === model.value;
+const isSelected = (option: SelectOption) => isEqual(option.value, valueProp);
 
 const format = (text: string) => removeAccent(text.toLowerCase());
 
 const select = (option: SelectOption, event: KeyboardEvent | FocusEvent | MouseEvent) => {
-  if (option.disabled || isEqual(option.text, model.value)) return;
+  if (option.disabled || isEqual(option.value, valueProp)) return;
   change(option, event);
 };
 
