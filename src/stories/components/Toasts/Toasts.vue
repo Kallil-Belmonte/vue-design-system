@@ -118,6 +118,7 @@ defineExpose({
       @include position(absolute, 0, 1px, auto, 1px);
       animation-name: grow;
       animation-duration: v-bind(duration);
+      animation-timing-function: linear;
 
       @keyframes grow {
         0% {
