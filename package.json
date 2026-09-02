@@ -11,24 +11,24 @@
     "update": "ncu -i --format group"
   },
   "dependencies": {
-    "vue": "3.5.41"
+    "vue": "3.5.42"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "5.3.0",
-    "@storybook/addon-docs": "10.5.10",
-    "@storybook/addon-vitest": "10.5.10",
-    "@storybook/vue3-vite": "10.5.10",
+    "@chromatic-com/storybook": "5.3.1",
+    "@storybook/addon-docs": "10.6.0",
+    "@storybook/addon-vitest": "10.6.0",
+    "@storybook/vue3-vite": "10.6.0",
     "@vitejs/plugin-vue": "6.0.8",
     "@vitest/browser": "4.1.11",
     "@vitest/coverage-v8": "4.1.11",
-    "oxfmt": "0.65.0",
-    "oxlint": "1.80.0",
+    "oxfmt": "0.66.0",
+    "oxlint": "1.81.0",
     "playwright": "1.62.1",
     "sass-embedded": "1.103.1",
-    "storybook": "10.5.10",
+    "storybook": "10.6.0",
     "typescript": "6.0.3",
     "vite": "8.2.2",
-    "vite-plugin-oxlint": "2.1.2",
+    "vite-plugin-oxlint": "2.2.0",
     "vitest": "4.1.11"
   }
 }
