@@ -232,7 +232,7 @@ defineExpose({
       color: var(--grey-4);
       @include square(var(--field-icon-size));
       position: absolute;
-      top: 16px;
+      top: 11px;
       left: var(--field-spacing-x);
 
       svg {
@@ -241,7 +241,7 @@ defineExpose({
     }
 
     .prefix-select {
-      @include position(absolute, 10px, auto, auto, 42px);
+      @include position(absolute, 5px, auto, auto, 42px);
 
       button {
         @extend %flex-vertical-center;

@@ -117,7 +117,7 @@ defineExpose({
       color: var(--grey-4);
       @include square(var(--field-icon-size));
       position: absolute;
-      top: 16px;
+      top: 12px;
       left: var(--field-spacing-x);
 
       svg {

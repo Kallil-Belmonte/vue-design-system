@@ -293,7 +293,7 @@ defineExpose({
 
     [data-component='Button'] {
       transition: rotate 0.3s ease;
-      @include position(absolute, 18px, 15px);
+      @include position(absolute, 12px, 15px);
 
       [data-component='Icon'] {
         opacity: 0.4;

@@ -141,7 +141,7 @@ defineExpose({
     [data-component='Icon'] {
       @include square(var(--field-icon-size));
       position: absolute;
-      top: 16px;
+      top: 11px;
 
       svg {
         @include transitionAll();
