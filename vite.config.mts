@@ -1,6 +1,7 @@
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 import oxlintPlugin from 'vite-plugin-oxlint';
+import viteSvgLoader from 'vite-svg-loader';
 
 export default defineConfig({
   server: {
@@ -12,12 +13,5 @@ export default defineConfig({
       '@': '/src',
     },
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      },
-    },
-  },
-  plugins: [oxlintPlugin({ path: 'src' }), vue()],
+  plugins: [oxlintPlugin({ path: 'src' }), viteSvgLoader(), vue()],
 });

@@ -1,18 +1,12 @@
 <template>
-  <div
-    ref="element"
-    data-component="Icon"
-    :data-category="category"
-    :data-name="name"
-    v-html="icons[name]"
-  ></div>
+  <div ref="element" data-component="Icon" :data-category="category" :data-name="name">
+    <Icon />
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { onUnmounted, ref, useTemplateRef, watchEffect } from 'vue';
+import { type Component, computed, defineAsyncComponent, useTemplateRef } from 'vue';
 
-import { addIcon, icons } from '@/core/state/icons';
-import { PROJECT_DOMAIN } from '@/shared/files/consts';
 import type { Category, Icons } from './types';
 
 type Props = {
@@ -26,39 +20,23 @@ const { category = 'UI', name, size = '100%', color = 'inherit' } = defineProps<
 
 const element = useTemplateRef<HTMLDivElement>('element');
 
-const mounted = ref(true);
+const iconCache = new Map<string, Component>();
 
-const setIcon = async () => {
-  const request = new Request(`/icons/${category}/${name}.svg`);
-  let svgHTML = '';
-
-  if ('caches' in window) {
-    const cache = await caches.open(`${PROJECT_DOMAIN}-icons`);
-    let response = await cache.match(request);
-
-    if (!response) {
-      await cache.add(request);
-      response = await cache.match(request);
-    }
-
-    svgHTML = (await response?.text()) || '';
-  } else if (!icons.value[name]) {
-    const response = await fetch(request);
-    svgHTML = await response.text();
-  }
-
-  if (svgHTML && mounted.value) {
-    addIcon(name, svgHTML);
-  }
-};
-
-// LIFECYCLE HOOKS
-watchEffect(() => {
-  setIcon();
+const iconLoaders = import.meta.glob<Component>('../../../assets/icons/**/*.svg', {
+  query: '?component',
+  import: 'default',
 });
 
-onUnmounted(() => {
-  mounted.value = false;
+const Icon = computed(() => {
+  const path = `../../../assets/icons/${category}/${name}.svg`;
+
+  if (!iconCache.has(path)) {
+    const loader = iconLoaders[path];
+    if (!loader) return null;
+    iconCache.set(path, defineAsyncComponent(loader));
+  }
+
+  return iconCache.get(path);
 });
 
 // EXPOSE
