@@ -1,9 +1,9 @@
 <template>
   <section ref="element" data-component="Card">
-    <header>
+    <header v-if="icon || title || description">
       <Icon v-if="icon" :name="icon" size="30px" />
 
-      <div class="heading">
+      <div v-if="title || description" class="heading">
         <h2 class="title">{{ title }}</h2>
         <p v-if="description" class="description">{{ description }}</p>
       </div>
@@ -51,7 +51,7 @@ type Action = {
 
 type Props = {
   icon?: Icons;
-  title: string;
+  title?: string;
   description?: string;
   actions?: Action[];
 };
