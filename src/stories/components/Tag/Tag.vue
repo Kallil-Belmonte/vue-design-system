@@ -32,12 +32,12 @@ import Icon from '@/stories/components/Icon/Icon.vue';
 import type { Category, Icons } from '@/stories/components/Icon/types';
 
 type Props = {
+  variant?: 'solid' | 'outlined' | 'light';
   color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
+  size?: 'small' | 'medium' | 'large';
   counter?: number;
   startIcon?: { category?: Category; name: Icons };
   endIcon?: { category?: Category; name: Icons };
-  size?: 'small' | 'medium' | 'large';
-  variant?: 'solid' | 'outlined' | 'light';
   closable?: boolean;
   click?: HTMLAttributes['onClick'];
 };
@@ -48,12 +48,12 @@ type Slots = {
 };
 
 const {
+  variant = 'solid',
   color = 'default',
+  size = 'medium',
   counter,
   startIcon,
   endIcon,
-  size = 'medium',
-  variant = 'solid',
   closable,
   click,
 } = defineProps<Props>();
