@@ -211,19 +211,19 @@ $size: 45px;
     }
 
     &.info {
-      @include setColors(var(--info), var(--info-darker));
+      @include setColors(var(--info), var(--info-dark));
     }
 
     &.success {
-      @include setColors(var(--success), var(--success-darker));
+      @include setColors(var(--success), var(--success-dark));
     }
 
     &.warning {
-      @include setColors(var(--warning), var(--warning-darker));
+      @include setColors(var(--warning), var(--warning-dark));
     }
 
     &.danger {
-      @include setColors(var(--danger), var(--danger-darker));
+      @include setColors(var(--danger), var(--danger-dark));
     }
 
     &.primary {
@@ -231,7 +231,7 @@ $size: 45px;
     }
 
     &.secondary {
-      @include setColors(var(--secondary), var(--secondary-darker));
+      @include setColors(var(--secondary), var(--secondary-dark));
     }
 
     // Disabled
