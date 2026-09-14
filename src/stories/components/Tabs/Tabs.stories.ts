@@ -21,12 +21,12 @@ const meta: Meta<typeof Tabs> = {
       return { args };
     },
     template: `
-        <Tabs v-bind="args">
-          <template #tab-1>Content 1</template>
-          <template #tab-2>Content 2</template>
-          <template #tab-3>Content 3</template>
-        </Tabs>
-      `,
+      <Tabs v-bind="args">
+        <template #tab-1>Content 1</template>
+        <template #tab-2>Content 2</template>
+        <template #tab-3>Content 3</template>
+      </Tabs>
+    `,
   }),
 };
 

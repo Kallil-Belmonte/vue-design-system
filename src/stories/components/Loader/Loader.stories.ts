@@ -45,12 +45,12 @@ const meta: Meta<typeof Loader> = {
       return { args };
     },
     template: `
-        <Loader v-bind="args">
-          <div style="font-family: var(--font-primary); display: flex; align-items: center; justify-content: center; height: 50px">
-            Content
-          </div>
-        </Loader>
-      `,
+      <Loader v-bind="args">
+        <div style="font-family: var(--font-primary); display: flex; align-items: center; justify-content: center; height: 50px">
+          Content
+        </div>
+      </Loader>
+    `,
   }),
 };
 

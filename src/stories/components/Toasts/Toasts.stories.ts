@@ -56,15 +56,15 @@ const meta: Meta<typeof Toasts> = {
       return { args, toasts, add, close };
     },
     template: `
-        <div style="display: flex; gap: 10px;">
-          <Button mode="contain" variant="info" @click="add('info')">Info</Button>
-          <Button mode="contain" variant="success" @click="add('success')">Success</Button>
-          <Button mode="contain" variant="warning" @click="add('warning')">Warning</Button>
-          <Button mode="contain" variant="danger" @click="add('danger')">Danger</Button>
-        </div>
+      <div style="display: flex; gap: 10px;">
+        <Button mode="contain" variant="info" @click="add('info')">Info</Button>
+        <Button mode="contain" variant="success" @click="add('success')">Success</Button>
+        <Button mode="contain" variant="warning" @click="add('warning')">Warning</Button>
+        <Button mode="contain" variant="danger" @click="add('danger')">Danger</Button>
+      </div>
 
-        <Toasts :toasts="toasts" :close="close" v-bind="args" />
-      `,
+      <Toasts :toasts="toasts" :close="close" v-bind="args" />
+    `,
   }),
 };
 

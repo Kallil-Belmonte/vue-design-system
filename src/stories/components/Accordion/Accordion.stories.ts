@@ -27,8 +27,8 @@ const meta: Meta<typeof Accordion> = {
       return { args };
     },
     template: `
-        <Accordion v-bind="args">Content</Accordion>
-      `,
+      <Accordion v-bind="args">Content</Accordion>
+    `,
   }),
 };
 

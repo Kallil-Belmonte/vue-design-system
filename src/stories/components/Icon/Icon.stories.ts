@@ -39,15 +39,6 @@ const meta: Meta<typeof Icon> = {
       control: 'text',
     }),
   },
-  render: args => ({
-    components: { Icon },
-    setup() {
-      return { args };
-    },
-    template: `
-        <Icon v-bind="args" />
-      `,
-  }),
 };
 
 export const Default: StoryObj<typeof Icon> = {

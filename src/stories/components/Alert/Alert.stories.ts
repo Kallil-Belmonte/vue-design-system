@@ -35,8 +35,8 @@ const meta: Meta<typeof Alert> = {
       return { args };
     },
     template: `
-        <Alert v-bind="args">Description.</Alert>
-      `,
+      <Alert v-bind="args">Description.</Alert>
+    `,
   }),
 };
 

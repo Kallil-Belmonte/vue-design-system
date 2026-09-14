@@ -227,7 +227,7 @@ $size: 45px;
     }
 
     &.primary {
-      @include setColors(var(--primary), var(--primary-darker));
+      @include setColors(var(--primary), var(--primary-dark));
     }
 
     &.secondary {
