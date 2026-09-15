@@ -10,6 +10,12 @@ const meta: Meta<typeof Tour> = {
   title: 'Components/Tour',
   component: Tour,
   argTypes: {
+    active: setArgs({
+      name: 'active',
+      description: 'If <code>true</code>, the tour is active.',
+      type: 'boolean',
+      control: 'boolean',
+    }),
     close: setArgs({
       name: 'close',
       description: 'Close callback.',
@@ -22,17 +28,17 @@ const meta: Meta<typeof Tour> = {
       type: 'Item[]',
       control: false,
     }),
-    open: setArgs({
-      name: 'open',
-      description: 'Open the tour.',
-      type: 'boolean',
-      control: 'boolean',
+    overlayStyle: setArgs({
+      name: 'overlayStyle',
+      description: 'Style for the overlay.',
+      type: 'CSSProperties',
+      control: 'object',
     }),
   },
   render: args => ({
     components: { Button, Tour },
     setup() {
-      const open = ref(false);
+      const active = ref(false);
 
       const styles: CSSProperties = {
         'font-family': 'var(--font-primary)',
@@ -45,19 +51,23 @@ const meta: Meta<typeof Tour> = {
       };
 
       const close = () => {
-        open.value = false;
+        active.value = false;
       };
 
-      return { args, close, open, styles };
+      return { args, close, active, styles };
     },
     template: `
-      <Button mode="contain" @click="open = !open">Toggle</Button>
+      <Button mode="contain" @click="active = !active">Toggle</Button>
 
       <div data-step="1" :style="styles" class="d-inline-flex flex-center">Step 1</div>
       <div data-step="2" :style="styles" class="d-inline-flex flex-center">Step 2</div>
       <div data-step="3" :style="styles" class="d-inline-flex flex-center">Step 3</div>
 
-      <Tour v-bind="args" :open="open" :close="close" />
+      <div style="width: 200px; height: 300px; overflow: auto;">
+        <div style="width: 100%; height: 5000px; background-color: lightblue;"></div>
+      </div>
+
+      <Tour v-bind="args" :active="active" :close="close" />
     `,
   }),
 };

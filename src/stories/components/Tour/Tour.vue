@@ -4,7 +4,7 @@
       v-for="({ position = 'top', spacing = '10px' }, index) in items"
       :key="index"
       :id="ids[index]"
-      popover
+      popover="manual"
       :style="{ 'position-anchor': `--${ids[index]}`, '--spacing': spacing }"
       :class="`item ${position}`"
     >
@@ -18,12 +18,12 @@
   </section>
 
   <Teleport to="body">
-    <div v-if="open" ref="overlay" :style="styles"></div>
+    <div v-if="active" ref="overlay" :style="styles"></div>
   </Teleport>
 </template>
 
 <script lang="ts" setup>
-import { type CSSProperties, nextTick, ref, useTemplateRef, watch } from 'vue';
+import { type CSSProperties, nextTick, onUnmounted, ref, useTemplateRef, watch } from 'vue';
 
 type Position =
   | 'top-start'
@@ -52,12 +52,13 @@ type Item = {
 };
 
 type Props = {
-  open: boolean;
+  active: boolean;
   items: Item[];
+  overlayStyle?: CSSProperties;
   close: () => void;
 };
 
-const { open, items, close } = defineProps<Props>();
+const { active, items, overlayStyle, close } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
 const overlay = useTemplateRef<HTMLDivElement>('overlay');
@@ -67,16 +68,27 @@ const activeIndex = ref(0);
 const styles: CSSProperties = {
   position: 'fixed',
   inset: 0,
-  'background-color': 'rgba(0, 0, 0, 0.7)',
+  'background-color': 'rgba(0, 0, 0, 0.6)',
+  ...overlayStyle,
 };
 
 const ids = items.map(() => `tour-${crypto.randomUUID().split('-')[0]}`);
 
-const show = () => document.getElementById(ids[activeIndex.value])?.showPopover();
+const select = (selector: string) => document.querySelector<HTMLElement>(selector);
 
-const hide = () => document.getElementById(ids[activeIndex.value])?.hidePopover();
+const getTarget = () => select(items[activeIndex.value].target);
 
-const updateMask = () => {
+const show = () => {
+  getTarget()?.style.setProperty('anchor-name', `--${ids[activeIndex.value]}`);
+  document.getElementById(ids[activeIndex.value])?.showPopover();
+};
+
+const hide = () => {
+  document.getElementById(ids[activeIndex.value])?.hidePopover();
+  getTarget()?.style.removeProperty('anchor-name');
+};
+
+const setMask = () => {
   if (!overlay.value) return;
 
   const holes = items[activeIndex.value].highlights.map(({ selector, expansion = 0 }) => {
@@ -85,12 +97,11 @@ const updateMask = () => {
       right = 0,
       bottom = 0,
       left = 0,
-    } = document.querySelector<HTMLElement>(selector)?.getBoundingClientRect() || {};
+    } = select(selector)?.getBoundingClientRect() || {};
 
     return `
-      linear-gradient(
-        #000 0 0
-      ) ${left - expansion}px ${top - expansion}px /
+      linear-gradient(#000 0 0)
+        ${left - expansion}px ${top - expansion}px /
         ${right - left + expansion * 2}px
         ${bottom - top + expansion * 2}px
         no-repeat
@@ -105,10 +116,7 @@ const highlight = async () => {
   await nextTick();
   if (!overlay.value) return;
 
-  const target = document.querySelector<HTMLElement>(items[activeIndex.value].target);
-  if (target) target.style.anchorName = `--${ids[activeIndex.value]}`;
-
-  updateMask();
+  setMask();
   show();
 };
 
@@ -124,19 +132,31 @@ const next = () => {
   highlight();
 };
 
+const activate = () => {
+  select('body')?.style.setProperty('overflow', 'hidden');
+  highlight();
+  window.addEventListener('resize', setMask);
+};
+
+const deactivate = () => {
+  select('body')?.style.removeProperty('overflow');
+  hide();
+  activeIndex.value = 0;
+  window.removeEventListener('resize', setMask);
+};
 
 // LIFECYCLE HOOKS
 watch(
-  () => open,
-  newOpen => {
-    if (newOpen) {
-      highlight();
-    } else {
-      hide();
-      activeIndex.value = 0;
-    }
+  () => active,
+  newActive => {
+    if (newActive) activate();
+    else deactivate();
   },
 );
+
+onUnmounted(() => {
+  deactivate();
+});
 
 // EXPOSE
 defineExpose({
