@@ -5,7 +5,7 @@
       :key="tab.title"
       class="tab"
       :aria-disabled="tab.disabled"
-      :data-id="tab.id"
+      :data-slot="tab.slot"
       :name="name"
       :open="tab.open"
       @click="(event: MouseEvent) => click(tab, event)"
@@ -15,7 +15,7 @@
         <h3 class="title">{{ tab.title }}</h3>
       </summary>
       <section class="content">
-        <slot :name="`${tab.id}`"></slot>
+        <slot :name="tab.slot"></slot>
       </section>
     </details>
   </section>
@@ -28,7 +28,7 @@ import Icon from '@/stories/components/Icon/Icon.vue';
 import type { Icons } from '@/stories/components/Icon/types';
 
 type Tab = {
-  id: string;
+  slot: string;
   icon?: Icons;
   title: string;
   open?: boolean;
@@ -54,12 +54,12 @@ const name = `tab-${useId()}`;
 const click = (tab: Tab, event: MouseEvent) => {
   const selected =
     element.value
-      ?.querySelector(`[data-id="${tab.id}"] > summary`)
+      ?.querySelector(`[data-slot="${tab.slot}"] > summary`)
       ?.contains(event.target as HTMLElement) &&
-    element.value?.querySelector(`[data-id="${tab.id}"]`)?.hasAttribute('open');
+    element.value?.querySelector(`[data-slot="${tab.slot}"]`)?.hasAttribute('open');
 
   if (selected || tab.disabled) event.preventDefault();
-  else tab.click?.(tab.id, event);
+  else tab.click?.(tab.slot, event);
 };
 
 // SLOTS

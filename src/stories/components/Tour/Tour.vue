@@ -1,16 +1,18 @@
 <template>
   <section ref="element" data-component="Tour">
     <div
-      v-for="({ position = 'top', spacing = '10px' }, index) in items"
+      v-for="(item, index) in items"
       :key="index"
       :id="ids[index]"
       popover="manual"
-      :style="{ 'position-anchor': `--${ids[index]}`, '--spacing': spacing }"
-      :class="`item ${position}`"
+      :style="{ 'position-anchor': `--${ids[index]}`, '--spacing': item.spacing || '10px' }"
+      :class="`item ${item.position || 'top'}`"
     >
       <button type="button" @click="close">X</button>
 
-      Item {{ index + 1 }}/{{ items.length }}
+      <slot :name="item.slot"></slot>
+
+      {{ index + 1 }}/{{ items.length }}
 
       <button v-if="activeIndex" type="button" @click="previous">Anterior</button>
       <button v-if="activeIndex !== items.length - 1" type="button" @click="next">Próximo</button>
@@ -45,6 +47,7 @@ type Highlight = {
 };
 
 type Item = {
+  slot: string;
   target: string;
   position?: Position;
   spacing?: string;
@@ -56,6 +59,11 @@ type Props = {
   items: Item[];
   overlayStyle?: CSSProperties;
   close: () => void;
+};
+
+type Slots = {
+  /** Default slot */
+  default(): any;
 };
 
 const { active, items, overlayStyle, close } = defineProps<Props>();
@@ -158,6 +166,9 @@ onUnmounted(() => {
   deactivate();
 });
 
+// SLOTS
+defineSlots<Slots>();
+
 // EXPOSE
 defineExpose({
   /** Element ref */
@@ -170,6 +181,10 @@ defineExpose({
 
 [data-component='Tour'] {
   .item {
+    width: max-content;
+    max-width: 300px;
+    padding: 8px 10px;
+    border-radius: 8px;
     border: none;
     margin: 0;
 

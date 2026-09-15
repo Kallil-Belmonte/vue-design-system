@@ -63,11 +63,11 @@ const meta: Meta<typeof Tour> = {
       <div data-step="2" :style="styles" class="d-inline-flex flex-center">Step 2</div>
       <div data-step="3" :style="styles" class="d-inline-flex flex-center">Step 3</div>
 
-      <div style="width: 200px; height: 300px; overflow: auto;">
-        <div style="width: 100%; height: 5000px; background-color: lightblue;"></div>
-      </div>
-
-      <Tour v-bind="args" :active="active" :close="close" />
+      <Tour v-bind="args" :active="active" :close="close">
+        <template #item-1>Content</template>
+        <template #item-2>Content</template>
+        <template #item-3>Content</template>
+      </Tour>
     `,
   }),
 };
@@ -76,14 +76,17 @@ export const Default: StoryObj<typeof Tour> = {
   args: {
     items: [
       {
+        slot: 'item-1',
         target: '[data-step="1"]',
         highlights: [{ selector: '[data-step="1"]' }],
       },
       {
+        slot: 'item-2',
         target: '[data-step="2"]',
         highlights: [{ selector: '[data-step="2"]' }],
       },
       {
+        slot: 'item-3',
         target: '[data-step="3"]',
         highlights: [{ selector: '[data-step="3"]' }],
       },
