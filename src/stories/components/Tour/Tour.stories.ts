@@ -28,13 +28,6 @@ const meta: Meta<typeof Tour> = {
       type: 'boolean',
       control: 'boolean',
     }),
-    spacing: setArgs({
-      name: 'spacing',
-      description: 'Distance between the content from the tooltip.',
-      type: 'string',
-      defaultValue: '10px',
-      control: 'text',
-    }),
   },
   render: args => ({
     components: { Button, Tour },

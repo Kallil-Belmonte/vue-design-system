@@ -1,11 +1,11 @@
 <template>
   <section ref="element" data-component="Tour">
     <div
-      v-for="({ position = 'top' }, index) in items"
+      v-for="({ position = 'top', spacing = '10px' }, index) in items"
       :key="index"
       :id="ids[index]"
       popover
-      :style="{ 'position-anchor': `--${ids[index]}` }"
+      :style="{ 'position-anchor': `--${ids[index]}`, '--spacing': spacing }"
       :class="`item ${position}`"
     >
       <button type="button" @click="close">X</button>
@@ -47,17 +47,17 @@ type Highlight = {
 type Item = {
   target: string;
   position?: Position;
+  spacing?: string;
   highlights: Highlight[];
 };
 
 type Props = {
   open: boolean;
-  spacing?: string;
   items: Item[];
   close: () => void;
 };
 
-const { open, spacing = '10px', items, close } = defineProps<Props>();
+const { open, items, close } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
 const overlay = useTemplateRef<HTMLDivElement>('overlay');
@@ -70,7 +70,7 @@ const styles: CSSProperties = {
   'background-color': 'rgba(0, 0, 0, 0.7)',
 };
 
-const ids = items.map(() => `tooltip-${crypto.randomUUID().split('-')[0]}`);
+const ids = items.map(() => `tour-${crypto.randomUUID().split('-')[0]}`);
 
 const show = () => document.getElementById(ids[activeIndex.value])?.showPopover();
 
@@ -124,6 +124,8 @@ const next = () => {
   highlight();
 };
 
+// TODO: Adicionar a atualização dinâmica sempre que scrollar.
+
 // LIFECYCLE HOOKS
 watch(
   () => open,
@@ -154,19 +156,19 @@ defineExpose({
 
     // Position
     &.top-start {
-      top: calc(anchor(top) - v-bind(spacing));
+      top: calc(anchor(top) - var(--spacing));
       left: anchor(left);
       translate: 0% -100%;
     }
 
     &.top {
-      top: calc(anchor(top) - v-bind(spacing));
+      top: calc(anchor(top) - var(--spacing));
       left: anchor(center);
       translate: -50% -100%;
     }
 
     &.top-end {
-      top: calc(anchor(top) - v-bind(spacing));
+      top: calc(anchor(top) - var(--spacing));
       left: anchor(right);
       translate: -100% -100%;
     }
@@ -189,18 +191,18 @@ defineExpose({
     }
 
     &.bottom-start {
-      top: calc(anchor(bottom) + v-bind(spacing));
+      top: calc(anchor(bottom) + var(--spacing));
       left: anchor(left);
     }
 
     &.bottom {
-      top: calc(anchor(bottom) + v-bind(spacing));
+      top: calc(anchor(bottom) + var(--spacing));
       left: anchor(center);
       translate: -50% 0%;
     }
 
     &.bottom-end {
-      top: calc(anchor(bottom) + v-bind(spacing));
+      top: calc(anchor(bottom) + var(--spacing));
       left: anchor(right);
       translate: -100% -0%;
     }
