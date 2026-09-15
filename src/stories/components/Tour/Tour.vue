@@ -124,7 +124,6 @@ const next = () => {
   highlight();
 };
 
-// TODO: Adicionar a atualização dinâmica sempre que scrollar.
 
 // LIFECYCLE HOOKS
 watch(
