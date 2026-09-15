@@ -98,6 +98,7 @@ const updateMask = () => {
   });
 
   overlay.value.style.mask = `linear-gradient(#000 0 0), ${holes.join(',')}`;
+  overlay.value.style.maskComposite = 'exclude';
 };
 
 const highlight = async () => {
@@ -108,7 +109,6 @@ const highlight = async () => {
   if (target) target.style.anchorName = `--${ids[activeIndex.value]}`;
 
   updateMask();
-  overlay.value.style.maskComposite = 'exclude';
   show();
 };
 
