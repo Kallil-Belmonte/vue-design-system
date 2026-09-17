@@ -5,8 +5,12 @@
       :key="index"
       :id="ids[index]"
       popover="manual"
-      :style="{ 'position-anchor': `--${ids[index]}`, '--spacing': item.spacing || '10px' }"
-      :class="`item ${item.position || 'top'}`"
+      :style="{
+        'position-anchor': `--${ids[index]}`,
+        '--spacing': item.spacing || '10px',
+        ...item.style,
+      }"
+      :class="`item ${item.position || 'top'} ${item.class || ''}`.trim()"
     >
       <button type="button" @click="close">X</button>
 
@@ -48,10 +52,14 @@ type Highlight = {
 
 type Item = {
   slot: string;
+  style?: CSSProperties;
+  class?: string;
   target: string;
   position?: Position;
   spacing?: string;
   highlights: Highlight[];
+  onPrevious?: () => Promise<void>;
+  onNext?: () => Promise<void>;
 };
 
 type Props = {
@@ -128,14 +136,16 @@ const highlight = async () => {
   show();
 };
 
-const previous = () => {
+const previous = async () => {
   hide();
+  await items[activeIndex.value].onPrevious?.();
   activeIndex.value--;
   highlight();
 };
 
-const next = () => {
+const next = async () => {
   hide();
+  await items[activeIndex.value].onNext?.();
   activeIndex.value++;
   highlight();
 };
@@ -187,6 +197,11 @@ defineExpose({
     border-radius: 8px;
     border: none;
     margin: 0;
+
+    // position-try-fallbacks: flip-inline, flip-block, flip-start;
+
+    // position-try: flip-block, flip-inline;
+    // position-try-fallbacks: flip-block, flip-inline;
 
     // Position
     &.top-start {
