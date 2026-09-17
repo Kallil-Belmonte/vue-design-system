@@ -8,8 +8,8 @@
           class: classProp = '',
           position = 'top',
           spacing = '10px',
-          previousText = 'Previous',
-          nextText = 'Next',
+          previousText = '← Previous',
+          nextText = 'Next →',
         },
         index
       ) in items"
@@ -23,18 +23,30 @@
       }"
       :class="`item ${position} ${classProp}`.trim()"
     >
-      <button type="button" @click="close">X</button>
+      <header>
+        <Button
+          aria-label="Close"
+          mode="blank"
+          variant="base"
+          :icon="{ name: 'Close' }"
+          @click="close"
+        />
+      </header>
 
-      <slot :name="slot"></slot>
+      <section>
+        <slot :name="slot"></slot>
+      </section>
 
-      {{ index + 1 }}/{{ items.length }}
+      <footer>
+        <button v-if="activeIndex" type="button" @click="previous">
+          {{ previousText }}
+        </button>
+        <button v-if="activeIndex !== items.length - 1" type="button" @click="next">
+          {{ nextText }}
+        </button>
 
-      <button v-if="activeIndex" type="button" @click="previous">
-        {{ previousText }}
-      </button>
-      <button v-if="activeIndex !== items.length - 1" type="button" @click="next">
-        {{ nextText }}
-      </button>
+        <b class="counter">{{ index + 1 }}/{{ items.length }}</b>
+      </footer>
     </div>
   </section>
 
@@ -45,6 +57,8 @@
 
 <script lang="ts" setup>
 import { type CSSProperties, nextTick, onUnmounted, ref, useTemplateRef, watch } from 'vue';
+
+import Button from '@/stories/components/Button/Button.vue';
 
 type Position =
   | 'top-start'
@@ -207,18 +221,55 @@ defineExpose({
 @use '@/assets/scss/helpers' as *;
 
 [data-component='Tour'] {
+  $vertical-padding: 8px;
+  $horizontal-padding: 10px;
+
+  font-family: var(--font-primary);
+  font-size: var(--font-size);
+
   .item {
-    width: max-content;
-    max-width: 300px;
-    padding: 8px 10px;
+    width: 300px;
+    padding: 0;
     border-radius: 8px;
     border: none;
     margin: 0;
+    position-try: flip-block, flip-inline;
 
-    // position-try-fallbacks: flip-inline, flip-block, flip-start;
+    > header {
+      display: flex;
+      padding: $vertical-padding $horizontal-padding;
 
-    // position-try: flip-block, flip-inline;
-    // position-try-fallbacks: flip-block, flip-inline;
+      [data-component='Button'] {
+        flex-shrink: 0;
+        margin-left: auto;
+      }
+    }
+
+    > section {
+      padding: 0 $horizontal-padding;
+    }
+
+    > footer {
+      @extend %flex-vertical-center;
+      gap: 10px;
+      padding: $vertical-padding $horizontal-padding;
+
+      button {
+        font: inherit;
+        font-weight: 700;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        background-color: var(--primary);
+        box-shadow: none;
+        cursor: pointer;
+        padding: 5px 10px;
+      }
+
+      .counter {
+        margin: 0 0 0 auto;
+      }
+    }
 
     // Position
     &.top-start {

@@ -17,6 +17,7 @@
 
       <Button
         v-if="showClose"
+        aria-label="Close"
         mode="blank"
         variant="base"
         :icon="{ name: 'Close' }"
@@ -199,7 +200,10 @@ defineExpose({
     margin: 0;
     position: absolute;
     opacity: 0;
-    transition: opacity 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
+    transition:
+      opacity 0.3s,
+      overlay 0.3s allow-discrete,
+      display 0.3s allow-discrete;
 
     &:popover-open {
       opacity: 1;

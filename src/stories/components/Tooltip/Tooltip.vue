@@ -17,6 +17,7 @@
 
       <Button
         v-if="showClose"
+        aria-label="Close"
         mode="blank"
         variant="base"
         :icon="{ name: 'Close' }"
@@ -204,7 +205,10 @@ defineExpose({
     // Animation
     &.fade {
       opacity: 0;
-      transition: opacity 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
+      transition:
+        opacity 0.3s,
+        overlay 0.3s allow-discrete,
+        display 0.3s allow-discrete;
 
       &:popover-open {
         opacity: 1;
@@ -220,7 +224,11 @@ defineExpose({
     &.scale {
       opacity: 0;
       scale: 0.8;
-      transition: opacity 0.3s, scale 0.3s, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
+      transition:
+        opacity 0.3s,
+        scale 0.3s,
+        overlay 0.3s allow-discrete,
+        display 0.3s allow-discrete;
 
       &:popover-open {
         opacity: 1;

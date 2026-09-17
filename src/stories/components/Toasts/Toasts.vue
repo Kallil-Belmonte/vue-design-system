@@ -11,7 +11,13 @@
       <header>
         <Icon :name="getIcon(toast.status)" size="20px" />
         <h2 class="title">{{ toast.title }}</h2>
-        <Button mode="blank" variant="base" :icon="{ name: 'Close' }" @click="close(toast)" />
+        <Button
+          aria-label="Close"
+          mode="blank"
+          variant="base"
+          :icon="{ name: 'Close' }"
+          @click="close(toast)"
+        />
       </header>
       <article v-if="toast.description">
         <p>{{ toast.description }}</p>
