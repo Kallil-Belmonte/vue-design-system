@@ -1,25 +1,40 @@
 <template>
   <section ref="element" data-component="Tour">
     <div
-      v-for="(item, index) in items"
+      v-for="(
+        {
+          slot,
+          style = {},
+          class: classProp = '',
+          position = 'top',
+          spacing = '10px',
+          previousText = 'Previous',
+          nextText = 'Next',
+        },
+        index
+      ) in items"
       :key="index"
       :id="ids[index]"
       popover="manual"
       :style="{
         'position-anchor': `--${ids[index]}`,
-        '--spacing': item.spacing || '10px',
-        ...item.style,
+        '--spacing': spacing,
+        ...style,
       }"
-      :class="`item ${item.position || 'top'} ${item.class || ''}`.trim()"
+      :class="`item ${position} ${classProp}`.trim()"
     >
       <button type="button" @click="close">X</button>
 
-      <slot :name="item.slot"></slot>
+      <slot :name="slot"></slot>
 
       {{ index + 1 }}/{{ items.length }}
 
-      <button v-if="activeIndex" type="button" @click="previous">Anterior</button>
-      <button v-if="activeIndex !== items.length - 1" type="button" @click="next">Próximo</button>
+      <button v-if="activeIndex" type="button" @click="previous">
+        {{ previousText }}
+      </button>
+      <button v-if="activeIndex !== items.length - 1" type="button" @click="next">
+        {{ nextText }}
+      </button>
     </div>
   </section>
 
@@ -57,6 +72,8 @@ type Item = {
   target: string;
   position?: Position;
   spacing?: string;
+  previousText?: string;
+  nextText?: string;
   highlights: Highlight[];
   onPrevious?: () => Promise<void>;
   onNext?: () => Promise<void>;
