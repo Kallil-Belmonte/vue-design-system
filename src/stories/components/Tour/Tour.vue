@@ -161,8 +161,6 @@ const setMask = () => {
 
 const highlight = async () => {
   await nextTick();
-  if (!overlay.value) return;
-
   setMask();
   show();
 };
