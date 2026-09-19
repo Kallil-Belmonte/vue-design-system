@@ -172,8 +172,9 @@ const search = (event: InputEvent) => {
 };
 
 const updateModel = (option?: SelectOption) => {
-  const result = option || options.find(item => isEqual(item.value, valueProp));
-  model.value = result?.text || '';
+  const result: SelectOption = option ||
+    options.find(item => isEqual(item.value, valueProp)) || { text: '', value: undefined };
+  model.value = result.text;
 };
 
 const resetFilteredOptions = () => {
@@ -181,7 +182,7 @@ const resetFilteredOptions = () => {
 };
 
 const setValue = (event?: FocusEvent) => {
-  const option = options.find(item => format(item.text) === format(model.value)) ||
+  const option: SelectOption = options.find(item => format(item.text) === format(model.value)) ||
     options.find(item => isEqual(item.value, valueProp)) || { text: '', value: undefined };
 
   if (!isSelected(option)) change(option, event);
