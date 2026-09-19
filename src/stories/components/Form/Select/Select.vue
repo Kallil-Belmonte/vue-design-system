@@ -22,6 +22,7 @@
         maxWidth="none"
         spacing="0px"
         :showClose="false"
+        :onClose="setValue"
       >
         <template #default>
           <div>
@@ -79,15 +80,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  type InputHTMLAttributes,
-  onMounted,
-  onUnmounted,
-  ref,
-  useTemplateRef,
-  watchEffect,
-} from 'vue';
+import { computed, type InputHTMLAttributes, ref, useTemplateRef, watchEffect } from 'vue';
 
 import { useElementBounding } from '@/shared/composables';
 import { isEqual, removeAccent } from '@/shared/helpers';
@@ -121,6 +114,8 @@ type SelectOption = {
   disabled?: boolean;
 };
 
+type SelectChangeEvent = KeyboardEvent | PointerEvent | FocusEvent;
+
 type Props = {
   info?: {
     text: string;
@@ -133,7 +128,7 @@ type Props = {
   value: any;
   options: SelectOption[];
   disabled?: InputHTMLAttributes['disabled'];
-  change: (option: SelectOption, event: KeyboardEvent | FocusEvent | MouseEvent) => void;
+  change: (option: SelectOption, event?: SelectChangeEvent) => void;
 };
 
 const {
@@ -148,8 +143,6 @@ const {
 } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLDivElement>('element');
-
-const tooltip = useTemplateRef<{ element: HTMLDivElement; tooltip: HTMLElement }>('tooltip');
 
 const field = useTemplateRef<HTMLInputElement>('field');
 
@@ -168,7 +161,7 @@ const isSelected = (option: SelectOption) => isEqual(option.value, valueProp);
 
 const format = (text: string) => removeAccent(text.toLowerCase());
 
-const select = (option: SelectOption, event: KeyboardEvent | FocusEvent | MouseEvent) => {
+const select = (option: SelectOption, event: KeyboardEvent | PointerEvent) => {
   if (option.disabled || isEqual(option.value, valueProp)) return;
   change(option, event);
 };
@@ -187,23 +180,13 @@ const updateFilteredOptions = () => {
   filteredOptions.value = options;
 };
 
-const setValue = (event: FocusEvent | MouseEvent) => {
-  const option = options.find(item => format(item.text) === format(model.value)) || {
-    text: '',
-    value: undefined,
-  };
+const setValue = (event?: FocusEvent) => {
+  const option = options.find(item => format(item.text) === format(model.value)) ||
+    options.find(item => isEqual(item.value, valueProp)) || { text: '', value: undefined };
 
-  if (isSelected(option)) return;
-
-  change(option, event);
+  if (!isSelected(option)) change(option, event);
   updateModel();
   updateFilteredOptions();
-};
-
-const documentListener = (event: MouseEvent) => {
-  if (!tooltip.value?.element.contains(event.target as HTMLElement)) {
-    setValue(event);
-  }
 };
 
 // LIFECYCLE HOOKS
@@ -213,14 +196,6 @@ watchEffect(() => {
 
 watchEffect(() => {
   updateFilteredOptions();
-});
-
-onMounted(() => {
-  document.addEventListener('click', documentListener);
-});
-
-onUnmounted(() => {
-  document.removeEventListener('click', documentListener);
 });
 
 // EXPOSE

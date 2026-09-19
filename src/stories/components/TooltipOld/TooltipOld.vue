@@ -57,6 +57,8 @@ type Props = {
   position?: Position;
   spacing?: string;
   showClose?: boolean;
+  onOpen?: () => void;
+  onClose?: () => void;
 };
 
 type Slots = {
@@ -76,6 +78,8 @@ const {
   position = 'top',
   spacing = '10px',
   showClose: showCloseProp = true,
+  onOpen,
+  onClose,
 } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLDivElement>('element');
@@ -111,6 +115,7 @@ const showClose = computed(
 const openTooltip = () => {
   open.value = true;
   tooltip.value?.showPopover();
+  onOpen?.();
 
   if (typeof openProp !== 'boolean' && trigger === 'click') {
     document.addEventListener('click', clickListener);
@@ -120,6 +125,7 @@ const openTooltip = () => {
 const closeTooltip = () => {
   open.value = false;
   tooltip.value?.hidePopover();
+  onClose?.();
 
   if (typeof openProp !== 'boolean' && trigger === 'click') {
     document.removeEventListener('click', clickListener);
