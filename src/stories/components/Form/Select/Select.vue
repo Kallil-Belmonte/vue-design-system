@@ -166,7 +166,7 @@ const select = (option: SelectOption, event: KeyboardEvent | PointerEvent) => {
   change(option, event);
 };
 
-const search = (event: Event) => {
+const search = (event: InputEvent) => {
   const { value } = event.target as HTMLInputElement;
   filteredOptions.value = options.filter(option => format(option.text).includes(format(value)));
 };
