@@ -171,12 +171,12 @@ const search = (event: InputEvent) => {
   filteredOptions.value = options.filter(option => format(option.text).includes(format(value)));
 };
 
-const updateModel = () => {
-  const option = options.find(item => isEqual(item.value, valueProp));
-  model.value = option?.text || '';
+const updateModel = (option?: SelectOption) => {
+  const result = option || options.find(item => isEqual(item.value, valueProp));
+  model.value = result?.text || '';
 };
 
-const updateFilteredOptions = () => {
+const resetFilteredOptions = () => {
   filteredOptions.value = options;
 };
 
@@ -185,8 +185,8 @@ const setValue = (event?: FocusEvent) => {
     options.find(item => isEqual(item.value, valueProp)) || { text: '', value: undefined };
 
   if (!isSelected(option)) change(option, event);
-  updateModel();
-  updateFilteredOptions();
+  updateModel(option);
+  resetFilteredOptions();
 };
 
 // LIFECYCLE HOOKS
@@ -195,7 +195,7 @@ watchEffect(() => {
 });
 
 watchEffect(() => {
-  updateFilteredOptions();
+  resetFilteredOptions();
 });
 
 // EXPOSE

@@ -12,7 +12,7 @@ const meta: Meta<typeof Select> = {
     change: setArgs({
       name: 'change',
       description: 'Change callback.',
-      type: '(option: SelectOption, event: KeyboardEvent | FocusEvent | MouseEvent) => void',
+      type: '(option: SelectOption, event?: SelectChangeEvent) => void',
       required: true,
       control: false,
     }),

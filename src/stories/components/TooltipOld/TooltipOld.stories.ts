@@ -36,6 +36,18 @@ const meta: Meta<typeof TooltipOld> = {
       defaultValue: '300px',
       control: 'text',
     }),
+    onClose: setArgs({
+      name: 'onClose',
+      description: 'Close callback.',
+      type: '() => void',
+      control: false,
+    }),
+    onOpen: setArgs({
+      name: 'onOpen',
+      description: 'Open callback.',
+      type: '() => void',
+      control: false,
+    }),
     open: setArgs({
       name: 'open',
       description: 'The value to control the open state.',
