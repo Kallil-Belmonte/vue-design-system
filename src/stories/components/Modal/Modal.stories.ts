@@ -29,6 +29,12 @@ const meta: Meta<typeof Modal> = {
       required: true,
       control: 'text',
     }),
+    onClose: setArgs({
+      name: 'onClose',
+      description: 'Close callback.',
+      type: '(event: Event) => void',
+      control: false,
+    }),
     title: setArgs({
       name: 'title',
       description: 'Title.',

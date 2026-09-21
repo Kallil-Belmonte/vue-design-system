@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useSlots, useTemplateRef } from 'vue';
+import { onMounted, onUnmounted, useSlots, useTemplateRef } from 'vue';
 
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
@@ -41,6 +41,7 @@ type Props = {
   icon?: { category?: Category; name: Icons };
   title: string;
   closedby?: 'any' | 'closerequest' | 'none';
+  onClose?: (event: Event) => void;
 };
 
 type Slots = {
@@ -50,12 +51,21 @@ type Slots = {
   footer(): any;
 };
 
-const { id, variant = 'default', icon, title, closedby = 'any' } = defineProps<Props>();
+const { id, variant = 'default', icon, title, closedby = 'any', onClose } = defineProps<Props>();
 const { category, name } = icon || {};
 
 const element = useTemplateRef<HTMLDialogElement>('element');
 
 const slots = useSlots();
+
+// LIFECYCLE HOOKS
+onMounted(() => {
+  if (onClose) element.value?.addEventListener('close', onClose);
+});
+
+onUnmounted(() => {
+  if (onClose) element.value?.removeEventListener('close', onClose);
+});
 
 // SLOTS
 defineSlots<Slots>();
