@@ -1,5 +1,6 @@
-import { getScrollStatus } from '@/shared/helpers';
 import { onMounted, onUnmounted, ref, type Ref, type ShallowRef } from 'vue';
+
+import { getScrollStatus } from '@/shared/helpers';
 
 type Element =
   | HTMLElement
@@ -28,6 +29,10 @@ const useElementBounding = (elementRef: Readonly<ShallowRef<Element>> | Readonly
   const width = ref(0);
   const height = ref(0);
 
+  let scrollParent: HTMLElement | null = null;
+  let mutationObserver: MutationObserver | null = null;
+  let resizeObserver: ResizeObserver | null = null;
+
   const setValues = (element = elementRef.value) => {
     const rect = element?.getBoundingClientRect();
 
@@ -41,50 +46,59 @@ const useElementBounding = (elementRef: Readonly<ShallowRef<Element>> | Readonly
     height.value = rect?.height || 0;
   };
 
-  const observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-      if (mutation.type === 'attributes') {
-        setValues(mutation.target as Element);
-      }
-    });
-  });
-
   const listener = () => {
     setValues();
   };
 
+  const removeListeners = () => {
+    window.removeEventListener('resize', listener);
+
+    scrollParent?.removeEventListener('scroll', listener);
+    scrollParent = null;
+
+    mutationObserver?.disconnect();
+    mutationObserver = null;
+
+    resizeObserver?.disconnect();
+    resizeObserver = null;
+  };
+
   const setListeners = () => {
-    if (elementRef.value) {
-      window.addEventListener('resize', listener);
-      observer.observe(elementRef.value, { attributes: true });
+    const element = elementRef.value;
+    if (!element) return;
 
-      let parent = elementRef.value?.parentElement;
+    window.addEventListener('resize', listener);
 
-      while (
-        parent?.tagName !== 'BODY' &&
-        !getScrollStatus(parent).hasScrollbar &&
-        parent?.parentElement
-      ) {
-        parent = parent.parentElement;
-      }
-
-      parent?.addEventListener('scroll', listener);
-    } else {
-      window.removeEventListener('resize', listener);
+    let parent = element.parentElement;
+    while (parent && parent.tagName !== 'BODY' && !getScrollStatus(parent).isScrollable) {
+      parent = parent.parentElement;
     }
+
+    scrollParent = parent;
+    scrollParent?.addEventListener('scroll', listener);
+
+    mutationObserver = new MutationObserver(() => {
+      setValues();
+      setTimeout(() => setValues(), 500);
+    });
+    mutationObserver.observe(element, { attributes: true });
+
+    resizeObserver = new ResizeObserver(() => {
+      setValues();
+      setTimeout(() => setValues(), 500);
+    });
+    resizeObserver.observe(element);
+
+    setValues(element);
   };
 
   // LIFECYCLE HOOKS
   onMounted(() => {
-    setTimeout(() => {
-      setValues();
-    }, 500);
     setListeners();
   });
 
   onUnmounted(() => {
-    setValues(null);
-    setListeners();
+    removeListeners();
   });
 
   return {
