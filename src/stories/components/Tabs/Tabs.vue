@@ -40,11 +40,6 @@ type Props = {
   tabs: Tab[];
 };
 
-type Slots = {
-  /** Default slot */
-  default(): any;
-};
-
 const { tabs } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLElement>('element');
@@ -61,9 +56,6 @@ const click = (tab: Tab, event: MouseEvent) => {
   if (selected || tab.disabled) event.preventDefault();
   else tab.click?.(tab.slot, event);
 };
-
-// SLOTS
-defineSlots<Slots>();
 
 // EXPOSE
 defineExpose({
