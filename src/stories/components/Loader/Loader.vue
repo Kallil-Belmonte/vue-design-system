@@ -1,6 +1,6 @@
 <template>
   <div v-if="loading" ref="element" data-component="Loader" :class="`${mode}`">
-    <Icon name="Loading" size="40px" />
+    <Icon name="Loading" :size="size" />
     <slot></slot>
   </div>
   <slot v-else></slot>
@@ -14,6 +14,7 @@ import Icon from '@/stories/components/Icon/Icon.vue';
 type Props = {
   loading: boolean;
   mode?: 'content' | 'page';
+  size?: string;
   showContent?: boolean;
 };
 
@@ -22,7 +23,7 @@ type Slots = {
   default(): any;
 };
 
-const { loading, mode = 'content', showContent = true } = defineProps<Props>();
+const { loading, mode = 'content', size = '40px', showContent = true } = defineProps<Props>();
 
 const element = useTemplateRef<HTMLDivElement>('element');
 

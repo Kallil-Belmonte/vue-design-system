@@ -38,6 +38,13 @@ const meta: Meta<typeof Loader> = {
       defaultValue: 'true',
       control: 'boolean',
     }),
+    size: setArgs({
+      name: 'size',
+      description: 'Size of the loader.',
+      type: 'string',
+      defaultValue: '40px',
+      control: 'text',
+    }),
   },
   render: args => ({
     components: { Loader },
