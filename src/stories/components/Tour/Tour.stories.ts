@@ -45,7 +45,7 @@ const meta: Meta<typeof Tour> = {
         display: 'inline-block',
         width: '80px',
         height: '80px',
-        border: '1px solid var(--dark-2)',
+        border: '1px solid var(--dark-200)',
         'border-radius': '8px',
         margin: '30px 30px 0 0',
       };
@@ -63,7 +63,7 @@ const meta: Meta<typeof Tour> = {
       <div data-step="2" :style="styles" class="d-inline-flex flex-center">Step 2</div>
       <div data-step="3" :style="styles" class="d-inline-flex flex-center">Step 3</div>
 
-      <Tour v-bind="args" :active="active" :close="close">
+      <Tour :active="active" :close="close" v-bind="args">
         <template #item-1>Content 1</template>
         <template #item-2>Content 2</template>
         <template #item-3>Content 3</template>

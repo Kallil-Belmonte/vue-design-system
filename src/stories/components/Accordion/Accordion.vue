@@ -51,14 +51,16 @@ defineExpose({
   color: var(--text-color);
   width: 100%;
   border-radius: 15px;
-  border: 1px solid var(--grey-3);
+  border: 1px solid var(--grey-300);
   background-color: #fff;
   overflow: hidden;
   interpolate-size: allow-keywords;
 
   &::details-content {
     block-size: 0;
-    transition: block-size 0.4s, content-visibility 0.4s;
+    transition:
+      block-size 0.4s,
+      content-visibility 0.4s;
     transition-behavior: allow-discrete;
   }
 
@@ -96,7 +98,7 @@ defineExpose({
   }
 
   > .content {
-    border-top: 1px solid var(--grey-3);
+    border-top: 1px solid var(--grey-300);
   }
 
   &:open {

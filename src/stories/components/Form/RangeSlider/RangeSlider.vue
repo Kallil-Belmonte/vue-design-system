@@ -308,7 +308,7 @@ defineExpose({
       text-align: center;
       @include size(50px, 25px, 8px);
       border: none;
-      background-color: var(--grey-3);
+      background-color: var(--grey-300);
 
       &::-webkit-outer-spin-button,
       &::-webkit-inner-spin-button {
@@ -349,7 +349,7 @@ defineExpose({
       .track {
         @include size(100%, 6px);
         border-radius: 3px;
-        background-color: var(--grey-3);
+        background-color: var(--grey-300);
         @extend %absolute-vertical-center;
       }
 

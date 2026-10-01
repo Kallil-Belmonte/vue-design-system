@@ -75,7 +75,7 @@ $tab-padding: 5px;
   color: var(--text-color);
   display: flex;
   @include size(100%, 50px, 50px);
-  border: 1px solid var(--grey-3);
+  border: 1px solid var(--grey-300);
   position: relative;
 
   > .tab {
@@ -144,12 +144,12 @@ $tab-padding: 5px;
 
     &[aria-disabled='true'] {
       > summary {
-        background-color: var(--grey-2);
+        background-color: var(--grey-200);
         cursor: not-allowed;
 
         [data-component='Icon'],
         .title {
-          color: var(--grey-7);
+          color: var(--grey-700);
         }
       }
     }

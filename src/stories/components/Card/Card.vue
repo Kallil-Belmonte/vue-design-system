@@ -87,7 +87,7 @@ defineExpose({
   font-size: var(--font-size);
   color: var(--text-color);
   border-radius: 8px;
-  border: 1px solid var(--grey-3);
+  border: 1px solid var(--grey-300);
 
   > header,
   > .content,
@@ -97,7 +97,7 @@ defineExpose({
 
   > header {
     @extend %flex-vertical-center;
-    border-bottom: 1px solid var(--grey-3);
+    border-bottom: 1px solid var(--grey-300);
 
     > [data-component='Icon'] {
       color: var(--primary);
@@ -146,7 +146,7 @@ defineExpose({
               @include transitionAll();
 
               @include active-style {
-                background-color: var(--grey-3);
+                background-color: var(--grey-300);
               }
             }
           }
@@ -158,7 +158,7 @@ defineExpose({
   > footer {
     @extend %flex-vertical-center;
     gap: 10px;
-    border-top: 1px solid var(--grey-3);
+    border-top: 1px solid var(--grey-300);
   }
 }
 </style>

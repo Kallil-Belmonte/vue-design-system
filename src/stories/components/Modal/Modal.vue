@@ -129,7 +129,7 @@ $footer-height: 80px;
     @extend %flex-vertical-center;
     height: $header-height;
     padding: 0 20px;
-    border-bottom: 1px solid var(--grey-1);
+    border-bottom: 1px solid var(--grey-100);
     box-sizing: border-box;
 
     > [data-component='Icon'] {
@@ -168,7 +168,7 @@ $footer-height: 80px;
     gap: 15px;
     height: $footer-height;
     padding: 0 15px;
-    border-top: 1px solid var(--grey-1);
+    border-top: 1px solid var(--grey-100);
     box-sizing: border-box;
   }
 

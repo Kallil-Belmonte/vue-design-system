@@ -114,7 +114,7 @@ defineExpose({
     position: relative;
 
     [data-component='Icon'] {
-      color: var(--grey-4);
+      color: var(--grey-400);
       @include square(var(--field-icon-size));
       position: absolute;
       top: 12px;
@@ -139,7 +139,7 @@ defineExpose({
       border: 1px solid var(--field-border-color);
       box-sizing: border-box;
       transition: border-color 0.4s ease;
-      @include placeholder-color(var(--grey-5));
+      @include placeholder-color(var(--grey-500));
 
       &:focus {
         border-color: var(--field-active-border-color);

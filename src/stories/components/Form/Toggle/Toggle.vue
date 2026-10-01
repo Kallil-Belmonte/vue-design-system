@@ -115,14 +115,14 @@ defineExpose({
     width: 100%;
 
     > [data-component='Icon'] {
-      background-color: var(--grey-2);
+      background-color: var(--grey-200);
       border-radius: 6px;
       margin-right: 5px;
       @include transitionAll();
 
       svg {
         @include square(70%);
-        fill: var(--grey-6);
+        fill: var(--grey-600);
       }
     }
 
@@ -158,7 +158,7 @@ defineExpose({
 
       .toggle {
         height: 15px;
-        background-color: var(--grey-2);
+        background-color: var(--grey-200);
 
         &,
         &::after {
@@ -169,7 +169,7 @@ defineExpose({
         &::after {
           content: '';
           @include square(22px);
-          background-color: var(--grey-6);
+          background-color: var(--grey-600);
           @extend %absolute-vertical-center;
         }
       }

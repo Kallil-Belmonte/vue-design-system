@@ -163,7 +163,7 @@ $size: 45px;
       cursor: not-allowed;
 
       [data-component='Icon'] {
-        color: var(--grey-4) !important;
+        color: var(--grey-400) !important;
       }
     }
   }
@@ -199,7 +199,7 @@ $size: 45px;
 
     &.base {
       background-color: #fff;
-      border: 1px solid var(--grey-4);
+      border: 1px solid var(--grey-400);
 
       &:hover {
         background-color: color.adjust(#fff, $lightness: -2%);
@@ -238,7 +238,7 @@ $size: 45px;
     &:disabled {
       font-weight: 400;
       color: var(--text-color) !important;
-      background-color: var(--grey-4) !important;
+      background-color: var(--grey-400) !important;
       cursor: not-allowed;
 
       [data-component='Icon'][data-name='Loading'] {

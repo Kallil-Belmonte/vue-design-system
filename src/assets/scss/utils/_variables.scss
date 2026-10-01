@@ -20,17 +20,17 @@
   --danger: #fd6e64;
   --danger-light: #{color.adjust(#fd6e64, $lightness: 5%)};
   --danger-dark: #{color.adjust(#fd6e64, $lightness: -5%)};
-  --grey-1: #f9f9f9;
-  --grey-2: #f1f1f1;
-  --grey-3: #eef4fb;
-  --grey-4: #e0e0e0;
-  --grey-5: #cbcbcb;
-  --grey-6: #c0c0c0;
-  --grey-7: #aeb2bf;
-  --dark-1: #616161;
-  --dark-2: #3d464d;
+  --grey-100: #f9f9f9;
+  --grey-200: #f1f1f1;
+  --grey-300: #eef4fb;
+  --grey-400: #e0e0e0;
+  --grey-500: #cbcbcb;
+  --grey-600: #c0c0c0;
+  --grey-700: #aeb2bf;
+  --dark-100: #616161;
+  --dark-200: #3d464d;
 
-  --text-color: var(--dark-2);
+  --text-color: var(--dark-200);
 
   // Fonts
   --font-primary: 'Lato', sans-serif;

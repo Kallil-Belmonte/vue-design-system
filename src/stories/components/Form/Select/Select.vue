@@ -82,8 +82,10 @@
 <script lang="ts" setup>
 import { computed, type InputHTMLAttributes, ref, useTemplateRef, watchEffect } from 'vue';
 
+import { isEqual } from 'es-toolkit';
+
 import { useElementBounding } from '@/shared/composables';
-import { isEqual, removeAccent } from '@/shared/helpers';
+import { removeAccent } from '@/shared/helpers';
 import Button from '@/stories/components/Button/Button.vue';
 import Icon from '@/stories/components/Icon/Icon.vue';
 import { Category, Icons } from '@/stories/components/Icon/types';
@@ -243,7 +245,7 @@ defineExpose({
     border: 1px solid var(--field-border-color);
     box-sizing: border-box;
     transition: border-color 0.4s ease;
-    @include placeholder-color(var(--grey-5));
+    @include placeholder-color(var(--grey-500));
 
     &:focus {
       border-color: var(--field-active-border-color);

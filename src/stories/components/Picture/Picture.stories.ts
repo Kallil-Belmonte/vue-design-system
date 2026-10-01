@@ -28,15 +28,6 @@ const meta: Meta<typeof Picture> = {
       control: 'object',
     }),
   },
-  render: args => ({
-    components: { Picture },
-    setup() {
-      return { args };
-    },
-    template: `
-      <Picture v-bind="args" />
-    `,
-  }),
 };
 
 export const Default: StoryObj<typeof Picture> = {

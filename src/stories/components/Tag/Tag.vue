@@ -141,7 +141,7 @@ defineExpose({
   &.solid {
     // COLOR
     &.default {
-      @include setColor(var(--text-color), var(--grey-4));
+      @include setColor(var(--text-color), var(--grey-400));
     }
 
     &.primary {
@@ -168,7 +168,7 @@ defineExpose({
   &.outlined {
     // COLOR
     &.default {
-      @include setColor(var(--text-color), #fff, var(--grey-7));
+      @include setColor(var(--text-color), #fff, var(--grey-700));
     }
 
     &.primary {
@@ -195,7 +195,7 @@ defineExpose({
   &.light {
     // COLOR
     &.default {
-      @include setColor(var(--text-color), var(--grey-2));
+      @include setColor(var(--text-color), var(--grey-200));
     }
 
     &.primary {
