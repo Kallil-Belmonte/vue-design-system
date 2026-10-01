@@ -1,3 +1,5 @@
+import { ref } from 'vue';
+
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import { setArgs } from '@/shared/helpers';
@@ -19,7 +21,7 @@ const meta: Meta<typeof Table> = {
   render: args => ({
     components: { Table },
     setup() {
-      const users = [
+      const users = ref([
         {
           name: 'John Doe',
           gender: 'Male',
@@ -45,23 +47,27 @@ const meta: Meta<typeof Table> = {
           gender: 'Male',
           age: 40,
         },
-      ];
+      ]);
+
+      const sort = (property: keyof (typeof users.value)[0], order: 'asc' | 'desc') => {
+        users.value = orderBy(users.value, [property], [order]);
+      };
 
       const headings = [
         {
           slot: 'name',
-          sortAscending: () => orderBy(users, ['name'], ['asc']),
-          sortDescending: () => orderBy(users, ['name'], ['desc']),
+          sortAscending: () => sort('name', 'asc'),
+          sortDescending: () => sort('name', 'desc'),
         },
         {
           slot: 'gender',
-          sortAscending: () => orderBy(users, ['gender'], ['asc']),
-          sortDescending: () => orderBy(users, ['gender'], ['desc']),
+          sortAscending: () => sort('gender', 'asc'),
+          sortDescending: () => sort('gender', 'desc'),
         },
         {
           slot: 'age',
-          sortAscending: () => orderBy(users, ['age'], ['asc']),
-          sortDescending: () => orderBy(users, ['age'], ['desc']),
+          sortAscending: () => sort('age', 'asc'),
+          sortDescending: () => sort('age', 'desc'),
         },
       ];
 
